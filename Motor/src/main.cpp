@@ -72,18 +72,13 @@ void renderScene(void) {
 }
 
 
-
 // write function to process keyboard events
 void f_teclas_normais(unsigned char key, int x, int y) {
 	switch (key) {
-	case 'w': 
-		camara.paraCima(6 * M_PI / 360.0);  break;
-	case 's': 
-		camara.paraBaixo(6 * M_PI / 360.0); break;
-	case 'a': 
-		camara.paraEsquerda(6 * M_PI / 360.0);  break;
-	case 'd':
-		camara.paraDireita(6 * M_PI / 360.0); break;
+	case 'w': camara.paraCima(6 * M_PI / 360.0);  break;
+	case 's': camara.paraBaixo(6 * M_PI / 360.0); break;
+	case 'a': camara.paraEsquerda(6 * M_PI / 360.0);  break;
+	case 'd': camara.paraDireita(6 * M_PI / 360.0); break;
 	case 'e': camara.aproximar(0.5); break;
 	case 'q': camara.afastar(0.5); break;
 	}
@@ -94,15 +89,20 @@ void f_teclas_normais(unsigned char key, int x, int y) {
 
 void leXML() {
 	float x, y, z;
+	std::string modelo_prefix("../Modelos/");
+	std::string ficheiro(modelo_prefix + "scene.xml");
+
 	pugi::xml_document doc;
-	pugi::xml_parse_result result = doc.load_file("scene.xml");
+	pugi::xml_parse_result result = doc.load_file(ficheiro.c_str());
 	
+	if (!result) std::cout << "No result! :(" << std::endl;
+
 	auto scene_node = doc.child("scene");
 
 	for (auto it = scene_node.begin(); it != scene_node.end(); ++it) {
 		string nome_ficheiro = it->attribute("file").value();
 
-		ifstream fich_inp(nome_ficheiro);
+		ifstream fich_inp(modelo_prefix + nome_ficheiro);
 		while (fich_inp) {
 			fich_inp >> x >> y >> z;
 			pontos.push_back(Ponto3D{ x,y,z });
@@ -112,7 +112,6 @@ void leXML() {
 }
 
 
-
 int main(int argc, char **argv) {
 	leXML();
 	camara = CoordsEsfericas(10.0, 0.0, M_PI / 3.0f);
@@ -120,7 +119,7 @@ int main(int argc, char **argv) {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH|GLUT_DOUBLE|GLUT_RGBA);
 	glutInitWindowPosition(100,100);
-	glutInitWindowSize(800,800);
+	glutInitWindowSize(800,500);
 	glutCreateWindow("CG@DI-UM");
 		
 // Required callback registry 

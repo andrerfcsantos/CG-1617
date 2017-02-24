@@ -14,8 +14,8 @@ void geraPlano(float comp, float larg, int divs) {
 
 	for (int j = 0; j < divs; ++j) {
 		for (int i = 0; i < divs; ++i) {
-			x = -larg / 2 + deltaComp*i;
-			z = comp / 2 + deltaLarg*j;
+			x = -comp / 2 + deltaComp*i;
+			z = larg / 2 - deltaLarg*j;
 			Ponto3D a = { x, 0, z };
 			Ponto3D b = { x + deltaComp, 0, z };
 			Ponto3D c = { x + deltaComp, 0, z - deltaLarg };
@@ -53,8 +53,6 @@ int main(int argc, char** argv) {
 	for (Ponto3D ponto : figura) {
 		ficheiro << ponto.x << " " << ponto.y << " " << ponto.z << std::endl;
 	}
-
-	
 
 }
 
