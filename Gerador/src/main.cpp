@@ -91,7 +91,8 @@ int main(int argc, char** argv) {
 		int camadas = atoi(argv[4]);
 		nome_fich = argv[5];
 
-		figura.geraEsfera(raio, fatias, camadas);
+		figura.geraEsfera(Ponto3D{0,0,0},raio, fatias, camadas);
+		figura.geraEsfera(Ponto3D{0,5,0}, raio, fatias, camadas);
 	}
 
 	if (str_figura == "torus" && argc == 7) {

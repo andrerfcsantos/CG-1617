@@ -48,6 +48,7 @@
 **/[Dd]ebugPublic/
 **/[Rr]elease/
 **/[Rr]eleases/
+**/Testes/
 **/x64/
 **/x86/
 **/bld/

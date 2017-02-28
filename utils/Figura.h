@@ -13,24 +13,24 @@ using namespace std;
 class Figura {
 public:
 	
-	Figura& geraEsfera(float raio, int fatias, int camadas) {
+	Figura& geraEsfera(Ponto3D &o,float raio, int fatias, int camadas) {
 
 		float deltaAz = (float)2 * M_PI / fatias;
 		float deltaPolar = (float)M_PI / camadas;
 
 		for (int j = 0; j < camadas; ++j) {
 			for (int i = 0; i < fatias; ++i) {
-				CoordsEsfericas a = CoordsEsfericas(raio, deltaAz*i, deltaPolar*j);
-				CoordsEsfericas b = CoordsEsfericas(raio, deltaAz*(i + 1), deltaPolar*j);
-				CoordsEsfericas c = CoordsEsfericas(raio, deltaAz*i, deltaPolar*(j + 1));
-				CoordsEsfericas d = CoordsEsfericas(raio, deltaAz*(i + 1), deltaPolar*(j + 1));
+				Ponto3D a = CoordsEsfericas(raio, deltaAz*i, deltaPolar*j).toCartesianas() + o;
+				Ponto3D b = CoordsEsfericas(raio, deltaAz*(i + 1), deltaPolar*j).toCartesianas() + o;
+				Ponto3D c = CoordsEsfericas(raio, deltaAz*i, deltaPolar*(j + 1)).toCartesianas() + o;
+				Ponto3D d = CoordsEsfericas(raio, deltaAz*(i + 1), deltaPolar*(j + 1)).toCartesianas() + o;
 
-				pontos.push_back(a.toCartesianas());
-				pontos.push_back(c.toCartesianas());
-				pontos.push_back(d.toCartesianas());
-				pontos.push_back(a.toCartesianas());
-				pontos.push_back(d.toCartesianas());
-				pontos.push_back(b.toCartesianas());
+				pontos.push_back(a);
+				pontos.push_back(c);
+				pontos.push_back(d);
+				pontos.push_back(a);
+				pontos.push_back(d);
+				pontos.push_back(b);
 			}
 		}
 
