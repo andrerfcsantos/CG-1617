@@ -92,7 +92,7 @@ int main(int argc, char** argv) {
 		nome_fich = argv[5];
 
 		figura.geraEsfera(Ponto3D{0,0,0},raio, fatias, camadas);
-		figura.geraEsfera(Ponto3D{0,5,0}, raio, fatias, camadas);
+		//figura.geraEsfera(Ponto3D{0,5,0}, raio, fatias, camadas);
 	}
 
 	if (str_figura == "torus" && argc == 7) {

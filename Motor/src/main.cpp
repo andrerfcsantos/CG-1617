@@ -53,7 +53,6 @@ void changeSize(int w, int h) {
 	glMatrixMode(GL_MODELVIEW);
 }
 
-
 void renderScene(void) {
 
 	glPolygonMode(GL_FRONT, modoPoligonos);
@@ -81,7 +80,6 @@ void renderScene(void) {
 	glutSwapBuffers();
 }
 
-
 // write function to process keyboard events
 void f_teclas_normais(unsigned char key, int x, int y) {
 	switch (key) {
@@ -95,7 +93,6 @@ void f_teclas_normais(unsigned char key, int x, int y) {
 
 	glutPostRedisplay();
 }
-
 
 void leXML() {
 	float x, y, z;
@@ -120,7 +117,6 @@ void leXML() {
 	}
 
 }
-
 
 int main(int argc, char **argv) {
 	modoPoligonos = GL_LINE;
