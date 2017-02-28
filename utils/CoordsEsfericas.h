@@ -43,8 +43,8 @@ public:
 	CoordsEsfericas& paraCima(float incremento) {
 		float check = polar_ang - incremento;
 
-		if (check >= 0.0) polar_ang = check;
-		else polar_ang = 0;
+		if (check > 0.0) polar_ang = check;
+		else polar_ang = 0.00001f;
 
 		refreshCartesianas();
 		return *this;

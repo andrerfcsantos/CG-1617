@@ -17,6 +17,16 @@ using namespace std;
 
 vector<Ponto3D> pontos;
 CoordsEsfericas camara;
+GLenum modoPoligonos;
+
+void menuDrawing(int opt) {
+	switch (opt) {
+	case 0: modoPoligonos = GL_FILL; break;
+	case 1:  modoPoligonos = GL_LINE; break;
+	case 2:  modoPoligonos = GL_POINT; break;
+	}
+	glutPostRedisplay();
+}
 
 void changeSize(int w, int h) {
 
@@ -46,7 +56,7 @@ void changeSize(int w, int h) {
 
 void renderScene(void) {
 
-	glPolygonMode(GL_FRONT, GL_LINE);
+	glPolygonMode(GL_FRONT, modoPoligonos);
 
 	// clear buffers
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -90,7 +100,7 @@ void f_teclas_normais(unsigned char key, int x, int y) {
 void leXML() {
 	float x, y, z;
 	std::string modelo_prefix("../Modelos/");
-	std::string ficheiro(modelo_prefix + "scene.xml");
+	std::string ficheiro(modelo_prefix + "figura.xml");
 
 	pugi::xml_document doc;
 	pugi::xml_parse_result result = doc.load_file(ficheiro.c_str());
@@ -113,6 +123,7 @@ void leXML() {
 
 
 int main(int argc, char **argv) {
+	modoPoligonos = GL_LINE;
 	leXML();
 	camara = CoordsEsfericas(10.0, 0.0, M_PI / 3.0f);
 // init GLUT and the window
@@ -129,6 +140,12 @@ int main(int argc, char **argv) {
 	
 // put here the registration of the keyboard callbacks
 	glutKeyboardFunc(f_teclas_normais);
+
+	int menu = glutCreateMenu(menuDrawing);
+	glutAttachMenu(GLUT_RIGHT_BUTTON);
+	glutAddMenuEntry("FILL", 0);
+	glutAddMenuEntry("LINE", 1);
+	glutAddMenuEntry("POINT", 2);
 //  OpenGL settings
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
