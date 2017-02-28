@@ -260,6 +260,36 @@ public:
 		return *this;
 	}
 
+	Figura& geraTorus(Ponto3D o, float R, float r, int fatias, int camadas) {
+
+		float deltaAz = (float)(2.0f * M_PI) / fatias;
+		float deltaPolar = (float)(2.0f * M_PI) / camadas;
+
+
+		for (int j = 0; j < fatias; ++j) {
+			for (int i = 0; i < camadas; ++i) {
+				
+				float ro = deltaAz*j;
+				float t = deltaPolar*i;
+				float ro2 = deltaAz*(j+1);
+				float t2 = deltaPolar*(i+1);
+				Ponto3D a = {o.x + (R + r*cos(t))*sin(ro)  , o.y + r*sin(t) ,o.z + (R + r*cos(t))*cos(ro)};
+				Ponto3D b = {o.x + (R + r*cos(t2))*sin(ro) , o.y + r*sin(t2),o.z + (R + r*cos(t2))*cos(ro) };
+				Ponto3D c = {o.x + (R + r*cos(t2))*sin(ro2), o.y + r*sin(t2),o.z + (R + r*cos(t2))*cos(ro2) };
+				Ponto3D d = {o.x + (R + r*cos(t))*sin(ro2) , o.y + r*sin(t) ,o.z + (R + r*cos(t))*cos(ro2) };
+
+				pontos.push_back(a);
+				pontos.push_back(b);
+				pontos.push_back(c);
+				pontos.push_back(a);
+				pontos.push_back(c);
+				pontos.push_back(d);
+			}
+		}
+		
+		return *this;
+	}
+
 	std::vector<Ponto3D> getPontos() {
 		return pontos;
 	}

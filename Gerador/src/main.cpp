@@ -50,7 +50,7 @@ int main(int argc, char** argv) {
 		float altura = atof(argv[4]);
 		int divsx = atoi(argv[5]) + 1;
 		int divsz = atoi(argv[6]) + 1;
-		int divsy = atof(argv[7]);
+		int divsy = atoi(argv[7]);
 		nome_fich = argv[8];
 
 		figura.geraCaixa(Ponto3D{ 0.0,0.0,0.0 }, comp, largura, altura, divsx, divsz, divsy);
@@ -62,8 +62,8 @@ int main(int argc, char** argv) {
 		// gerador cone raio altura fatias camadas
 		float raio = atof(argv[2]);
 		float altura = atof(argv[3]);
-		float fatias = atof(argv[4]);
-		float camadas = atof(argv[5]);
+		int fatias = atoi(argv[4]);
+		int camadas = atoi(argv[5]);
 		nome_fich = argv[6];
 
 		figura.geraCone(Ponto3D{ 0.0,0.0,0.0 }, raio, altura,fatias,camadas);
@@ -75,8 +75,8 @@ int main(int argc, char** argv) {
 		// gerador cylinder raio altura fatias camadas
 		float raio = atof(argv[2]);
 		float altura = atof(argv[3]);
-		float fatias = atof(argv[4]);
-		float camadas = atof(argv[5]);
+		int fatias = atoi(argv[4]);
+		int camadas = atoi(argv[5]);
 		nome_fich = argv[6];
 
 		figura.geraCilindro(Ponto3D{ 0.0,0.0,0.0 }, raio, altura, fatias, camadas);
@@ -87,11 +87,24 @@ int main(int argc, char** argv) {
 		//     0     1     2      3     4
 		// gerador esfera raio fatias camdas
 		float raio = atof(argv[2]);
-		int fatias = atof(argv[3]);
-		int camadas = atof(argv[4]);
+		int fatias = atoi(argv[3]);
+		int camadas = atoi(argv[4]);
 		nome_fich = argv[5];
 
 		figura.geraEsfera(raio, fatias, camadas);
+	}
+
+	if (str_figura == "torus" && argc == 7) {
+		cmd = true;
+		//     0     1    2      3      4     5
+		// gerador torus raioE raioI fatias camadas
+		float R = atof(argv[2]);
+		float r = atof(argv[3]);
+		int fatias = atoi(argv[4]);
+		int camadas = atoi(argv[5]);
+		nome_fich = argv[6];
+
+		figura.geraTorus(Ponto3D{ 0.0,0.0,0.0 }, R, r, fatias, camadas);
 	}
 
 	if (!cmd) std::cout << "Comando invalido! :(" << std::endl;
