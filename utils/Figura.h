@@ -358,6 +358,53 @@ public:
 		return *this;
 	}
 
+	Figura& geraSeashell(Ponto3D o, float p_a, float p_b, float p_c, int n, float divsU, float divsV) {
+
+		float deltaU = (float)(2.0f * M_PI) / divsU;
+		float deltaV = (float)(2.0f * M_PI) / divsV;
+
+		for (int j = 0; j < divsU; ++j) {
+			for (int i = 0; i < divsV; ++i) {
+
+				float u = deltaU*i;
+				float v = deltaV*j;
+				float u2 = deltaU*(i + 1);
+				float v2 = deltaV*(j+1);
+				Ponto3D a = {   o.x + ((1 - (v / (2 * M_PI))) * (1 + cos(u)) + p_c)*sin(n*v),
+								o.y + ((p_b*v)/(2*M_PI)) + p_a*sin(u)*(1-(v/(2*M_PI))),
+								o.z + ((1-(v/(2*M_PI))) * (1 + cos(u)) + p_c)*cos(n*v) };
+
+				Ponto3D b = { o.x + ((1 - (v2 / (2 * M_PI))) * (1 + cos(u)) + p_c)*sin(n*v2),
+								o.y + ((p_b*v2) / (2 * M_PI)) + p_a*sin(u)*(1 - (v2 / (2 * M_PI))),
+								o.z + ((1 - (v2 / (2 * M_PI))) * (1 + cos(u)) + p_c)*cos(n*v2) };
+
+				Ponto3D c = { o.x + ((1 - (v2 / (2 * M_PI))) * (1 + cos(u2)) + p_c)*sin(n*v2),
+								o.y + ((p_b*v2) / (2 * M_PI)) + p_a*sin(u2)*(1 - (v2 / (2 * M_PI))),
+								o.z + ((1 - (v2 / (2 * M_PI))) * (1 + cos(u2)) + p_c)*cos(n*v2) };
+
+				Ponto3D d = { o.x + ((1 - (v / (2 * M_PI))) * (1 + cos(u2)) + p_c)*sin(n*v),
+								o.y + ((p_b*v) / (2 * M_PI)) + p_a*sin(u2)*(1 - (v / (2 * M_PI))),
+								o.z + ((1 - (v / (2 * M_PI))) * (1 + cos(u2)) + p_c)*cos(n*v) };
+
+				pontos.push_back(a);
+				pontos.push_back(b);
+				pontos.push_back(c);
+				pontos.push_back(a);
+				pontos.push_back(c);
+				pontos.push_back(d);
+
+				pontos.push_back(a);
+				pontos.push_back(d);
+				pontos.push_back(c);
+				pontos.push_back(a);
+				pontos.push_back(c);
+				pontos.push_back(b);
+			}
+		}
+
+		return *this;
+	}
+
 	std::vector<Ponto3D> getPontos() {
 		return pontos;
 	}

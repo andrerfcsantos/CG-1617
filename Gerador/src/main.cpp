@@ -130,11 +130,26 @@ int main(int argc, char** argv) {
 		// gerador mobius raio largura divsl divscomp
 		float raio = atof(argv[2]);
 		float largura = atof(argv[3]);
-		int divsl = atof(argv[4]);
-		int divscomp = atof(argv[5]);
+		int divsl = atoi(argv[4]);
+		int divscomp = atoi(argv[5]);
 		nome_fich = argv[6];
 
 		figura.geraFitaMobius(Ponto3D{ 0,0,0 }, raio, largura, divsl, divscomp);
+	}
+
+	if (str_figura == "seashell" && argc == 9) {
+		cmd = true;
+		//     0     1      2 3 4 5   6     7
+		// gerador seashell a b c n divsU divsV
+		float a = atof(argv[2]);
+		float b = atof(argv[3]);
+		float c = atof(argv[4]);
+		int n = atoi(argv[5]);
+		int divsU = atoi(argv[6]);
+		int divsV = atoi(argv[7]);
+		nome_fich = argv[8];
+
+		figura.geraSeashell(Ponto3D{ 0,0,0 }, a, b, c, n, divsU, divsV);
 	}
 
 	if (!cmd) std::cout << "Comando invalido! :(" << std::endl;
