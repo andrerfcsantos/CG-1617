@@ -108,7 +108,7 @@ int main(int argc, char** argv) {
 		figura.geraTorus(Ponto3D{ 0.0,0.0,0.0 }, R, r, fatias, camadas);
 	}
 
-	if (str_figura == "ellipsoid" && argc == 8) {
+	if ((str_figura == "ellipsoid" || str_figura == "elipsoide") && argc == 8) {
 		cmd = true;
 		//     0     1       2 3 4   5      6
 		// gerador ellipsoid a b c fatias camadas
@@ -120,6 +120,21 @@ int main(int argc, char** argv) {
 		nome_fich = argv[7];
 
 		figura.geraElipsoide(Ponto3D{0,0,0},a,b,c,fatias,camadas);
+	}
+
+	//Ponto3D o, float R, float largura, float divsl, float divscomp
+
+	if (str_figura == "mobius" && argc == 7) {
+		cmd = true;
+		//     0     1      2     3      4      5
+		// gerador mobius raio largura divsl divscomp
+		float raio = atof(argv[2]);
+		float largura = atof(argv[3]);
+		int divsl = atof(argv[4]);
+		int divscomp = atof(argv[5]);
+		nome_fich = argv[6];
+
+		figura.geraFitaMobius(Ponto3D{ 0,0,0 }, raio, largura, divsl, divscomp);
 	}
 
 	if (!cmd) std::cout << "Comando invalido! :(" << std::endl;
