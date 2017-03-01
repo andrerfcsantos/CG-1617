@@ -108,6 +108,20 @@ int main(int argc, char** argv) {
 		figura.geraTorus(Ponto3D{ 0.0,0.0,0.0 }, R, r, fatias, camadas);
 	}
 
+	if (str_figura == "ellipsoid" && argc == 8) {
+		cmd = true;
+		//     0     1       2 3 4   5      6
+		// gerador ellipsoid a b c fatias camadas
+		float a = atof(argv[2]);
+		float b = atof(argv[3]);
+		float c = atof(argv[4]);
+		int fatias = atoi(argv[5]);
+		int camadas = atoi(argv[6]);
+		nome_fich = argv[7];
+
+		figura.geraElipsoide(Ponto3D{0,0,0},a,b,c,fatias,camadas);
+	}
+
 	if (!cmd) std::cout << "Comando invalido! :(" << std::endl;
 
 	std::ofstream ficheiro(modelos_path + nome_fich);
@@ -117,7 +131,7 @@ int main(int argc, char** argv) {
 
 	std::ofstream ficheiro_xml(modelos_path + "figura.xml");
 	ficheiro_xml << "<scene>"							 << std::endl <<
-					"<model file = \"" << nome_fich << "\" / >"	 << std::endl <<
+					"\t<model file=\"" << nome_fich << "\" />"	 << std::endl <<
 					"</scene>"							 << std::endl;
 
 }

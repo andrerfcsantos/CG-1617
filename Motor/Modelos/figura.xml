@@ -1,3 +1,4 @@
 <scene>
-<model file = "sphere_2_40_40_testc.3d" / >
+	<model file="esfera_5_30_30.3d" />
+	<model file="plano_5_2_1_5.3d" />
 </scene>

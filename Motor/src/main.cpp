@@ -69,7 +69,6 @@ void renderScene(void) {
 	// put the geometric transformations here
 
 	glBegin(GL_TRIANGLES);
-
 	for (auto it = pontos.begin(); it != pontos.end(); ++it) {
 		glVertex3f(it->x, it->y, it->z);
 	}
@@ -110,8 +109,7 @@ void leXML() {
 		string nome_ficheiro = it->attribute("file").value();
 
 		ifstream fich_inp(modelo_prefix + nome_ficheiro);
-		while (fich_inp) {
-			fich_inp >> x >> y >> z;
+		while (fich_inp >> x >> y >> z) {
 			pontos.push_back(Ponto3D{ x,y,z });
 		}
 	}
@@ -120,8 +118,9 @@ void leXML() {
 
 int main(int argc, char **argv) {
 	modoPoligonos = GL_LINE;
-	leXML();
 	camara = CoordsEsfericas(10.0, 0.0, M_PI / 3.0f);
+	leXML();
+	std::cout << "Pontos desenhados:" << pontos.size() << std::endl;
 // init GLUT and the window
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH|GLUT_DOUBLE|GLUT_RGBA);
@@ -142,7 +141,8 @@ int main(int argc, char **argv) {
 	glutAddMenuEntry("FILL", 0);
 	glutAddMenuEntry("LINE", 1);
 	glutAddMenuEntry("POINT", 2);
-//  OpenGL settings
+
+
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	
