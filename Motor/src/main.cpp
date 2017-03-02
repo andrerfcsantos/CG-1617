@@ -21,9 +21,8 @@ GLenum modoPoligonos = GL_LINE;
 GLenum modoFace = GL_FRONT;
 float cameraSpeed = 6.0f;
 float bg_red =0.0, bg_green =0.0, bg_blue = 0.0;
-float pt_red = 0.0, pt_green = 0.0, pt_blue = 1.0;
+float pt_red = 1.0, pt_green = 1.0, pt_blue = 1.0;
 int mouse_x, mouse_y;
-
 
 void main_menu_func(int opt) {
 	switch (opt) {
@@ -160,8 +159,7 @@ void mouse_events_func(int button, int state, int x, int y) {
 	}
 }
 
-
-void f_teclas_normais(unsigned char key, int x, int y) {
+void teclas_normais_func(unsigned char key, int x, int y) {
 	switch (tolower(key)) {
 	case 'w': camara.paraCima(cameraSpeed * M_PI / 360.0);  break;
 	case 's': camara.paraBaixo(cameraSpeed * M_PI / 360.0); break;
@@ -255,7 +253,8 @@ int main(int argc, char **argv) {
 	glutIdleFunc(renderScene);
 	
 // put here the registration of the keyboard callbacks
-	glutKeyboardFunc(f_teclas_normais);
+	glutKeyboardFunc(teclas_normais_func);
+	glutSpecialFunc(teclas_especiais_func);
 	glutMouseFunc(mouse_events_func);
 	glutMotionFunc(mouse_motion_func);
 

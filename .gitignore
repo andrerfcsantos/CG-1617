@@ -295,7 +295,8 @@ paket-files/
 .fake/
 
 # JetBrains Rider
-.idea/
+**/.idea/
+**/cmake-build-debug/
 *.sln.iml
 
 # CodeRush
