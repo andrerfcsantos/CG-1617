@@ -53,7 +53,7 @@ public:
 	CoordsEsfericas& paraBaixo(float incremento) {
 		float check = polar_ang + incremento;
 		if (check < M_PI) polar_ang = check;
-		else polar_ang = M_PI;
+		else polar_ang = M_PI- 0.00001f;
 
 		refreshCartesianas();
 		return *this;
