@@ -175,6 +175,43 @@ void teclas_normais_func(unsigned char key, int x, int y) {
 	glutPostRedisplay();
 }
 
+void teclas_especiais_func(int key, int x, int y) {
+
+	switch (key) {
+		case GLUT_KEY_F1: break;
+		case GLUT_KEY_F2: break;
+		case GLUT_KEY_F3: break;
+		case GLUT_KEY_F4: break;
+		case GLUT_KEY_F5: break;
+		case GLUT_KEY_F6: break;
+		case GLUT_KEY_F7: break;
+		case GLUT_KEY_F8: break;
+		case GLUT_KEY_F9: break;
+		case GLUT_KEY_F10: break;
+		case GLUT_KEY_F11: break;
+		case GLUT_KEY_F12: break;
+		case GLUT_KEY_LEFT:
+			camara.paraEsquerda(cameraSpeed * M_PI / 360.0);
+			break;
+		case GLUT_KEY_UP:
+			camara.paraCima(cameraSpeed * M_PI / 360.0);
+			break;
+		case GLUT_KEY_RIGHT:
+			camara.paraDireita(cameraSpeed * M_PI / 360.0);
+			break;
+		case GLUT_KEY_DOWN:
+			camara.paraBaixo(cameraSpeed * M_PI / 360.0);
+			break;
+		case GLUT_KEY_PAGE_UP: break;
+		case GLUT_KEY_PAGE_DOWN: break;
+		case GLUT_KEY_HOME: break;
+		case GLUT_KEY_END: break;
+		case GLUT_KEY_INSERT: break;
+	}
+	
+}
+
+
 void leXML() {
 	float x, y, z;
 	std::string modelo_prefix("../Modelos/");
