@@ -11,10 +11,12 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include "../../utils/CoordsEsfericas.h"
+#include "../../utils/Figura.h"
 #include "pugixml.hpp"
 
 using namespace std;
 
+vector<Ponto3D> pontos_originais;
 vector<Ponto3D> pontos;
 CoordsEsfericas camara = CoordsEsfericas(10.0, 0.0, M_PI / 3.0f);
 GLenum modoPoligonos = GL_LINE;
@@ -176,20 +178,52 @@ void teclas_normais_func(unsigned char key, int x, int y) {
 }
 
 void teclas_especiais_func(int key, int x, int y) {
-
+	Figura fig;
 	switch (key) {
-		case GLUT_KEY_F1: break;
-		case GLUT_KEY_F2: break;
-		case GLUT_KEY_F3: break;
-		case GLUT_KEY_F4: break;
-		case GLUT_KEY_F5: break;
-		case GLUT_KEY_F6: break;
-		case GLUT_KEY_F7: break;
-		case GLUT_KEY_F8: break;
-		case GLUT_KEY_F9: break;
-		case GLUT_KEY_F10: break;
-		case GLUT_KEY_F11: break;
-		case GLUT_KEY_F12: break;
+		case GLUT_KEY_F1:
+			//geraPlanoY(Ponto3D o, float comp, float larg, int divsx, int divsz, int orientacao);
+			pontos = fig.geraPlanoY(Ponto3D{0,0,0}, 4,3,5,2,1).getPontos();
+			break;
+		case GLUT_KEY_F2:
+			//Figura& geraCirculo(Ponto3D o, float raio, int fatias, int orientacao)
+			pontos = fig.geraCirculo(Ponto3D{ 0,0,0 }, 3,25,1).getPontos();
+			break;
+		case GLUT_KEY_F3:
+			//Figura& geraCaixa(Ponto3D o,float comprimento, float largura, float altura, int divsx, int divsz, int divsy)
+			pontos = fig.geraCaixa(Ponto3D{ 0,0,0 }, 4, 3, 2, 2, 1, 5).getPontos();
+			break;
+		case GLUT_KEY_F4:
+			//Figura& geraCilindro(Ponto3D o, float raio, float altura, int fatias, int camadas)
+			pontos = fig.geraCilindro(Ponto3D{ 0,0,0 }, 2, 4, 25, 25).getPontos();
+			break;
+		case GLUT_KEY_F5:
+			//Figura& geraCone(Ponto3D o, float raio, int altura, int fatias, int camadas)
+			pontos = fig.geraCone(Ponto3D{ 0,0,0 }, 2,5,30,30).getPontos();
+			break;
+		case GLUT_KEY_F6:
+			//Figura& geraEsfera(Ponto3D &o,float raio, int fatias, int camadas)
+			pontos = fig.geraEsfera(Ponto3D{ 0,0,0 }, 3,50,50).getPontos();
+			break;
+		case GLUT_KEY_F7:
+			// Figura& geraTorus(Ponto3D o, float R, float r, int fatias, int camadas)
+			pontos = fig.geraTorus(Ponto3D{ 0,0,0 }, 5, 1, 25, 25).getPontos();
+			break;
+		case GLUT_KEY_F8:
+			// Figura& geraElipsoide(Ponto3D o, float a, float b, float c, int fatias, int camadas)
+			pontos = fig.geraElipsoide(Ponto3D{ 0,0,0 }, 1, 2, 3, 25,25).getPontos();
+			break;
+		case GLUT_KEY_F9:
+			//Figura& geraFitaMobius(Ponto3D o, float R, float largura, float divsl, float divscomp)
+			pontos = fig.geraFitaMobius(Ponto3D{ 0,0,0 }, 3, 2, 10, 50).getPontos();
+			break;
+		case GLUT_KEY_F10:
+			//Figura& geraSeashell(Ponto3D o, float p_a, float p_b, float p_c, int n, float divsU, float divsV)
+			pontos = fig.geraSeashell(Ponto3D{ 0,0,0 }, 0.5,3,1,3,50,100).getPontos();
+			break;
+		case GLUT_KEY_F11:
+			break;
+		case GLUT_KEY_F12:
+			pontos = pontos_originais; break;
 		case GLUT_KEY_LEFT:
 			camara.paraEsquerda(cameraSpeed * M_PI / 360.0);
 			break;
@@ -208,9 +242,9 @@ void teclas_especiais_func(int key, int x, int y) {
 		case GLUT_KEY_END: break;
 		case GLUT_KEY_INSERT: break;
 	}
+	glutPostRedisplay();
 	
 }
-
 
 void leXML() {
 	float x, y, z;
@@ -229,10 +263,10 @@ void leXML() {
 
 		ifstream fich_inp(modelo_prefix + nome_ficheiro);
 		while (fich_inp >> x >> y >> z) {
-			pontos.push_back(Ponto3D{ x,y,z });
+			pontos_originais.push_back(Ponto3D{ x,y,z });
 		}
 	}
-
+	pontos = pontos_originais;
 }
 
 void criaMenus() {
@@ -276,7 +310,7 @@ void criaMenus() {
 
 int main(int argc, char **argv) {
 	leXML();
-	std::cout << "Numero pontos lidos:" << pontos.size() << std::endl;
+	std::cout << "Numero pontos lidos:" << pontos_originais.size() << std::endl;
 // init GLUT and the window
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH|GLUT_DOUBLE|GLUT_RGBA);
