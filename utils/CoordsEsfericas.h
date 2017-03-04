@@ -17,29 +17,6 @@ public:
 		refreshCartesianas();
 	};
 
-	CoordsEsfericas(Ponto3D pto) :
-		cCartesianas(pto) {
-		refreshEsfericas();
-	};
-
-	CoordsEsfericas& deslocaX(float dx) {
-		cCartesianas.x += dx;
-		refreshEsfericas();
-		return *this;
-	}
-
-	CoordsEsfericas& deslocaY(float dy) {
-		cCartesianas.y += dy;
-		refreshEsfericas();
-		return *this;
-	}
-
-	CoordsEsfericas& deslocaZ(float dz) {
-		cCartesianas.z += dz;
-		refreshEsfericas();
-		return *this;
-	}
-
 	CoordsEsfericas& paraCima(float incremento) {
 		float check = polar_ang - incremento;
 

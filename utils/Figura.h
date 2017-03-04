@@ -13,7 +13,7 @@ using namespace std;
 class Figura {
 public:
 	
-	Figura& geraEsfera(Ponto3D &o,float raio, int fatias, int camadas) {
+	Figura& geraEsfera(Ponto3D o,float raio, int fatias, int camadas) {
 
 		float deltaAz = (float)2 * M_PI / fatias;
 		float deltaPolar = (float)M_PI / camadas;
