@@ -124,7 +124,6 @@ void renderScene(void) {
 	for (auto it = pontos.begin(); it != pontos.end(); ++it) {
 		glVertex3f(it->x, it->y, it->z);
 	}
-	
 	glEnd();
 
 	// End of frame
@@ -211,7 +210,6 @@ void teclas_especiais_func(int key, int x, int y) {
 	
 }
 
-
 void leXML() {
 	float x, y, z;
 	std::string modelo_prefix("../Modelos/");
@@ -220,7 +218,10 @@ void leXML() {
 	pugi::xml_document doc;
 	pugi::xml_parse_result result = doc.load_file(ficheiro.c_str());
 	
-	if (!result) std::cout << "No result! :(" << std::endl;
+	if (!result) {
+		std::cout << "Erro no parsing do ficheiro." << std::endl;
+		return;
+	}
 
 	auto scene_node = doc.child("scene");
 
@@ -241,10 +242,6 @@ void criaMenus() {
 	glutAddMenuEntry("Fill", 1);
 	glutAddMenuEntry("Line", 2);
 	glutAddMenuEntry("Point", 3);
-	int faceMode_menu = glutCreateMenu(faceMode_menu_func);
-	glutAddMenuEntry("Front", 1);
-	glutAddMenuEntry("Back", 2);
-	glutAddMenuEntry("Front and Back", 3);
 	int camSpeed_menu = glutCreateMenu(camSpeed_menu_func);
 	glutAddMenuEntry("Very Slow", 1);
 	glutAddMenuEntry("Slow", 2);
@@ -267,7 +264,6 @@ void criaMenus() {
 	int main_menu = glutCreateMenu(main_menu_func);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 	glutAddSubMenu("Polygon Mode", polMode_menu);
-	glutAddSubMenu("Face Mode", faceMode_menu);
 	glutAddSubMenu("Camera Speed", camSpeed_menu);
 	glutAddSubMenu("Background Color", bgColor_menu);
 	glutAddSubMenu("Points Color", ptColor_menu);

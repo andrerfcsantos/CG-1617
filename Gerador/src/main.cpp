@@ -25,8 +25,8 @@ int main(int argc, char** argv) {
 		// gerador plane comprimento largura divsx divsz
 		float comp = atof(argv[2]);
 		float largura = atof(argv[3]);
-		int divsx = atoi(argv[4])+1;
-		int divsz = atoi(argv[5]) + 1;
+		int divsx = atoi(argv[4]);
+		int divsz = atoi(argv[5]);
 		nome_fich = argv[6];
 
 		figura.geraPlanoY(Ponto3D{0.0,0.0,0.0},comp, largura, divsx, divsz, 1);
@@ -48,8 +48,8 @@ int main(int argc, char** argv) {
 		float comp = atof(argv[2]);
 		float largura = atof(argv[3]);
 		float altura = atof(argv[4]);
-		int divsx = atoi(argv[5]) + 1;
-		int divsz = atoi(argv[6]) + 1;
+		int divsx = atoi(argv[5]);
+		int divsz = atoi(argv[6]);
 		int divsy = atoi(argv[7]);
 		nome_fich = argv[8];
 
