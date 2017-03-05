@@ -293,7 +293,7 @@ public:
 	Figura& geraElipsoide(Ponto3D o, float a, float b, float c, int fatias, int camadas) {
 
 		float deltaAz = (float)(2.0f * M_PI) / fatias;
-		float deltaPolar = (float)(2.0f * M_PI) / camadas;
+		float deltaPolar = (float)(M_PI) / camadas;
 
 
 		for (int j = 0; j < fatias; ++j) {
@@ -303,11 +303,11 @@ public:
 				float t = deltaPolar*i;
 				float ro2 = deltaAz*(j + 1);
 				float t2 = deltaPolar*(i + 1);
-				Ponto3D a_ = { o.x + a*cos(M_PI/2 - t)*cos(ro)  , o.y + c*sin(M_PI /2 - t) ,o.z + b*cos(M_PI / 2 - t)*sin(ro)};
-				Ponto3D c_ = { o.x + a*cos(M_PI / 2 - t2)*cos(ro)  , o.y + c*sin(M_PI / 2 - t2) ,o.z + b*cos(M_PI / 2 - t2)*sin(ro)};
-				Ponto3D b_ = { o.x + a*cos(M_PI / 2 - t)*cos(ro2)  , o.y + c*sin(M_PI / 2 - t) ,o.z + b*cos(M_PI / 2 - t)*sin(ro2)};
-				Ponto3D d_ = { o.x + a*cos(M_PI / 2 - t2)*cos(ro2)  , o.y + c*sin(M_PI / 2 - t2) ,o.z + b*cos(M_PI / 2 - t2)*sin(ro2)};
 
+				Ponto3D a_ = { o.x + b*cos(M_PI / 2 - t)*sin(ro), o.y + c*sin(M_PI / 2 - t) ,o.z + a*cos(M_PI / 2 - t)*cos(ro) };
+				Ponto3D c_ = { o.x + b*cos(M_PI / 2 - t2)*sin(ro), o.y + c*sin(M_PI / 2 - t2) ,o.z + a*cos(M_PI / 2 - t2)*cos(ro) };
+				Ponto3D b_ = { o.x + b*cos(M_PI / 2 - t)*sin(ro2), o.y + c*sin(M_PI / 2 - t) ,o.z + a*cos(M_PI / 2 - t)*cos(ro2) };
+				Ponto3D d_ = { o.x + b*cos(M_PI / 2 - t2)*sin(ro2) , o.y + c*sin(M_PI / 2 - t2) ,o.z + a*cos(M_PI / 2 - t2)*cos(ro2) };
 
 				pontos.push_back(a_);
 				pontos.push_back(c_);
