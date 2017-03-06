@@ -324,16 +324,16 @@ public:
 	Figura& geraFitaMobius(Ponto3D o, float R, float largura, float divsl, float divscomp) {
 
 		float deltaU = (float)(2.0f * M_PI) / divscomp;
-		float deltaV = (float)largura / divsl;
+		float deltaL = (float)largura / divsl;
 		float mLargura = (float) largura / 2;
 
 		for (int j = 0; j < divsl; ++j) {
 			for (int i = 0; i < divscomp; ++i) {
 
 				float u = deltaU*i;
-				float v = -mLargura + deltaV*j;
+				float v = -mLargura + deltaL*j;
 				float u2 = deltaU*(i+1);
-				float v2 = -mLargura + deltaV*(j+1);
+				float v2 = -mLargura + deltaL*(j+1);
 				Ponto3D a = { o.x + (1+(v/2.0)*cos(u/2.0))*sin(u)   , o.y + (v/2.0)*sin(u/2.0)   ,o.z + (1+(v/2.0)*cos(u/2.0))*cos(u)};
 				Ponto3D b = { o.x + (1+(v2/2.0)*cos(u/2.0))*sin(u)  , o.y + (v2/2.0)*sin(u/2.0)  ,o.z + (1+(v2/2.0)*cos(u/2.0))*cos(u)};
 				Ponto3D c = { o.x + (1+(v2/2.0)*cos(u2/2.0))*sin(u2), o.y + (v2/2.0)*sin(u2/2.0) ,o.z + (1+(v2/2.0)*cos(u2/2.0))*cos(u2)};

@@ -66,6 +66,7 @@ void bgColor_menu_func(int opt) {
 		case 4:  bg_red = 0; bg_green = 1; bg_blue = 0; break;
 		case 5:  bg_red = 0; bg_green = 0; bg_blue = 1; break;
 	}
+	glutPostRedisplay();
 }
 
 void ptColor_menu_func(int opt) {
@@ -76,6 +77,7 @@ void ptColor_menu_func(int opt) {
 		case 4:  pt_red = 0; pt_green = 1; pt_blue = 0; break;
 		case 5:  pt_red = 0; pt_green = 0; pt_blue = 1; break;
 	}
+	glutPostRedisplay();
 }
 
 void changeSize(int w, int h) {
@@ -105,7 +107,7 @@ void changeSize(int w, int h) {
 
 void renderScene(void) {
 
-	glPolygonMode(modoFace, modoPoligonos);
+	glPolygonMode(GL_FRONT, modoPoligonos);
 
 	// clear buffers
 	glClearColor(bg_red, bg_green, bg_blue,1);
@@ -213,7 +215,7 @@ void teclas_especiais_func(int key, int x, int y) {
 void leXML() {
 	float x, y, z;
 	std::string modelo_prefix("../Modelos/");
-	std::string ficheiro(modelo_prefix + "figura.xml");
+	std::string ficheiro(modelo_prefix + "scene.xml");
 
 	pugi::xml_document doc;
 	pugi::xml_parse_result result = doc.load_file(ficheiro.c_str());

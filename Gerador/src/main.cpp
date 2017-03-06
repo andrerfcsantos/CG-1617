@@ -152,18 +152,16 @@ int main(int argc, char** argv) {
 		figura.geraSeashell(Ponto3D{ 0,0,0 }, a, b, c, n, divsU, divsV);
 	}
 
-	if (!cmd) std::cout << "Comando invalido! :(" << std::endl;
-
-	std::ofstream ficheiro(modelos_path + nome_fich);
-	for (Ponto3D ponto : figura.getPontos()) {
-		ficheiro << ponto.x << " " << ponto.y << " " << ponto.z << std::endl;
+	if (!cmd) {
+		std::cout << "Comando invalido ou numero de argumentos invalido." << std::endl;
 	}
-
-	std::ofstream ficheiro_xml(modelos_path + "figura.xml");
-	ficheiro_xml << "<scene>"							 << std::endl <<
-					"\t<model file=\"" << nome_fich << "\" />"	 << std::endl <<
-					"</scene>"							 << std::endl;
-
+	else {
+		std::ofstream ficheiro(modelos_path + nome_fich);
+		for (Ponto3D ponto : figura.getPontos()) {
+			ficheiro << ponto.x << " " << ponto.y << " " << ponto.z << std::endl;
+		}
+	}
+	
 }
 
 
