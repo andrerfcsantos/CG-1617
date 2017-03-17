@@ -12,9 +12,10 @@
 #include <math.h>
 #include "../../utils/CoordsEsfericas.h"
 #include "pugixml.hpp"
+#include "../../utils/Grupo.h"
 
 using namespace std;
-
+vector<pugi::xml_node> stack;
 vector<Ponto3D> pontos;
 CoordsEsfericas camara = CoordsEsfericas(10.0, 0.0, M_PI / 3.0f);
 GLenum modoPoligonos = GL_LINE;
