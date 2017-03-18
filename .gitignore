@@ -55,6 +55,8 @@
 **/[Bb]in/
 **/[Oo]bj/
 **/[Ll]og/
+**/TreeTest/
+**/Test[e][s]/
 
 # Visual Studio 2015 cache/options directory
 .vs/
