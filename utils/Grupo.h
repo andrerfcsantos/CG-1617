@@ -6,6 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include "Transformacao.h"
+#include "Ponto3D.h"
 
 using namespace std;
 
@@ -13,6 +14,5 @@ class Grupo {
 
 public:
 	vector<Transformacao> transformacoes;
-	vector<string> ficheiros;
-
+	vector<Ponto3D> pontos;
 };

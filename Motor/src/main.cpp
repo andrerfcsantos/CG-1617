@@ -24,6 +24,22 @@ float cameraSpeed = 6.0f;
 float bg_red =0.0, bg_green =0.0, bg_blue = 0.0;
 float pt_red = 1.0, pt_green = 1.0, pt_blue = 1.0;
 int mouse_x, mouse_y;
+pugi::xml_document doc;
+
+void percorreXML() {
+	std::string modelo_prefix("../Modelos/");
+	auto scene_node = doc.child("scene");
+
+	for (auto it = scene_node.begin(); it != scene_node.end(); ++it) {
+		string nome_ficheiro = it->attribute("file").value();
+
+		ifstream fich_inp(modelo_prefix + nome_ficheiro);
+		while (fich_inp >> x >> y >> z) {
+			pontos.push_back(Ponto3D{ x,y,z });
+		}
+	}
+
+}
 
 void main_menu_func(int opt) {
 	switch (opt) {
@@ -215,29 +231,17 @@ void teclas_especiais_func(int key, int x, int y) {
 
 void leXML() {
 	float x, y, z;
-	std::string modelo_prefix("../Modelos/");
+	
 	std::string ficheiro(modelo_prefix + "scene.xml");
-
-	pugi::xml_document doc;
 	pugi::xml_parse_result result = doc.load_file(ficheiro.c_str());
 	
 	if (!result) {
 		std::cout << "Erro no parsing do ficheiro." << std::endl;
 		return;
 	}
-
-	auto scene_node = doc.child("scene");
-
-	for (auto it = scene_node.begin(); it != scene_node.end(); ++it) {
-		string nome_ficheiro = it->attribute("file").value();
-
-		ifstream fich_inp(modelo_prefix + nome_ficheiro);
-		while (fich_inp >> x >> y >> z) {
-			pontos.push_back(Ponto3D{ x,y,z });
-		}
-	}
-
 }
+
+
 
 void criaMenus() {
 	
