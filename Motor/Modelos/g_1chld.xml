@@ -2,10 +2,11 @@
     <group>
         <translate X="1"/>
         <models>
-            <model file="plano.3d"/>
+            <model file="esfera.3d"/>
         </models>
         <group>
-            <translate Y="1"/>
+            <translate Y="10"/>
+            <rotate angle="90"/>
             <models>
                 <model file="plano.3d"/>
             </models>

@@ -31,8 +31,9 @@ float pt_red = 1.0, pt_green = 1.0, pt_blue = 1.0;
 int mouse_x, mouse_y;
 pugi::xml_document doc;
 tree<Grupo> arvoreG;
-deque<tree<Grupo>::iterator> SG;
-deque<xml_node> SX;
+deque<tree<Grupo>::iterator> stack_group;
+deque<tree<Grupo>::iterator> stack_group_read;
+deque<xml_node> stack_xmlnode_read;
 std::string modelo_prefix("../Modelos/");
 
 
@@ -117,6 +118,42 @@ void changeSize(int w, int h) {
 	glMatrixMode(GL_MODELVIEW);
 }
 
+void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
+	glBegin(GL_TRIANGLES);
+	
+	glPushMatrix();
+
+	for (auto it = (*it_grupo).transformacoes.begin(); it != (*it_grupo).transformacoes.end(); ++it) {
+		switch (it->tipo) {
+
+		case TRANSLACAO:
+			glTranslatef(it->tx, it->ty, it->tz);
+			break;
+		case ROTACAO:
+			glRotatef(it->rang,it->rx, it->ry, it->rz);
+			break;
+		case ESCALA:
+			glScalef(it->sx,it->sy,it->sz);
+			break;
+		default:
+			break;
+		}
+		
+	}
+	
+	//glTranslatef(2.0f, 6.0f, 1.0f);
+	for (auto it = (*it_grupo).pontos.begin(); it != (*it_grupo).pontos.end(); ++it) {
+		glVertex3f(it->x, it->y, it->z);
+	}
+
+	for (auto chld_it = arvoreG.child(it_grupo, 0); chld_it != chld_it.end(); ++chld_it) {
+		desenhaGrupo(chld_it);
+	}
+
+	glPopMatrix();
+	glEnd();
+}
+
 void renderScene(void) {
 
 	glPolygonMode(GL_FRONT, modoPoligonos);
@@ -134,11 +171,10 @@ void renderScene(void) {
 	// put the geometric transformations here
 
 	glColor3f(pt_red, pt_green, pt_blue);
-	glBegin(GL_TRIANGLES);
-	for (auto it = pontos.begin(); it != pontos.end(); ++it) {
-		glVertex3f(it->x, it->y, it->z);
-	}
-	glEnd();
+	
+	tree<Grupo>::iterator head = arvoreG.begin();
+	desenhaGrupo(head);
+	
 
 	// End of frame
 	glutSwapBuffers();
@@ -224,14 +260,21 @@ void teclas_especiais_func(int key, int x, int y) {
 	
 }
 
+void percorreArvore() {
+	for (auto it = arvoreG.begin(); it != arvoreG.end(); ++it) {
+		std::cout << *it << std::endl;
+	}
+}
+
 Grupo XMLtoGrupo(xml_node node) {
 	Grupo res;
-
+	Transformacao trans;
 	for (auto it = node.begin(); it != node.end(); ++it) {
 		string node_name = it->name();
 
 		if (node_name == "translate") {
-			Translacao trans;
+			trans.tx = trans.ty = trans.tz = 0;
+			trans.tipo = TRANSLACAO;
 			for (pugi::xml_attribute_iterator ait = it->attributes_begin(); ait != it->attributes_end(); ++ait)
 			{
 				string name = ait->name();
@@ -243,29 +286,32 @@ Grupo XMLtoGrupo(xml_node node) {
 			res.transformacoes.push_back(trans);
 		}
 		if (node_name == "rotate") {
-			Rotacao r;
+			trans.ry = 1;
+			trans.rang = trans.rx = trans.rz =0 ;
+			trans.tipo = ROTACAO;
 			for (pugi::xml_attribute_iterator ait = it->attributes_begin(); ait != it->attributes_end(); ++ait)
 			{
 				string name = ait->name();
 				float fl = stof(ait->value());
-				if (name == "angle") r.rang = fl;
-				if (name == "axisX") r.rx = fl;
-				if (name == "axisY") r.ry = fl;
-				if (name == "axisZ") r.rz = fl;
+				if (name == "angle") trans.rang = fl;
+				if (name == "axisX") trans.rx = fl;
+				if (name == "axisY") trans.ry = fl;
+				if (name == "axisZ") trans.rz = fl;
 			}
-			res.transformacoes.push_back(r);
+			res.transformacoes.push_back(trans);
 		}
 		if (node_name == "scale") {
-			Escala e;
+			trans.sx = trans.sy = trans.sz = 1;
+			trans.tipo = ESCALA;
 			for (pugi::xml_attribute_iterator ait = it->attributes_begin(); ait != it->attributes_end(); ++ait)
 			{
 				string name = ait->name();
 				float fl = stof(ait->value());
-				if (name == "X") e.sx = fl;
-				if (name == "Y") e.sy = fl;
-				if (name == "Z") e.sz = fl;
+				if (name == "X") trans.sx = fl;
+				if (name == "Y") trans.sy = fl;
+				if (name == "Z") trans.sz = fl;
 			}
-			res.transformacoes.push_back(e);
+			res.transformacoes.push_back(trans);
 		}
 
 		if (node_name == "models") {
@@ -275,14 +321,13 @@ Grupo XMLtoGrupo(xml_node node) {
 				float x, y, z;
 				string nome_ficheiro = nfile.attribute("file").value();
 				ifstream fich_inp(modelo_prefix + nome_ficheiro);
+				res.ficheiros.push_back(nome_ficheiro);
+
 				while (fich_inp >> x >> y >> z) {
 					res.pontos.push_back(Ponto3D{ x,y,z });
 				}
 			}
-
-			
 		}
-
 	}
 	return res;
 }
@@ -305,29 +350,24 @@ void leXML() {
 
 	g = XMLtoGrupo(root_group);
 	na = arvoreG.set_head(g);
-	SG.push_back(na);
-	SX.push_back(root_group);
+	stack_group_read.push_back(na);
+	stack_xmlnode_read.push_back(root_group);
 
-	while (!SG.empty()) {
-		nx = SX.back();
-		SX.pop_back();
+	while (!stack_group_read.empty()) {
+		nx = stack_xmlnode_read.back();
+		stack_xmlnode_read.pop_back();
 		
-		na = SG.back();
-		SG.pop_back();
+		na = stack_group_read.back();
+		stack_group_read.pop_back();
 		for (pugi::xml_node xml_child : nx.children("group")) {
 			g = XMLtoGrupo(xml_child);
 			na_aux= arvoreG.append_child(na, g);
-			SG.push_back(na_aux);
-			SX.push_back(xml_child);
+			stack_group_read.push_back(na_aux);
+			stack_xmlnode_read.push_back(xml_child);
 		}
 		
 	}
-
-
-
 }
-
-
 
 void criaMenus() {
 	
@@ -365,6 +405,7 @@ void criaMenus() {
 
 int main(int argc, char **argv) {
 	leXML();
+	percorreArvore();
 	std::cout << "Numero pontos lidos:" << pontos.size() << std::endl;
 // init GLUT and the window
 	glutInit(&argc, argv);
