@@ -13,8 +13,13 @@
 #include "../../utils/CoordsEsfericas.h"
 #include "pugixml.hpp"
 #include "../../utils/Grupo.h"
+#include "tree.hh"
+#include <deque>
+#include <string>     // std::string, std::stof
+
 
 using namespace std;
+using namespace pugi;
 vector<pugi::xml_node> stack;
 vector<Ponto3D> pontos;
 CoordsEsfericas camara = CoordsEsfericas(10.0, 0.0, M_PI / 3.0f);
@@ -25,21 +30,11 @@ float bg_red =0.0, bg_green =0.0, bg_blue = 0.0;
 float pt_red = 1.0, pt_green = 1.0, pt_blue = 1.0;
 int mouse_x, mouse_y;
 pugi::xml_document doc;
+tree<Grupo> arvoreG;
+deque<tree<Grupo>::iterator> SG;
+deque<xml_node> SX;
+std::string modelo_prefix("../Modelos/");
 
-void percorreXML() {
-	std::string modelo_prefix("../Modelos/");
-	auto scene_node = doc.child("scene");
-
-	for (auto it = scene_node.begin(); it != scene_node.end(); ++it) {
-		string nome_ficheiro = it->attribute("file").value();
-
-		ifstream fich_inp(modelo_prefix + nome_ficheiro);
-		while (fich_inp >> x >> y >> z) {
-			pontos.push_back(Ponto3D{ x,y,z });
-		}
-	}
-
-}
 
 void main_menu_func(int opt) {
 	switch (opt) {
@@ -229,16 +224,107 @@ void teclas_especiais_func(int key, int x, int y) {
 	
 }
 
+Grupo XMLtoGrupo(xml_node node) {
+	Grupo res;
+
+	for (auto it = node.begin(); it != node.end(); ++it) {
+		string node_name = it->name();
+
+		if (node_name == "translate") {
+			Translacao trans;
+			for (pugi::xml_attribute_iterator ait = it->attributes_begin(); ait != it->attributes_end(); ++ait)
+			{
+				string name = ait->name();
+				float fl = stof(ait->value());
+				if (name == "X") trans.tx = fl;
+				if (name == "Y") trans.ty = fl;
+				if (name == "Z") trans.tz = fl;
+			}
+			res.transformacoes.push_back(trans);
+		}
+		if (node_name == "rotate") {
+			Rotacao r;
+			for (pugi::xml_attribute_iterator ait = it->attributes_begin(); ait != it->attributes_end(); ++ait)
+			{
+				string name = ait->name();
+				float fl = stof(ait->value());
+				if (name == "angle") r.rang = fl;
+				if (name == "axisX") r.rx = fl;
+				if (name == "axisY") r.ry = fl;
+				if (name == "axisZ") r.rz = fl;
+			}
+			res.transformacoes.push_back(r);
+		}
+		if (node_name == "scale") {
+			Escala e;
+			for (pugi::xml_attribute_iterator ait = it->attributes_begin(); ait != it->attributes_end(); ++ait)
+			{
+				string name = ait->name();
+				float fl = stof(ait->value());
+				if (name == "X") e.sx = fl;
+				if (name == "Y") e.sy = fl;
+				if (name == "Z") e.sz = fl;
+			}
+			res.transformacoes.push_back(e);
+		}
+
+		if (node_name == "models") {
+			
+			for (pugi::xml_node nfile : it->children("model"))
+			{
+				float x, y, z;
+				string nome_ficheiro = nfile.attribute("file").value();
+				ifstream fich_inp(modelo_prefix + nome_ficheiro);
+				while (fich_inp >> x >> y >> z) {
+					res.pontos.push_back(Ponto3D{ x,y,z });
+				}
+			}
+
+			
+		}
+
+	}
+	return res;
+}
+
 void leXML() {
 	float x, y, z;
 	
-	std::string ficheiro(modelo_prefix + "scene.xml");
+	std::string ficheiro(modelo_prefix + "g_1chld.xml");
 	pugi::xml_parse_result result = doc.load_file(ficheiro.c_str());
 	
 	if (!result) {
 		std::cout << "Erro no parsing do ficheiro." << std::endl;
 		return;
 	}
+
+	Grupo g;
+	tree<Grupo>::iterator na, na_aux;
+	xml_node nx;
+	xml_node root_group = doc.child("scene").child("group");
+
+	g = XMLtoGrupo(root_group);
+	na = arvoreG.set_head(g);
+	SG.push_back(na);
+	SX.push_back(root_group);
+
+	while (!SG.empty()) {
+		nx = SX.back();
+		SX.pop_back();
+		
+		na = SG.back();
+		SG.pop_back();
+		for (pugi::xml_node xml_child : nx.children("group")) {
+			g = XMLtoGrupo(xml_child);
+			na_aux= arvoreG.append_child(na, g);
+			SG.push_back(na_aux);
+			SX.push_back(xml_child);
+		}
+		
+	}
+
+
+
 }
 
 

@@ -5,7 +5,7 @@
 #include <string.h>
 #include <iostream>
 #include <fstream>
-#include "Transformacao.h"
+#include "Transformacoes.h"
 #include "Ponto3D.h"
 
 using namespace std;
