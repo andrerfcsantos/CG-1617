@@ -34,7 +34,8 @@ tree<Grupo> arvoreG;
 deque<tree<Grupo>::iterator> stack_group;
 deque<tree<Grupo>::iterator> stack_group_read;
 deque<xml_node> stack_xmlnode_read;
-std::string modelo_prefix("../Modelos/");
+std::string modelo_prefix("../../Modelos/");
+int p = 0;
 
 
 void main_menu_func(int opt) {
@@ -119,39 +120,40 @@ void changeSize(int w, int h) {
 }
 
 void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
-	glBegin(GL_TRIANGLES);
+
 	
 	glPushMatrix();
 
 	for (auto it = (*it_grupo).transformacoes.begin(); it != (*it_grupo).transformacoes.end(); ++it) {
-		switch (it->tipo) {
+        switch (it->tipo) {
 
-		case TRANSLACAO:
-			glTranslatef(it->tx, it->ty, it->tz);
-			break;
-		case ROTACAO:
-			glRotatef(it->rang,it->rx, it->ry, it->rz);
-			break;
-		case ESCALA:
-			glScalef(it->sx,it->sy,it->sz);
-			break;
-		default:
-			break;
-		}
-		
-	}
-	
+            case TRANSLACAO:
+                glTranslatef(it->tx, it->ty, it->tz);
+                break;
+            case ROTACAO:
+                glRotatef(it->rang, it->rx, it->ry, it->rz);
+                break;
+            case ESCALA:
+                glScalef(it->sx, it->sy, it->sz);
+                break;
+            default:
+                break;
+        }
+
+    }
+    glBegin(GL_TRIANGLES);
 	//glTranslatef(2.0f, 6.0f, 1.0f);
 	for (auto it = (*it_grupo).pontos.begin(); it != (*it_grupo).pontos.end(); ++it) {
 		glVertex3f(it->x, it->y, it->z);
 	}
+    glEnd();
 
 	for (auto chld_it = arvoreG.child(it_grupo, 0); chld_it != chld_it.end(); ++chld_it) {
 		desenhaGrupo(chld_it);
 	}
 
 	glPopMatrix();
-	glEnd();
+
 }
 
 void renderScene(void) {
@@ -335,7 +337,7 @@ Grupo XMLtoGrupo(xml_node node) {
 void leXML() {
 	float x, y, z;
 	
-	std::string ficheiro(modelo_prefix + "g_1chld.xml");
+	std::string ficheiro(modelo_prefix + "g_many.xml");
 	pugi::xml_parse_result result = doc.load_file(ficheiro.c_str());
 	
 	if (!result) {
