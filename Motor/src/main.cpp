@@ -336,13 +336,19 @@ Grupo XMLtoGrupo(xml_node node) {
 
 void leXML() {
 	float x, y, z;
-	
-	std::string ficheiro(modelo_prefix + "g_many.xml");
+	std::string nomeFicheiro("g_many.xml");
+
+	std::string ficheiro(modelo_prefix + nomeFicheiro);
 	pugi::xml_parse_result result = doc.load_file(ficheiro.c_str());
 	
 	if (!result) {
-		std::cout << "Erro no parsing do ficheiro." << std::endl;
-		return;
+		modelo_prefix = "../Modelos/";
+		ficheiro = modelo_prefix + nomeFicheiro;
+		result = doc.load_file(ficheiro.c_str());
+		if (!result) {
+			std::cout << "Erro no parsing do ficheiro." << std::endl;
+			return;
+		}
 	}
 
 	Grupo g;
