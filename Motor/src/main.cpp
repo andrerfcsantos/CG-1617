@@ -120,21 +120,27 @@ void changeSize(int w, int h) {
 }
 
 void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
-
+	Translacao *trans;
+	Rotacao *rot;
+	Escala *esc;
 	
 	glPushMatrix();
 
 	for (auto it = (*it_grupo).transformacoes.begin(); it != (*it_grupo).transformacoes.end(); ++it) {
-        switch (it->tipo) {
+
+        switch ((*it)->tipo) {
 
             case TRANSLACAO:
-                glTranslatef(it->tx, it->ty, it->tz);
+				trans = dynamic_cast<Translacao *>(*it);
+                glTranslatef(trans->tx, trans->ty, trans->tz);
                 break;
             case ROTACAO:
-                glRotatef(it->rang, it->rx, it->ry, it->rz);
+				rot = dynamic_cast<Rotacao *>(*it);
+                glRotatef(rot->rang, rot->rx, rot->ry, rot->rz);
                 break;
             case ESCALA:
-                glScalef(it->sx, it->sy, it->sz);
+				esc = dynamic_cast<Escala *>(*it);
+                glScalef(esc->sx, esc->sy, esc->sz);
                 break;
             default:
                 break;
@@ -270,13 +276,12 @@ void percorreArvore() {
 
 Grupo XMLtoGrupo(xml_node node) {
 	Grupo res;
-	Transformacao trans;
+
 	for (auto it = node.begin(); it != node.end(); ++it) {
 		string node_name = it->name();
 
 		if (node_name == "translate") {
-			trans.tx = trans.ty = trans.tz = 0;
-			trans.tipo = TRANSLACAO;
+			Translacao trans(0.0,0.0,0.0);
 			for (pugi::xml_attribute_iterator ait = it->attributes_begin(); ait != it->attributes_end(); ++ait)
 			{
 				string name = ait->name();
@@ -285,12 +290,10 @@ Grupo XMLtoGrupo(xml_node node) {
 				if (name == "Y") trans.ty = fl;
 				if (name == "Z") trans.tz = fl;
 			}
-			res.transformacoes.push_back(trans);
+			res.transformacoes.push_back(&trans);
 		}
 		if (node_name == "rotate") {
-			trans.ry = 1;
-			trans.rang = trans.rx = trans.rz =0 ;
-			trans.tipo = ROTACAO;
+			Rotacao trans(0.0f, 0.0f, 1.0f, 0.0f);
 			for (pugi::xml_attribute_iterator ait = it->attributes_begin(); ait != it->attributes_end(); ++ait)
 			{
 				string name = ait->name();
@@ -300,11 +303,10 @@ Grupo XMLtoGrupo(xml_node node) {
 				if (name == "axisY") trans.ry = fl;
 				if (name == "axisZ") trans.rz = fl;
 			}
-			res.transformacoes.push_back(trans);
+			res.transformacoes.push_back(&trans);
 		}
 		if (node_name == "scale") {
-			trans.sx = trans.sy = trans.sz = 1;
-			trans.tipo = ESCALA;
+			Escala trans(1.0f, 1.0f, 1.0f);
 			for (pugi::xml_attribute_iterator ait = it->attributes_begin(); ait != it->attributes_end(); ++ait)
 			{
 				string name = ait->name();
@@ -313,13 +315,12 @@ Grupo XMLtoGrupo(xml_node node) {
 				if (name == "Y") trans.sy = fl;
 				if (name == "Z") trans.sz = fl;
 			}
-			res.transformacoes.push_back(trans);
+			res.transformacoes.push_back(&trans);
 		}
 
 		if (node_name == "models") {
 			
-			for (pugi::xml_node nfile : it->children("model"))
-			{
+			for (pugi::xml_node nfile : it->children("model")){
 				float x, y, z;
 				string nome_ficheiro = nfile.attribute("file").value();
 				ifstream fich_inp(modelo_prefix + nome_ficheiro);

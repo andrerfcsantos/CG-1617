@@ -19,41 +19,53 @@ std::ostream& operator<<(std::ostream& os, TipoTransformacao c){
 
 class Transformacao {
 public:
-	float tx, ty, tz;
-	float sx, sy, sz;
-	float rang, rx, ry, rz;
+
 	TipoTransformacao tipo;
 
-	static Transformacao& getRotacao(float p_rang, float p_rx, float p_ry, float p_rz) {
-		Transformacao t;
-		t.tipo = ROTACAO;
-		t.rang = p_rang;
-		t.rx = p_rx;
-		t.ry = p_ry;
-		t.rz = p_rz;
-		return t;
-	}
-
-	static Transformacao& getTranslacao(float p_tx, float p_ty, float p_tz) {
-		Transformacao t;
-		t.tipo = TRANSLACAO;
-		t.tx = p_tx;
-		t.ty = p_ty;
-		t.tz = p_tz;
-		return t;
-	}
-	
-	static Transformacao& getEscala(float p_sx, float p_sy, float p_sz) {
-		Transformacao t;
-		t.tipo = ESCALA;
-		t.sx = p_sx;
-		t.sy = p_sy;
-		t.sz = p_sz;
-		return t;
-	}
+	virtual ~Transformacao() = default;
 
 	friend std::ostream& operator<<(std::ostream& os, const Transformacao& t) {
 		os << t.tipo;
 		return os;
+	}
+};
+
+
+class Rotacao: public Transformacao {
+public:
+	float rang, rx, ry, rz;
+	
+	Rotacao() : Rotacao(0.0f, 0.0f, 1.0f, 0.0f) {
+	}
+
+	Rotacao(float p_rang, float p_rx, float p_ry, float p_rz) :
+		    rang(p_rang), rx(p_rx),   ry(p_ry),   rz(p_rz) {
+		tipo = ROTACAO;
+	}
+};
+
+class Translacao : public Transformacao {
+public:
+	float tx, ty, tz;
+
+	Translacao() : Translacao(0.0f, 0.0f, 0.0f) {
+	}
+
+	Translacao(float p_tx, float p_ty, float p_tz) :
+		tx(p_tx), ty(p_ty), tz(p_tz) {
+		tipo = TRANSLACAO;
+	}
+};
+
+class Escala : public Transformacao {
+public:
+	float sx, sy, sz;
+
+	Escala(): Escala(1.0f, 1.0f, 1.0f) {
+	}
+
+	Escala(float p_sx, float p_sy, float p_sz) :
+		   sx(p_sx)  , sy(p_sy)  , sz(p_sz){
+		tipo = ESCALA;
 	}
 };
