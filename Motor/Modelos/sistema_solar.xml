@@ -1,0 +1,72 @@
+<scene>
+<group name="Sun">
+<translate X="0.0" />
+<scale X="1.0114070997540736" Y="1.0114070997540736" Z="1.0114070997540736" />
+<models>
+<model file="esfera_1.3d" />
+</models>
+<group name="Mercury">
+<translate X="0.387104442061909" />
+<scale X="0.0035457375336206036" Y="0.0035457375336206036" Z="0.0035457375336206036" />
+<models>
+<model file="esfera_1.3d" />
+</models>
+</group>
+<group name="Venus">
+<translate X="0.7232723300137897" />
+<scale X="0.008794591620275365" Y="0.008794591620275365" Z="0.008794591620275365" />
+<models>
+<model file="esfera_1.3d" />
+</models>
+</group>
+<group name="Earth">
+<translate X="1.000014238170637" />
+<scale X="0.009268325405505004" Y="0.009268325405505004" Z="0.009268325405505004" />
+<models>
+<model file="esfera_1.3d" />
+</models>
+</group>
+<group name="Mars">
+<translate X="1.523684795779512" />
+<scale X="0.004934969124662119" Y="0.004934969124662119" Z="0.004934969124662119" />
+<models>
+<model file="esfera_1.3d" />
+</models>
+</group>
+<group name="Jupiter">
+<translate X="5.202814719220267" />
+<scale X="0.10389010973508368" Y="0.10389010973508368" Z="0.10389010973508368" />
+<models>
+<model file="esfera_1.3d" />
+</models>
+</group>
+<group name="Saturn">
+<translate X="9.554948877280138" />
+<scale X="0.08757971708042891" Y="0.08757971708042891" Z="0.08757971708042891" />
+<models>
+<model file="esfera_1.3d" />
+</models>
+</group>
+<group name="Uranus">
+<translate X="19.191382871962013" />
+<scale X="0.03714160066467582" Y="0.03714160066467582" Z="0.03714160066467582" />
+<models>
+<model file="esfera_1.3d" />
+</models>
+</group>
+<group name="Neptune">
+<translate X="30.10938591572193" />
+<scale X="0.035986329624008453" Y="0.035986329624008453" Z="0.035986329624008453" />
+<models>
+<model file="esfera_1.3d" />
+</models>
+</group>
+<group name="Pluto">
+<translate X="39.52943982424349" />
+<scale X="0.0017220077775985307" Y="0.0017220077775985307" Z="0.0017220077775985307" />
+<models>
+<model file="esfera_1.3d" />
+</models>
+</group>
+</group>
+</scene>

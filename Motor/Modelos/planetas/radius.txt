@@ -1,0 +1,188 @@
+Sun	696000	-
+Mercury	2440	Sun
+Venus	6052	Sun
+Earth	6378	Sun
+Mars	3396	Sun
+Jupiter	71492	Sun
+Saturn	60268	Sun
+Uranus	25559	Sun
+Neptune	24764	Sun
+Pluto	1185	Sun
+Moon	1737	Earth
+Phobos	11	Mars
+Deimos	6	Mars
+Io	1818	Jupiter
+Europa	1561	Jupiter
+Ganymede	2634	Jupiter
+Callisto	2408	Jupiter
+Amalthea	83	Jupiter
+Himalia	67	Jupiter
+Elara	43	Jupiter
+Pasiphae	30	Jupiter
+Sinope	19	Jupiter
+Lysithea	18	Jupiter
+Carme	23	Jupiter
+Ananke	14	Jupiter
+Leda	10	Jupiter
+Thebe	49	Jupiter
+Adrastea	8	Jupiter
+Metis	22	Jupiter
+Callirrhoe	4	Jupiter
+Themisto	4	Jupiter
+Megaclite	3	Jupiter
+Taygete	3	Jupiter
+Chaldene	2	Jupiter
+Harpalyke	2	Jupiter
+Kalyke	3	Jupiter
+Iocaste	3	Jupiter
+Erinome	2	Jupiter
+Isonoe	2	Jupiter
+Praxidike	3	Jupiter
+Autonoe	2	Jupiter
+Thyone	2	Jupiter
+Hermippe	2	Jupiter
+Aitne	2	Jupiter
+Eurydome	2	Jupiter
+Euanthe	2	Jupiter
+Euporie	1	Jupiter
+Orthosie	1	Jupiter
+Sponde	1	Jupiter
+Kale	1	Jupiter
+Pasithee	1	Jupiter
+Hegemone	2	Jupiter
+Mneme	1	Jupiter
+Aoede	2	Jupiter
+Thelxinoe	1	Jupiter
+Arche	2	Jupiter
+Kallichore	1	Jupiter
+Helike	2	Jupiter
+Carpo	2	Jupiter
+Eukelade	2	Jupiter
+Cyllene	1	Jupiter
+Kore	1	Jupiter
+Herse	1	Jupiter
+S/2010 J 1	1	Jupiter
+S/2010 J 2	1	Jupiter
+Dia	2	Jupiter
+S/2003 J 2	1	Jupiter
+S/2003 J 3	1	Jupiter
+S/2003 J 4	1	Jupiter
+S/2003 J 5	2	Jupiter
+S/2003 J 9	1	Jupiter
+S/2003 J 10	1	Jupiter
+S/2003 J 12	1	Jupiter
+S/2003 J 15	1	Jupiter
+S/2003 J 16	1	Jupiter
+S/2003 J 18	1	Jupiter
+S/2003 J 19	1	Jupiter
+S/2003 J 23	1	Jupiter
+S/2011 J 1	1	Jupiter
+S/2011 J 2	1	Jupiter
+Mimas	198	Saturn
+Enceladus	252	Saturn
+Tethys	536	Saturn
+Dione	563	Saturn
+Rhea	765	Saturn
+Titan	2576	Saturn
+Hyperion	133	Saturn
+Iapetus	735	Saturn
+Phoebe	107	Saturn
+Janus	90	Saturn
+Epimetheus	58	Saturn
+Helene	16	Saturn
+Telesto	12	Saturn
+Calypso	10	Saturn
+Atlas	15	Saturn
+Prometheus	47	Saturn
+Pandora	41	Saturn
+Pan	13	Saturn
+Ymir	9	Saturn
+Paaliaq	11	Saturn
+Tarvos	8	Saturn
+Ijiraq	6	Saturn
+Suttungr	4	Saturn
+Kiviuq	8	Saturn
+Mundilfari	4	Saturn
+Albiorix	16	Saturn
+Skathi	4	Saturn
+Erriapus	5	Saturn
+Siarnaq	20	Saturn
+Thrymr	4	Saturn
+Narvi	4	Saturn
+Methone	2	Saturn
+Pallene	2	Saturn
+Polydeuces	1	Saturn
+Daphnis	4	Saturn
+Aegir	3	Saturn
+Bebhionn	3	Saturn
+Bergelmir	3	Saturn
+Bestla	4	Saturn
+Farbauti	3	Saturn
+Fenrir	2	Saturn
+Fornjot	3	Saturn
+Hati	3	Saturn
+Hyrrokkin	4	Saturn
+Kari	4	Saturn
+Loge	3	Saturn
+Skoll	3	Saturn
+Surtur	3	Saturn
+Anthe	1	Saturn
+Jarnsaxa	3	Saturn
+Greip	3	Saturn
+Tarqeq	4	Saturn
+Aegaeon	0	Saturn
+S/2004 S 7	3	Saturn
+S/2004 S 12	3	Saturn
+S/2004 S 13	3	Saturn
+S/2004 S 17	2	Saturn
+S/2006 S 1	3	Saturn
+S/2006 S 3	3	Saturn
+S/2007 S 2	3	Saturn
+S/2007 S 3	3	Saturn
+S/2009 S 1	0	Saturn
+Ariel	579	Uranus
+Umbriel	585	Uranus
+Titania	789	Uranus
+Oberon	761	Uranus
+Miranda	236	Uranus
+Cordelia	20	Uranus
+Ophelia	21	Uranus
+Bianca	26	Uranus
+Cressida	40	Uranus
+Desdemona	32	Uranus
+Juliet	47	Uranus
+Portia	68	Uranus
+Rosalind	36	Uranus
+Belinda	40	Uranus
+Puck	81	Uranus
+Caliban	49	Uranus
+Sycorax	75	Uranus
+Prospero	25	Uranus
+Setebos	24	Uranus
+Stephano	10	Uranus
+Trinculo	5	Uranus
+Francisco	6	Uranus
+Margaret	6	Uranus
+Ferdinand	6	Uranus
+Perdita	10	Uranus
+Mab	5	Uranus
+Cupid	5	Uranus
+Triton	1353	Neptune
+Nereid	170	Neptune
+Naiad	33	Neptune
+Thalassa	41	Neptune
+Despina	75	Neptune
+Galatea	88	Neptune
+Larissa	97	Neptune
+Proteus	210	Neptune
+Halimede	31	Neptune
+Psamathe	20	Neptune
+Sao	22	Neptune
+Laomedeia	21	Neptune
+Neso	30	Neptune
+S/2004 N 1	8	Neptune
+Charon	604	Pluto
+Nix	23	Pluto
+Hydra	31	Pluto
+Kerberos	14	Pluto
+Styx	10	Pluto

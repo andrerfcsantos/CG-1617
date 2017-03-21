@@ -1,0 +1,10 @@
+Sun	0	-
+Mercury	57910000	Sun
+Venus	108200000	Sun
+Earth	149600000	Sun
+Mars	227940000	Sun
+Jupiter	778330000	Sun
+Saturn	1429400000	Sun
+Uranus	2870990000	Sun
+Neptune	4504300000	Sun
+Pluto	5913520000	Sun

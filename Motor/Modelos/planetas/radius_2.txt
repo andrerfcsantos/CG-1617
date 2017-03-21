@@ -1,0 +1,11 @@
+Sun	696000	-
+Mercury	2440	Sun
+Venus	6052	Sun
+Earth	6378	Sun
+Mars	3396	Sun
+Jupiter	71492	Sun
+Saturn	60268	Sun
+Uranus	25559	Sun
+Neptune	24764	Sun
+Pluto	1185	Sun
+Moon	1737	Earth

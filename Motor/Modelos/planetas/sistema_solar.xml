@@ -1,0 +1,9 @@
+<scene>
+	<group name="Sun">
+		<translate X="0.0"/>
+		<scale X="1" Y="1" Z="1"/>
+		<models>
+			<model file="esfera_1.3d"/>
+		</models>
+	</group>
+</scene>

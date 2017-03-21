@@ -22,7 +22,7 @@ using namespace std;
 using namespace pugi;
 vector<pugi::xml_node> stack;
 vector<Ponto3D> pontos;
-CoordsEsfericas camara = CoordsEsfericas(10.0, 0.0, M_PI / 3.0f);
+CoordsEsfericas camara = CoordsEsfericas(5.0, 0.0, M_PI / 3.0f);
 GLenum modoPoligonos = GL_LINE;
 GLenum modoFace = GL_FRONT;
 float cameraSpeed = 6.0f;
@@ -336,7 +336,7 @@ Grupo XMLtoGrupo(xml_node node) {
 
 void leXML() {
 	float x, y, z;
-	std::string nomeFicheiro("g_many.xml");
+	std::string nomeFicheiro("sistema_solar.xml");
 
 	std::string ficheiro(modelo_prefix + nomeFicheiro);
 	pugi::xml_parse_result result = doc.load_file(ficheiro.c_str());
