@@ -14,6 +14,7 @@
 #include "pugixml.hpp"
 #include "../../utils/Grupo.h"
 #include "tree.hh"
+#include "../../utils/Transformacoes.h"
 #include <deque>
 #include <string>     // std::string, std::stof
 
@@ -123,18 +124,23 @@ void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
 
 	
 	glPushMatrix();
-
+	Translacao tr;
+	Rotacao rr;
+	Escala er;
 	for (auto it = (*it_grupo).transformacoes.begin(); it != (*it_grupo).transformacoes.end(); ++it) {
         switch (it->tipo) {
 
             case TRANSLACAO:
-                glTranslatef(it->tx, it->ty, it->tz);
+				tr = it->Tr.t;
+                glTranslatef(tr.tx, tr.ty, tr.tz);
                 break;
             case ROTACAO:
-                glRotatef(it->rang, it->rx, it->ry, it->rz);
+				rr = it->Tr.r;
+                glRotatef(rr.rang, rr.rx, rr.ry, rr.rz);
                 break;
             case ESCALA:
-                glScalef(it->sx, it->sy, it->sz);
+				er = it->Tr.e;
+                glScalef(er.sx, er.sy, er.sz);
                 break;
             default:
                 break;
@@ -270,48 +276,49 @@ void percorreArvore() {
 
 Grupo XMLtoGrupo(xml_node node) {
 	Grupo res;
-	Transformacao trans;
 	for (auto it = node.begin(); it != node.end(); ++it) {
 		string node_name = it->name();
 
 		if (node_name == "translate") {
-			trans.tx = trans.ty = trans.tz = 0;
-			trans.tipo = TRANSLACAO;
+			Transformacao trans(TRANSLACAO);
+			trans.Tr.t.tx = trans.Tr.t.ty = trans.Tr.t.tz = 0;
 			for (pugi::xml_attribute_iterator ait = it->attributes_begin(); ait != it->attributes_end(); ++ait)
 			{
 				string name = ait->name();
 				float fl = stof(ait->value());
-				if (name == "X") trans.tx = fl;
-				if (name == "Y") trans.ty = fl;
-				if (name == "Z") trans.tz = fl;
+				if (name == "X") trans.Tr.t.tx = fl;
+				if (name == "Y") trans.Tr.t.ty = fl;
+				if (name == "Z") trans.Tr.t.tz = fl;
 			}
 			res.transformacoes.push_back(trans);
 		}
 		if (node_name == "rotate") {
-			trans.ry = 1;
-			trans.rang = trans.rx = trans.rz =0 ;
+			Transformacao trans(ROTACAO);
+			trans.Tr.r.ry = 1;
+			trans.Tr.r.rang = trans.Tr.r.rx = trans.Tr.r.rz =0 ;
 			trans.tipo = ROTACAO;
 			for (pugi::xml_attribute_iterator ait = it->attributes_begin(); ait != it->attributes_end(); ++ait)
 			{
 				string name = ait->name();
 				float fl = stof(ait->value());
-				if (name == "angle") trans.rang = fl;
-				if (name == "axisX") trans.rx = fl;
-				if (name == "axisY") trans.ry = fl;
-				if (name == "axisZ") trans.rz = fl;
+				if (name == "angle") trans.Tr.r.rang = fl;
+				if (name == "axisX") trans.Tr.r.rx = fl;
+				if (name == "axisY") trans.Tr.r.ry = fl;
+				if (name == "axisZ") trans.Tr.r.rz = fl;
 			}
 			res.transformacoes.push_back(trans);
 		}
 		if (node_name == "scale") {
-			trans.sx = trans.sy = trans.sz = 1;
+			Transformacao trans(ESCALA);
+			trans.Tr.e.sx = trans.Tr.e.sy = trans.Tr.e.sz = 1;
 			trans.tipo = ESCALA;
 			for (pugi::xml_attribute_iterator ait = it->attributes_begin(); ait != it->attributes_end(); ++ait)
 			{
 				string name = ait->name();
 				float fl = stof(ait->value());
-				if (name == "X") trans.sx = fl;
-				if (name == "Y") trans.sy = fl;
-				if (name == "Z") trans.sz = fl;
+				if (name == "X") trans.Tr.e.sx = fl;
+				if (name == "Y") trans.Tr.e.sy = fl;
+				if (name == "Z") trans.Tr.e.sz = fl;
 			}
 			res.transformacoes.push_back(trans);
 		}
