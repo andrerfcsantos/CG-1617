@@ -343,8 +343,8 @@ Grupo XMLtoGrupo(xml_node node) {
 
 void leXML() {
 	float x, y, z;
-	//std::string nomeFicheiro("sistema_solar.xml");
-	std::string nomeFicheiro("scene.xml");
+	std::string nomeFicheiro("sistema_solar.xml");
+	//std::string nomeFicheiro("scene.xml");
 
 	std::string ficheiro(modelo_prefix + nomeFicheiro);
 	pugi::xml_parse_result result = doc.load_file(ficheiro.c_str());

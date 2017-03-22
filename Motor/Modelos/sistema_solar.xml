@@ -80,10 +80,10 @@
 			<models>
 				<model file="esfera_1.3d" />
 			</models>
-			<group name="AnelA">
-				<scale X="0.11" Y="0.11" Z="0.11" />
+			<group name="Anel">
+
 				<models>
-					<model file="anelA.3d" />
+					<model file="anel.3d"/>
 				</models>
 			</group>
 		</group>
