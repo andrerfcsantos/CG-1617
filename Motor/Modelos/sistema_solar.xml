@@ -1,72 +1,119 @@
 <scene>
-<group name="Sun">
-<translate X="0.0" />
-<scale X="1.0114070997540736" Y="1.0114070997540736" Z="1.0114070997540736" />
-<models>
-<model file="esfera_1.3d" />
-</models>
-<group name="Mercury">
-<translate X="0.387104442061909" />
-<scale X="0.0035457375336206036" Y="0.0035457375336206036" Z="0.0035457375336206036" />
-<models>
-<model file="esfera_1.3d" />
-</models>
-</group>
-<group name="Venus">
-<translate X="0.7232723300137897" />
-<scale X="0.008794591620275365" Y="0.008794591620275365" Z="0.008794591620275365" />
-<models>
-<model file="esfera_1.3d" />
-</models>
-</group>
-<group name="Earth">
-<translate X="1.000014238170637" />
-<scale X="0.009268325405505004" Y="0.009268325405505004" Z="0.009268325405505004" />
-<models>
-<model file="esfera_1.3d" />
-</models>
-</group>
-<group name="Mars">
-<translate X="1.523684795779512" />
-<scale X="0.004934969124662119" Y="0.004934969124662119" Z="0.004934969124662119" />
-<models>
-<model file="esfera_1.3d" />
-</models>
-</group>
-<group name="Jupiter">
-<translate X="5.202814719220267" />
-<scale X="0.10389010973508368" Y="0.10389010973508368" Z="0.10389010973508368" />
-<models>
-<model file="esfera_1.3d" />
-</models>
-</group>
-<group name="Saturn">
-<translate X="9.554948877280138" />
-<scale X="0.08757971708042891" Y="0.08757971708042891" Z="0.08757971708042891" />
-<models>
-<model file="esfera_1.3d" />
-</models>
-</group>
-<group name="Uranus">
-<translate X="19.191382871962013" />
-<scale X="0.03714160066467582" Y="0.03714160066467582" Z="0.03714160066467582" />
-<models>
-<model file="esfera_1.3d" />
-</models>
-</group>
-<group name="Neptune">
-<translate X="30.10938591572193" />
-<scale X="0.035986329624008453" Y="0.035986329624008453" Z="0.035986329624008453" />
-<models>
-<model file="esfera_1.3d" />
-</models>
-</group>
-<group name="Pluto">
-<translate X="39.52943982424349" />
-<scale X="0.0017220077775985307" Y="0.0017220077775985307" Z="0.0017220077775985307" />
-<models>
-<model file="esfera_1.3d" />
-</models>
-</group>
-</group>
+	<group name="Sun">
+		<scale X="1" Y="1" Z="1" />
+		<models>
+			<model file="esfera_1.3d" />
+		</models>
+		<group name="Mercury">
+			<translate X="1.8" />
+			<scale X="0.085" Y="0.085" Z="0.085" />
+			<models>
+				<model file="esfera_1.3d" />
+			</models>
+		</group>
+		<group name="Venus">
+			<translate X="2.4" />
+			<scale X="0.135" Y="0.135" Z="0.135" />
+			<models>
+				<model file="esfera_1.3d" />
+			</models>
+		</group>
+		<group name="Earth">
+			<translate X="3.2" />
+			<scale X="0.14" Y="0.14" Z="0.14" />
+			<models>
+				<model file="esfera_1.3d" />
+			</models>
+			<group name="Moon">
+				<translate X="1" Y="1" Z="1" />
+				<scale X="0.14" Y="0.14" Z="0.14" />
+				<models>
+					<model file="esfera_1.3d" />
+				</models>
+			</group>
+		</group>
+		<group name="Mars">
+			<translate X="4" />
+			<scale X="0.11" Y="0.11" Z="0.11" />
+			<models>
+				<model file="esfera_1.3d" />
+			</models>
+			<group name="Phobos">
+				<translate X="0.9" Y="0.9" Z="0.9" />
+				<scale X="0.14" Y="0.14" Z="0.14" />
+				<models>
+					<model file="esfera_1.3d" />
+				</models>
+			</group>
+			<group name="Deimos">
+				<translate X="0.9" Y="0.8" Z="-1.1" />
+				<scale X="0.10" Y="0.10" Z="0.10" />
+				<models>
+					<model file="esfera_1.3d" />
+				</models>
+			</group>
+		</group>
+		<group name="Jupiter">
+			<translate X="6.20" />
+			<scale X="0.6032" Y="0.6032" Z="0.6032" />
+			<models>
+				<model file="esfera_1.3d" />
+			</models>
+			<group name="Ganymed">
+				<translate X="0.8" Y="0.8" Z="0.8" />
+				<scale X="0.10" Y="0.10" Z="0.10" />
+				<models>
+					<model file="esfera_1.3d" />
+				</models>
+			</group>
+			<group name="Callisto">
+				<translate X="-0.8" Y="-0.8" Z="-0.8" />
+				<scale X="0.11" Y="0.11" Z="0.11" />
+				<models>
+					<model file="esfera_1.3d" />
+				</models>
+			</group>
+		</group>
+		<group name="Saturn">
+			<translate X="8.9" />
+			<scale X="0.5032" Y="0.5032" Z="0.5032" />
+			<models>
+				<model file="esfera_1.3d" />
+			</models>
+			<group name="AnelA">
+				<scale X="0.11" Y="0.11" Z="0.11" />
+				<models>
+					<model file="anelA.3d" />
+				</models>
+			</group>
+		</group>
+		<group name="Uranus">
+			<translate X="11" />
+			<scale X="0.2912" Y="0.2912" Z="0.2912" />
+			<models>
+				<model file="esfera_1.3d" />
+			</models>
+			<group name="Titania">
+				<translate X="0.7" Y="-0.7" Z="0.7" />
+				<scale X="0.11" Y="0.11" Z="0.11" />
+				<models>
+					<model file="esfera_1.3d" />
+				</models>
+			</group>
+		</group>
+		<group name="Neptune">
+			<translate X="13" />
+			<scale X="0.2832" Y="0.2832" Z="0.2832" />
+			<models>
+				<model file="esfera_1.3d" />
+			</models>
+		</group>
+		<group name="Pluto">
+			<translate X="15" />
+			<scale X="0.075" Y="0.075" Z="0.075" />
+			<models>
+				<model file="esfera_1.3d" />
+			</models>
+		</group>
+	</group>
 </scene>

@@ -23,7 +23,7 @@ using namespace std;
 using namespace pugi;
 vector<pugi::xml_node> stack;
 vector<Ponto3D> pontos;
-CoordsEsfericas camara = CoordsEsfericas(5.0, 0.0, M_PI / 3.0f);
+CoordsEsfericas camara = CoordsEsfericas(8.0, 0.0, M_PI / 3.0f);
 GLenum modoPoligonos = GL_LINE;
 GLenum modoFace = GL_FRONT;
 float cameraSpeed = 6.0f;
