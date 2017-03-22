@@ -41,6 +41,19 @@ int main(int argc, char** argv) {
 
 		figura.geraCirculo(Ponto3D{ 0.0,0.0,0.0 }, raio,fatias, 1);
 	}
+
+	if ((str_figura == "ring" || str_figura == "anel") && argc == 6) {
+		cmd = true;
+		//     0     1   2  3   4  
+		// gerador anel rI rE fatias
+		float rI = atof(argv[2]);
+		float rE = atof(argv[3]);
+		int fatias = atoi(argv[4]);
+		nome_fich = argv[5];
+
+		figura.geraAnel(Ponto3D{ 0.0,0.0,0.0 }, rI,rE, fatias);
+	}
+
 	if ((str_figura == "box" || str_figura == "caixa") && argc == 9) {
 		cmd = true;
 		//     0     1         2        3      4     5      6     7

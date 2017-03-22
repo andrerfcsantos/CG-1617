@@ -37,32 +37,31 @@ public:
 		return *this;
 	}
 
-	Figura& geraAnel(Ponto3D o, float raioInterno, float raioExterno, int fatias, int orientacao) {
+	Figura& geraAnel(Ponto3D o, float raioInterno, float raioExterno, int fatias) {
 		float deltaAz = (float)2 * M_PI / fatias;
 
 		for (int i = 0; i < fatias; ++i) {
-			CoordsPolares a = CoordsPolares(o, raioInterno, deltaAz*i) + o;
-			CoordsPolares b = CoordsPolares(o, raioExterno, deltaAz*i) + o;
-			CoordsPolares c = CoordsPolares(o, raioInterno, deltaAz*(i + 1)) + o;
-			CoordsPolares d = CoordsPolares(o, raioExterno, deltaAz*(i + 1)) + o;
-		}
+			Ponto3D a = CoordsPolares(o, raioInterno, deltaAz*i).toCartesianas();
+			Ponto3D b = CoordsPolares(o, raioExterno, deltaAz*i).toCartesianas();
+			Ponto3D c = CoordsPolares(o, raioInterno, deltaAz*(i + 1)).toCartesianas();
+			Ponto3D d = CoordsPolares(o, raioExterno, deltaAz*(i + 1)).toCartesianas();
 
-		if (orientacao == 1) {
-			pontos.push_back(a.toCartesianas());
-			pontos.push_back(b.toCartesianas());
-			pontos.push_back(c.toCartesianas());
-			pontos.push_back(c.toCartesianas());
-			pontos.push_back(b.toCartesianas());
-			pontos.push_back(d.toCartesianas());
+			pontos.push_back(a);
+			pontos.push_back(b);
+			pontos.push_back(c);
+			pontos.push_back(c);
+			pontos.push_back(b);
+			pontos.push_back(d);
+
+			pontos.push_back(a);
+			pontos.push_back(c);
+			pontos.push_back(b);
+			pontos.push_back(c);
+			pontos.push_back(d);
+			pontos.push_back(b);
+
 		}
-		else {
-			pontos.push_back(a.toCartesianas());
-			pontos.push_back(c.toCartesianas());
-			pontos.push_back(b.toCartesianas());
-			pontos.push_back(c.toCartesianas());
-			pontos.push_back(d.toCartesianas());
-			pontos.push_back(b.toCartesianas());
-		}
+		return *this;
 
 	}
 
