@@ -1,117 +1,163 @@
 <scene>
 	<group name="Sun">
-		<scale X="1" Y="1" Z="1" />
+		<scale X="1" Y="1" Z="1"/>
 		<models>
-			<model file="esfera_1.3d" />
+			<model file="esfera_1.3d"/>
 		</models>
 		<group name="Mercury">
-			<translate X="1.8" />
-			<scale X="0.085" Y="0.085" Z="0.085" />
+			<translate X="1.8"/>
+			<scale X="0.085" Y="0.085" Z="0.085"/>
 			<models>
-				<model file="esfera_1.3d" />
+				<model file="esfera_1.3d"/>
+			</models>
+		</group>
+		<group name="Orbita mercurio">
+			<models>
+				<model file="orbita_mercurio.3d"/>
 			</models>
 		</group>
 		<group name="Venus">
-			<translate X="2.4" />
-			<scale X="0.135" Y="0.135" Z="0.135" />
+			<translate X="2.4"/>
+			<scale X="0.135" Y="0.135" Z="0.135"/>
 			<models>
-				<model file="esfera_1.3d" />
+				<model file="esfera_1.3d"/>
+			</models>
+		</group>
+		<group name="Orbita venus">
+			<models>
+				<model file="orbita_venus.3d"/>
 			</models>
 		</group>
 		<group name="Earth">
-			<translate X="3.2" />
-			<scale X="0.14" Y="0.14" Z="0.14" />
+			<translate X="3.2"/>
+			<scale X="0.14" Y="0.14" Z="0.14"/>
 			<models>
-				<model file="esfera_1.3d" />
+				<model file="esfera_1.3d"/>
 			</models>
 			<group name="Moon">
-				<translate X="1" Y="1" Z="1" />
-				<scale X="0.14" Y="0.14" Z="0.14" />
+				<translate X="1" Y="1" Z="1"/>
+				<scale X="0.14" Y="0.14" Z="0.14"/>
 				<models>
-					<model file="esfera_1.3d" />
+					<model file="esfera_1.3d"/>
 				</models>
 			</group>
 		</group>
-		<group name="Mars">
-			<translate X="4" />
-			<scale X="0.11" Y="0.11" Z="0.11" />
+		<group name="Orbita terra">
 			<models>
-				<model file="esfera_1.3d" />
+				<model file="orbita_terra.3d"/>
+			</models>
+		</group>
+		<group name="Mars">
+			<translate X="4"/>
+			<scale X="0.11" Y="0.11" Z="0.11"/>
+			<models>
+				<model file="esfera_1.3d"/>
 			</models>
 			<group name="Phobos">
-				<translate X="0.9" Y="0.9" Z="0.9" />
-				<scale X="0.14" Y="0.14" Z="0.14" />
+				<translate X="0.9" Y="0.9" Z="0.9"/>
+				<scale X="0.14" Y="0.14" Z="0.14"/>
 				<models>
-					<model file="esfera_1.3d" />
+					<model file="esfera_1.3d"/>
 				</models>
 			</group>
 			<group name="Deimos">
-				<translate X="0.9" Y="0.8" Z="-1.1" />
-				<scale X="0.10" Y="0.10" Z="0.10" />
+				<translate X="0.9" Y="0.8" Z="-1.1"/>
+				<scale X="0.10" Y="0.10" Z="0.10"/>
 				<models>
-					<model file="esfera_1.3d" />
+					<model file="esfera_1.3d"/>
 				</models>
 			</group>
 		</group>
-		<group name="Jupiter">
-			<translate X="6.20" />
-			<scale X="0.6032" Y="0.6032" Z="0.6032" />
+		<group name="Orbita marte">
 			<models>
-				<model file="esfera_1.3d" />
+				<model file="orbita_mars.3d"/>
+			</models>
+		</group>
+		<group name="Jupiter">
+			<translate X="6.20"/>
+			<scale X="0.6032" Y="0.6032" Z="0.6032"/>
+			<models>
+				<model file="esfera_1.3d"/>
 			</models>
 			<group name="Ganymed">
-				<translate X="0.8" Y="0.8" Z="0.8" />
-				<scale X="0.10" Y="0.10" Z="0.10" />
+				<translate X="0.8" Y="0.8" Z="0.8"/>
+				<scale X="0.10" Y="0.10" Z="0.10"/>
 				<models>
-					<model file="esfera_1.3d" />
+					<model file="esfera_1.3d"/>
 				</models>
 			</group>
 			<group name="Callisto">
-				<translate X="-0.8" Y="-0.8" Z="-0.8" />
-				<scale X="0.11" Y="0.11" Z="0.11" />
+				<translate X="-0.8" Y="-0.8" Z="-0.8"/>
+				<scale X="0.11" Y="0.11" Z="0.11"/>
 				<models>
-					<model file="esfera_1.3d" />
+					<model file="esfera_1.3d"/>
 				</models>
 			</group>
 		</group>
-		<group name="Saturn">
-			<translate X="8.9" />
-			<scale X="0.5032" Y="0.5032" Z="0.5032" />
+		<group name="Orbita jupiter">
 			<models>
-				<model file="esfera_1.3d" />
+				<model file="orbita_jupiter.3d"/>
+			</models>
+		</group>
+		<group name="Saturn">
+			<translate X="8.9"/>
+			<scale X="0.5032" Y="0.5032" Z="0.5032"/>
+			<models>
+				<model file="esfera_1.3d"/>
 			</models>
 			<group name="Anel">
+				<rotate angle="30" axisX="0" axisY="0" axisZ="1"/>
 				<models>
 					<model file="anel.3d"/>
 				</models>
 			</group>
 		</group>
-		<group name="Uranus">
-			<translate X="11" />
-			<scale X="0.2912" Y="0.2912" Z="0.2912" />
+		<group name="Orbita saturno">
 			<models>
-				<model file="esfera_1.3d" />
+				<model file="orbita_saturno.3d"/>
+			</models>
+		</group>
+		<group name="Uranus">
+			<translate X="11"/>
+			<scale X="0.2912" Y="0.2912" Z="0.2912"/>
+			<models>
+				<model file="esfera_1.3d"/>
 			</models>
 			<group name="Titania">
-				<translate X="0.7" Y="-0.7" Z="0.7" />
-				<scale X="0.11" Y="0.11" Z="0.11" />
+				<translate X="0.7" Y="-0.7" Z="0.7"/>
+				<scale X="0.11" Y="0.11" Z="0.11"/>
 				<models>
-					<model file="esfera_1.3d" />
+					<model file="esfera_1.3d"/>
 				</models>
 			</group>
 		</group>
-		<group name="Neptune">
-			<translate X="13" />
-			<scale X="0.2832" Y="0.2832" Z="0.2832" />
+		<group name="Orbita urano">
 			<models>
-				<model file="esfera_1.3d" />
+				<model file="orbita_urano.3d"/>
+			</models>
+		</group>
+		<group name="Neptune">
+			<translate X="13"/>
+			<scale X="0.2832" Y="0.2832" Z="0.2832"/>
+			<models>
+				<model file="esfera_1.3d"/>
+			</models>
+		</group>
+		<group name="Orbita neptuno">
+			<models>
+				<model file="orbita_neptuno.3d"/>
 			</models>
 		</group>
 		<group name="Pluto">
-			<translate X="15" />
-			<scale X="0.075" Y="0.075" Z="0.075" />
+			<translate X="15"/>
+			<scale X="0.075" Y="0.075" Z="0.075"/>
 			<models>
-				<model file="esfera_1.3d" />
+				<model file="esfera_1.3d"/>
+			</models>
+		</group>
+		<group name="Orbita pluto">
+			<models>
+				<model file="orbita_pluto.3d"/>
 			</models>
 		</group>
 	</group>
