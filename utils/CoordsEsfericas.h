@@ -11,9 +11,15 @@ public:
 	float raio, azimuth_ang, polar_ang;
 	// Coordenadas cartesianas
 	Ponto3D cCartesianas;
+	Ponto3D centro;
+
+	CoordsEsfericas(Ponto3D p_centro = {0,0,0}, float r = 5.0, float az = M_PI / 4.0, float polar = M_PI / 4.0) :
+		centro(p_centro), raio(r), azimuth_ang(az), polar_ang(polar) {
+		refreshCartesianas();
+	};
 
 	CoordsEsfericas(float r = 5.0, float az = M_PI / 4.0, float polar = M_PI / 4.0) :
-		raio(r), azimuth_ang(az), polar_ang(polar) {
+		centro(Ponto3D{0,0,0}), raio(r), azimuth_ang(az), polar_ang(polar) {
 		refreshCartesianas();
 	};
 
@@ -66,11 +72,10 @@ public:
 		return cCartesianas;
 	}
 
-private:
 	void refreshCartesianas() {
-		cCartesianas.z = raio * sin(polar_ang) * cos(azimuth_ang);
-		cCartesianas.x = raio * sin(polar_ang) * sin(azimuth_ang);
-		cCartesianas.y = raio * cos(polar_ang);
+		cCartesianas.z = (raio * sin(polar_ang) * cos(azimuth_ang)) + centro.z;
+		cCartesianas.x = (raio * sin(polar_ang) * sin(azimuth_ang)) + centro.x;
+		cCartesianas.y = (raio * cos(polar_ang)) + centro.y;
 	}
 
 	void refreshEsfericas() {

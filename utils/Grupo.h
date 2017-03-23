@@ -18,7 +18,7 @@ public:
 	std::vector<Ponto3D> pontos;
 
 	friend std::ostream& operator<<(std::ostream& os, const Grupo& t) {
-		os << "Grupo{";		
+		os << "Grupo{";
 		os << "transformacoes=[";
 		for (auto it = t.transformacoes.begin(); it != t.transformacoes.end(); ++it) {
 			if (it== t.transformacoes.end()-1) os << *it;

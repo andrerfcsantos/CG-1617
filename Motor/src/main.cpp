@@ -11,6 +11,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include "../../utils/CoordsEsfericas.h"
+#include "../../utils/Camara.h"
 #include "pugixml.hpp"
 #include "../../utils/Grupo.h"
 #include "tree.hh"
@@ -23,7 +24,7 @@ using namespace std;
 using namespace pugi;
 vector<pugi::xml_node> stack;
 vector<Ponto3D> pontos;
-CoordsEsfericas camara = CoordsEsfericas(8.0, 0.0, M_PI / 3.0f);
+Camara camara = Camara(Ponto3D{-8,0,0},M_PI/2, M_PI/2);
 GLenum modoPoligonos = GL_LINE;
 GLenum modoFace = GL_FRONT;
 float cameraSpeed = 6.0f;
@@ -172,8 +173,9 @@ void renderScene(void) {
 
 	// set the camera
 	glLoadIdentity();
-	gluLookAt(camara.cCartesianas.x,camara.cCartesianas.y,camara.cCartesianas.z,
-		      0.0,0.0,0.0,
+	Ponto3D la = camara.p + camara.v_d;
+	gluLookAt(camara.p.x, camara.p.y, camara.p.z,
+		      la.x,la.y,la.z,
 			  0.0f,1.0f,0.0f);
 
 	// put the geometric transformations here
@@ -193,11 +195,11 @@ void mouse_motion_func(int x, int y) {
 	int deltaY = y - mouse_y;
 	float cf = 0.009;
 
-	if (deltaX > 0) camara.paraEsquerda(deltaX * cf * cameraSpeed * M_PI / 360.0);
-	else camara.paraDireita(abs(deltaX) * cf * cameraSpeed * M_PI / 360.0);
+	if (deltaX > 0) camara.lookDireita(deltaX * cf * cameraSpeed * M_PI / 360.0);
+	else camara.lookEsquerda(abs(deltaX) * cf * cameraSpeed * M_PI / 360.0);
 
-	if(deltaY >0) camara.paraCima(deltaY * cf * cameraSpeed * M_PI / 360.0);
-	else camara.paraBaixo(abs(deltaY) * cf * cameraSpeed * M_PI / 360.0);
+	if(deltaY >0) camara.lookBaixo(deltaY * cf * cameraSpeed * M_PI / 360.0);
+	else camara.lookCima(abs(deltaY) * cf * cameraSpeed * M_PI / 360.0);
 	
 }
 
@@ -218,12 +220,12 @@ void mouse_events_func(int button, int state, int x, int y) {
 
 void teclas_normais_func(unsigned char key, int x, int y) {
 	switch (tolower(key)) {
-	case 'w': camara.paraCima(cameraSpeed * M_PI / 360.0);  break;
-	case 's': camara.paraBaixo(cameraSpeed * M_PI / 360.0); break;
-	case 'a': camara.paraEsquerda(cameraSpeed * M_PI / 360.0);  break;
-	case 'd': camara.paraDireita(cameraSpeed * M_PI / 360.0); break;
-	case 'e': camara.aproximar(0.5); break;
-	case 'q': camara.afastar(0.5); break;
+	case 'w': camara.frente(cameraSpeed * M_PI / 360.0);  break;
+	case 's': camara.tras(cameraSpeed * M_PI / 360.0); break;
+	case 'a': camara.esquerda(cameraSpeed * M_PI / 360.0);  break;
+	case 'd': camara.direita(cameraSpeed * M_PI / 360.0); break;
+	case 'e': camara.baixo(0.5); break;
+	case 'q': camara.cima(0.5); break;
 	case 'j': --cameraSpeed; break;
 	case 'k': cameraSpeed=6; break;
 	case 'l': ++cameraSpeed; break;
@@ -248,16 +250,16 @@ void teclas_especiais_func(int key, int x, int y) {
 		case GLUT_KEY_F11: break;
 		case GLUT_KEY_F12: break;
 		case GLUT_KEY_LEFT:
-			camara.paraEsquerda(cameraSpeed * M_PI / 360.0);
+			camara.esquerda(cameraSpeed * M_PI / 360.0);
 			break;
 		case GLUT_KEY_UP:
-			camara.paraCima(cameraSpeed * M_PI / 360.0);
+			camara.frente(cameraSpeed * M_PI / 360.0);
 			break;
 		case GLUT_KEY_RIGHT:
-			camara.paraDireita(cameraSpeed * M_PI / 360.0);
+			camara.direita(cameraSpeed * M_PI / 360.0);
 			break;
 		case GLUT_KEY_DOWN:
-			camara.paraBaixo(cameraSpeed * M_PI / 360.0);
+			camara.tras(cameraSpeed * M_PI / 360.0);
 			break;
 		case GLUT_KEY_PAGE_UP: break;
 		case GLUT_KEY_PAGE_DOWN: break;

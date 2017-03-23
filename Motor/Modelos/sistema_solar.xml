@@ -81,7 +81,6 @@
 				<model file="esfera_1.3d" />
 			</models>
 			<group name="Anel">
-
 				<models>
 					<model file="anel.3d"/>
 				</models>
