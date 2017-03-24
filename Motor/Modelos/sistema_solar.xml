@@ -105,11 +105,23 @@
 			<models>
 				<model file="esfera_1.3d"/>
 			</models>
-			<group name="Anel">
+			<group name="Aneis">
 				<rotate angle="30" axisX="0" axisY="0" axisZ="1"/>
-				<models>
-					<model file="anel.3d"/>
-				</models>
+				<group name="Anel C">
+					<models>
+						<model file="anel_c.3d"/>
+					</models>
+				</group>
+				<group name="Anel B">
+					<models>
+						<model file="anel_b.3d"/>
+					</models>
+				</group>
+				<group name="Anel A">
+					<models>
+						<model file="anel_a.3d"/>
+					</models>
+				</group>
 			</group>
 		</group>
 		<group name="Orbita saturno">

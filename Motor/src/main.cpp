@@ -366,7 +366,6 @@ Grupo XMLtoGrupo(xml_node node) {
 }
 
 void leXML() {
-	float x, y, z;
 	std::string nomeFicheiro("sistema_solar.xml");
 	//std::string nomeFicheiro("scene.xml");
 
@@ -442,8 +441,6 @@ void criaMenus() {
 	glutAddSubMenu("Points Color", ptColor_menu);
 	glutAddMenuEntry("Exit", 1);
 }
-
-
 
 int main(int argc, char **argv) {
 	leXML();
