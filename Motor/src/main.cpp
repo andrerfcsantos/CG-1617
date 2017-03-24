@@ -16,6 +16,8 @@
 #include "../../utils/Grupo.h"
 #include "tree.hh"
 #include "../../utils/Transformacoes.h"
+#include "../../utils/DefsDesenho.h"
+#include <utility>
 #include <deque>
 #include <string>     // std::string, std::stof
 
@@ -154,12 +156,23 @@ void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
         }
 
     }
-    glBegin(GL_TRIANGLES);
+    
 	//glTranslatef(2.0f, 6.0f, 1.0f);
-	for (auto it = (*it_grupo).pontos.begin(); it != (*it_grupo).pontos.end(); ++it) {
-		glVertex3f(it->x, it->y, it->z);
+	for (auto it = it_grupo->pontos.begin(); it != it_grupo->pontos.end(); ++it) {
+		DefsDesenho &def = it->first;
+		vector<Ponto3D> &pts = it->second;
+
+		glPolygonMode(GL_FRONT, def.modoDesenho);
+		glColor3f(def.red, def.green, def.blue);
+
+		glBegin(GL_TRIANGLES);
+		for (auto it_pts = pts.begin(); it_pts != pts.end(); ++it_pts) {
+			glVertex3f(it_pts->x, it_pts->y, it_pts->z);
+		}
+		glEnd();
+		
 	}
-    glEnd();
+    
 
 	for (auto chld_it = arvoreG.child(it_grupo, 0); chld_it != chld_it.end(); ++chld_it) {
 		desenhaGrupo(chld_it);
@@ -200,7 +213,7 @@ void renderScene(void) {
 
 	// put the geometric transformations here
 
-	glColor3f(pt_red, pt_green, pt_blue);
+	//glColor3f(pt_red, pt_green, pt_blue);
 	
 	tree<Grupo>::iterator head = arvoreG.begin();
 	desenhaGrupo(head);
@@ -298,6 +311,8 @@ void percorreArvore() {
 
 Grupo XMLtoGrupo(xml_node node) {
 	Grupo res;
+	pair< DefsDesenho, vector<Ponto3D>> par;
+
 	res.nome = node.attribute("name").value();
 
 	for (auto it = node.begin(); it != node.end(); ++it) {
@@ -349,17 +364,42 @@ Grupo XMLtoGrupo(xml_node node) {
 
 		if (node_name == "models") {
 			
-			for (pugi::xml_node nfile : it->children("model"))
-			{
+			for (pugi::xml_node nfile : it->children("model")){
+
+				for (pugi::xml_attribute_iterator ait = nfile.attributes_begin(); ait != nfile.attributes_end(); ++ait) {
+					string name = ait->name();
+					float fl;
+					if (name == "mode") {
+						string mode = ait->value();
+						if (mode == "FILL") par.first.modoDesenho = GL_FILL;
+						if (mode == "LINE") par.first.modoDesenho = GL_LINE;
+						if (mode == "POINT") par.first.modoDesenho = GL_POINT;
+					}
+					if (name == "red") {
+						fl = stof(ait->value());
+						par.first.red = fl;
+					}
+					if (name == "green") {
+						fl = stof(ait->value());
+						par.first.green = fl;
+					}
+					if (name == "blue") {
+						fl = stof(ait->value());
+						par.first.blue = fl;
+					}
+				}
+
 				float x, y, z;
 				string nome_ficheiro = nfile.attribute("file").value();
 				ifstream fich_inp(modelo_prefix + nome_ficheiro);
 				res.ficheiros.push_back(nome_ficheiro);
 
 				while (fich_inp >> x >> y >> z) {
-					res.pontos.push_back(Ponto3D{ x,y,z });
+					par.second.push_back(Ponto3D{ x,y,z });
 				}
 			}
+
+			res.pontos.push_back(par);
 		}
 	}
 	return res;
