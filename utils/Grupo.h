@@ -5,8 +5,10 @@
 #include <string.h>
 #include <iostream>
 #include <fstream>
+#include <utility>
 #include "Transformacoes.h"
 #include "Ponto3D.h"
+#include "DefsDesenho.h"
 
 using namespace std;
 
@@ -16,7 +18,7 @@ public:
 	std::string nome;
 	std::vector<std::string> ficheiros;
 	std::vector<Transformacao> transformacoes;
-	std::vector<Ponto3D> pontos;
+	vector< pair<DefsDesenho , vector<Ponto3D> >> pontos;
 
 	friend std::ostream& operator<<(std::ostream& os, const Grupo& t) {
 		if (t.nome != "") {
