@@ -24,11 +24,12 @@ using namespace std;
 using namespace pugi;
 vector<pugi::xml_node> stack;
 vector<Ponto3D> pontos;
-Camara camara = Camara(Ponto3D{-8,0,0},M_PI/2, M_PI/2+0.01);
+Camara camara = Camara(Ponto3D{ 7.5,5,7 }, M_PI, M_PI / 2 + M_PI / 6);
+//Camara camara = Camara(Ponto3D{-8,0,0},M_PI/2, M_PI/2+0.01);
 //Camara camara = Camara(Ponto3D{0,2,4},0, M_PI/2);
 GLenum modoPoligonos = GL_LINE;
 GLenum modoFace = GL_FRONT;
-float cameraSpeed = 6.0f;
+float cameraSpeed = 10.0f;
 float bg_red =0.0, bg_green =0.0, bg_blue = 0.0;
 float pt_red = 1.0, pt_green = 1.0, pt_blue = 1.0;
 int mouse_x, mouse_y;
@@ -67,11 +68,11 @@ void faceMode_menu_func(int opt) {
 
 void camSpeed_menu_func(int opt) {
 	switch (opt) {
-	case 1:  cameraSpeed = 1.0; break;
-	case 2:  cameraSpeed = 3.0; break;
-	case 3:  cameraSpeed = 6.0; break;
-	case 4:  cameraSpeed = 9.0; break;
-	case 5:  cameraSpeed = 12.0; break;
+	case 1:  cameraSpeed = 3.0; break;
+	case 2:  cameraSpeed = 6.0; break;
+	case 3:  cameraSpeed = 10.0; break;
+	case 4:  cameraSpeed = 15.0; break;
+	case 5:  cameraSpeed = 30.0; break;
 	}
 }
 
@@ -124,7 +125,6 @@ void changeSize(int w, int h) {
 
 void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
 
-	
 	glPushMatrix();
 	Translacao tr;
 	Rotacao rr;
@@ -194,7 +194,7 @@ void renderScene(void) {
 void mouse_motion_func(int x, int y) {
 	int deltaX = x - mouse_x;
 	int deltaY = y - mouse_y;
-	float cf = 0.009;
+	float cf = 0.005;
 
 	if (deltaX > 0) camara.lookDireita(deltaX * cf * cameraSpeed * M_PI / 360.0);
 	else camara.lookEsquerda(abs(deltaX) * cf * cameraSpeed * M_PI / 360.0);
@@ -225,11 +225,11 @@ void teclas_normais_func(unsigned char key, int x, int y) {
 	case 's': camara.tras(cameraSpeed * M_PI / 360.0); break;
 	case 'a': camara.esquerda(cameraSpeed * M_PI / 360.0);  break;
 	case 'd': camara.direita(cameraSpeed * M_PI / 360.0); break;
-	case 'e': camara.baixo(0.5); break;
-	case 'q': camara.cima(0.5); break;
-	case 'j': --cameraSpeed; break;
-	case 'k': cameraSpeed=6; break;
-	case 'l': ++cameraSpeed; break;
+	case 'e': camara.baixo(cameraSpeed * M_PI / 360.0); break;
+	case 'q': camara.cima(cameraSpeed * M_PI / 360.0); break;
+	case 'j': cameraSpeed-=3; break;
+	case 'k': cameraSpeed=10; break;
+	case 'l': cameraSpeed+=3; break;
 	}
 
 	glutPostRedisplay();
@@ -279,6 +279,8 @@ void percorreArvore() {
 
 Grupo XMLtoGrupo(xml_node node) {
 	Grupo res;
+	res.nome = node.attribute("name").value();
+
 	for (auto it = node.begin(); it != node.end(); ++it) {
 		string node_name = it->name();
 
@@ -424,13 +426,12 @@ void criaMenus() {
 
 int main(int argc, char **argv) {
 	leXML();
-	percorreArvore();
-	std::cout << "Numero pontos lidos:" << pontos.size() << std::endl;
+	//percorreArvore();
 // init GLUT and the window
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH|GLUT_DOUBLE|GLUT_RGBA);
-	glutInitWindowPosition(100,100);
-	glutInitWindowSize(800,500);
+	glutInitWindowPosition(75,50);
+	glutInitWindowSize(1250,700);
 	glutCreateWindow("CG@DI-UM");
 		
 // Required callback registry 
@@ -448,7 +449,9 @@ int main(int argc, char **argv) {
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
-	
+	GLdouble nf[2];
+	glGetDoublev(GL_DEPTH_RANGE,nf);
+	std::cout << "near: " << nf[0] << " far: " << nf[1] << std::endl;
 // enter GLUT's main cycle
 	glutMainLoop();
 	
