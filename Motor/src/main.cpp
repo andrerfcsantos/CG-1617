@@ -41,6 +41,11 @@ deque<xml_node> stack_xmlnode_read;
 std::string modelo_prefix("../../Modelos/");
 int p = 0;
 
+// FPS
+float fps;
+char fps_str[25];
+int time = 0, timebase = 0, frame = 0;
+
 
 void main_menu_func(int opt) {
 	switch (opt) {
@@ -164,7 +169,21 @@ void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
 
 }
 
+void calculaFPS() {
+	frame++;
+	time = glutGet(GLUT_ELAPSED_TIME);
+	if (time - timebase > 1000) {
+		fps = frame*1000.0 / (time - timebase);
+		timebase = time;
+		frame = 0;
+		sprintf(fps_str, "%.2f fps", fps);
+		glutSetWindowTitle(fps_str);
+	}
+}
+
 void renderScene(void) {
+
+	calculaFPS();
 
 	glPolygonMode(GL_FRONT, modoPoligonos);
 
@@ -423,6 +442,8 @@ void criaMenus() {
 	glutAddSubMenu("Points Color", ptColor_menu);
 	glutAddMenuEntry("Exit", 1);
 }
+
+
 
 int main(int argc, char **argv) {
 	leXML();
