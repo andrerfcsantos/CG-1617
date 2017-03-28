@@ -47,7 +47,7 @@ int p = 0;
 float fps;
 char fps_str[25];
 int time = 0, timebase = 0, frame = 0;
-
+int npontos;
 
 void main_menu_func(int opt) {
 	switch (opt) {
@@ -333,7 +333,7 @@ Grupo XMLtoGrupo(xml_node node) {
 		}
 		if (node_name == "rotate") {
 			Transformacao trans(ROTACAO);
-			trans.Tr.r.ry = 1;
+			trans.Tr.r.ry = 0;
 			trans.Tr.r.rang = trans.Tr.r.rx = trans.Tr.r.rz =0 ;
 			trans.tipo = ROTACAO;
 			for (pugi::xml_attribute_iterator ait = it->attributes_begin(); ait != it->attributes_end(); ++ait)
@@ -341,9 +341,9 @@ Grupo XMLtoGrupo(xml_node node) {
 				string name = ait->name();
 				float fl = stof(ait->value());
 				if (name == "angle") trans.Tr.r.rang = fl;
-				if (name == "axisX") trans.Tr.r.rx = fl;
-				if (name == "axisY") trans.Tr.r.ry = fl;
-				if (name == "axisZ") trans.Tr.r.rz = fl;
+				if (name == "X") trans.Tr.r.rx = fl;
+				if (name == "Y") trans.Tr.r.ry = fl;
+				if (name == "Z") trans.Tr.r.rz = fl;
 			}
 			res.transformacoes.push_back(trans);
 		}
@@ -355,6 +355,12 @@ Grupo XMLtoGrupo(xml_node node) {
 			{
 				string name = ait->name();
 				float fl = stof(ait->value());
+				if (name == "uniform") {
+					trans.Tr.e.sx = fl;
+					trans.Tr.e.sy = fl;
+					trans.Tr.e.sz = fl;
+					break;
+				}
 				if (name == "X") trans.Tr.e.sx = fl;
 				if (name == "Y") trans.Tr.e.sy = fl;
 				if (name == "Z") trans.Tr.e.sz = fl;
@@ -396,6 +402,7 @@ Grupo XMLtoGrupo(xml_node node) {
 
 				while (fich_inp >> x >> y >> z) {
 					par.second.push_back(Ponto3D{ x,y,z });
+					npontos++;
 				}
 			}
 
@@ -510,6 +517,7 @@ int main(int argc, char **argv) {
 	GLdouble nf[2];
 	glGetDoublev(GL_DEPTH_RANGE,nf);
 	std::cout << "near: " << nf[0] << " far: " << nf[1] << std::endl;
+	std::cout << "npontos: " << npontos << std::endl;
 // enter GLUT's main cycle
 	glutMainLoop();
 	

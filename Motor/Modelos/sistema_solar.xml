@@ -1,12 +1,12 @@
 <scene>
 	<group name="Sun">
-		<scale X="1.1" Y="1.1" Z="1.1"/>
+		<scale uniform="1.1"/>
 		<models>
 			<model mode="FILL" red="1" green="1" blue="0" file="esfera_1.3d"/>
 		</models>
 		<group name="Mercury">
 			<translate X="1.8"/>
-			<scale X="0.085" Y="0.085" Z="0.085"/>
+			<scale uniform="0.085"/>
 			<models>
 				<model red="0.7176470588235294" green="0.7176470588235294" blue="0.7176470588235294" file="esfera_1.3d"/>
 			</models>
@@ -18,7 +18,7 @@
 		</group>
 		<group name="Venus">
 			<translate X="2.4"/>
-			<scale X="0.135" Y="0.135" Z="0.135"/>
+			<scale uniform="0.135"/>
 			<models>
 				<model red="0.9568627450980393" green="0.9568627450980393" blue="0.7843137254901961" file="esfera_1.3d"/>
 			</models>
@@ -30,13 +30,13 @@
 		</group>
 		<group name="Earth">
 			<translate X="3.2"/>
-			<scale X="0.14" Y="0.14" Z="0.14"/>
+			<scale uniform="0.14"/>
 			<models>
 				<model red="0.0" green="0.0" blue="0.5882352941176471" file="esfera_1.3d"/>
 			</models>
 			<group name="Moon">
 				<translate X="1" Y="1" Z="1"/>
-				<scale X="0.14" Y="0.14" Z="0.14"/>
+				<scale uniform="0.14"/>
 				<models>
 					<model file="esfera_1.3d"/>
 				</models>
@@ -49,20 +49,20 @@
 		</group>
 		<group name="Mars">
 			<translate X="4"/>
-			<scale X="0.11" Y="0.11" Z="0.11"/>
+			<scale uniform="0.11"/>
 			<models>
 				<model red="1.0" green="0.6274509803921569" blue="0.19607843137254902" file="esfera_1.3d"/>
 			</models>
 			<group name="Phobos">
 				<translate X="0.9" Y="0.9" Z="0.9"/>
-				<scale X="0.14" Y="0.14" Z="0.14"/>
+				<scale uniform="0.14"/>
 				<models>
 					<model file="esfera_1.3d"/>
 				</models>
 			</group>
 			<group name="Deimos">
 				<translate X="0.9" Y="0.8" Z="-1.1"/>
-				<scale X="0.10" Y="0.10" Z="0.10"/>
+				<scale uniform="0.10"/>
 				<models>
 					<model file="esfera_1.3d"/>
 				</models>
@@ -75,20 +75,20 @@
 		</group>
 		<group name="Jupiter">
 			<translate X="6.20"/>
-			<scale X="0.6032" Y="0.6032" Z="0.6032"/>
+			<scale uniform="0.6032"/>
 			<models>
 				<model red="1.0" green="0.8235294117647058" blue="0.6274509803921569" file="esfera_1.3d"/>
 			</models>
 			<group name="Ganymed">
 				<translate X="0.8" Y="0.8" Z="0.8"/>
-				<scale X="0.10" Y="0.10" Z="0.10"/>
+				<scale uniform="0.10"/>
 				<models>
 					<model file="esfera_1.3d"/>
 				</models>
 			</group>
 			<group name="Callisto">
 				<translate X="-0.8" Y="-0.8" Z="-0.8"/>
-				<scale X="0.11" Y="0.11" Z="0.11"/>
+				<scale uniform="0.11"/>
 				<models>
 					<model file="esfera_1.3d"/>
 				</models>
@@ -101,12 +101,12 @@
 		</group>
 		<group name="Saturn">
 			<translate X="8.9"/>
-			<scale X="0.5032" Y="0.5032" Z="0.5032"/>
+			<scale uniform="0.5032"/>
 			<models>
 				<model mode="FILL" red="1.0" green="0.8627450980392157" blue="0.3568627450980392" file="esfera_1.3d"/>
 			</models>
 			<group name="Aneis">
-				<rotate angle="30" axisX="0" axisY="0" axisZ="1"/>
+				<rotate angle="30" X="0" Y="0" Z="1"/>
 				<group name="Anel C">
 					<models>
 						<model red="0.5882352941176471" green="0.5882352941176471" blue="0.5882352941176471" file="anel_c.3d"/>
@@ -131,13 +131,13 @@
 		</group>
 		<group name="Uranus">
 			<translate X="11"/>
-			<scale X="0.2912" Y="0.2912" Z="0.2912"/>
+			<scale uniform="0.2912"/>
 			<models>
 				<model red="0.5882352941176471" green="1.0" blue="1.0" file="esfera_1.3d"/>
 			</models>
 			<group name="Titania">
 				<translate X="0.7" Y="-0.7" Z="0.7"/>
-				<scale X="0.11" Y="0.11" Z="0.11"/>
+				<scale uniform="0.11"/>
 				<models>
 					<model file="esfera_1.3d"/>
 				</models>
@@ -150,7 +150,7 @@
 		</group>
 		<group name="Neptune">
 			<translate X="13"/>
-			<scale X="0.2832" Y="0.2832" Z="0.2832"/>
+			<scale uniform="0.2832"/>
 			<models>
 				<model red="0.27450980392156865" green="0.5098039215686274" blue="1.0" file="esfera_1.3d"/>
 			</models>
@@ -162,7 +162,7 @@
 		</group>
 		<group name="Pluto">
 			<translate X="15"/>
-			<scale X="0.075" Y="0.075" Z="0.075"/>
+			<scale uniform="0.075"/>
 			<models>
 				<model red="0.7058823529411765" green="0.39215686274509803" blue="0.0" file="esfera_1.3d"/>
 			</models>
