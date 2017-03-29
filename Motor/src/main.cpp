@@ -34,6 +34,7 @@ GLenum modoFace = GL_FRONT;
 float cameraSpeed = 10.0f;
 float bg_red =0.0, bg_green =0.0, bg_blue = 0.0;
 float pt_red = 1.0, pt_green = 1.0, pt_blue = 1.0;
+bool cor_desactivada = false, polygon_desactivado=false;
 int mouse_x, mouse_y;
 pugi::xml_document doc;
 tree<Grupo> arvoreG;
@@ -46,7 +47,7 @@ int p = 0;
 // FPS
 float fps;
 char fps_str[25];
-int time = 0, timebase = 0, frame = 0;
+int time_fps = 0, timebase = 0, frame = 0;
 int npontos;
 
 void main_menu_func(int opt) {
@@ -57,9 +58,10 @@ void main_menu_func(int opt) {
 
 void polMode_menu_func(int opt) {
 	switch (opt) {
-	case 1:  modoPoligonos = GL_FILL; break;
-	case 2:  modoPoligonos = GL_LINE; break;
-	case 3:  modoPoligonos = GL_POINT; break;
+	case 1:  modoPoligonos = GL_FILL; polygon_desactivado = true; break;
+	case 2:  modoPoligonos = GL_LINE; polygon_desactivado = true; break;
+	case 3:  modoPoligonos = GL_POINT; polygon_desactivado = true; break;
+	case 4:  polygon_desactivado = false; break;
 	}
 	glutPostRedisplay();
 }
@@ -96,11 +98,12 @@ void bgColor_menu_func(int opt) {
 
 void ptColor_menu_func(int opt) {
 	switch (opt) {
-		case 1:  pt_red = 0; pt_green = 0; pt_blue = 0; break;
-		case 2:  pt_red = 1; pt_green = 1; pt_blue = 1; break;
-		case 3:  pt_red = 1; pt_green = 0; pt_blue = 0; break;
-		case 4:  pt_red = 0; pt_green = 1; pt_blue = 0; break;
-		case 5:  pt_red = 0; pt_green = 0; pt_blue = 1; break;
+	case 1:  pt_red = 0; pt_green = 0; pt_blue = 0; cor_desactivada = true; break;
+		case 2:  pt_red = 1; pt_green = 1; pt_blue = 1; cor_desactivada = true; break;
+		case 3:  pt_red = 1; pt_green = 0; pt_blue = 0; cor_desactivada = true; break;
+		case 4:  pt_red = 0; pt_green = 1; pt_blue = 0; cor_desactivada = true; break;
+		case 5:  pt_red = 0; pt_green = 0; pt_blue = 1; cor_desactivada = true; break;
+		case 6: cor_desactivada = false; break;
 	}
 	glutPostRedisplay();
 }
@@ -162,8 +165,22 @@ void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
 		DefsDesenho &def = it->first;
 		vector<Ponto3D> &pts = it->second;
 
-		glPolygonMode(GL_FRONT, def.modoDesenho);
-		glColor3f(def.red, def.green, def.blue);
+		if(polygon_desactivado == false){
+			glPolygonMode(GL_FRONT, def.modoDesenho);
+		}
+		else {
+			glPolygonMode(GL_FRONT, modoPoligonos);
+		}
+		
+
+
+		if (cor_desactivada == false) {
+			glColor3f(def.red, def.green, def.blue);
+		}
+		else {
+			glColor3f(pt_red, pt_green, pt_blue);
+		}
+		
 
 		glBegin(GL_TRIANGLES);
 		for (auto it_pts = pts.begin(); it_pts != pts.end(); ++it_pts) {
@@ -184,10 +201,10 @@ void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
 
 void calculaFPS() {
 	frame++;
-	time = glutGet(GLUT_ELAPSED_TIME);
-	if (time - timebase > 1000) {
-		fps = frame*1000.0 / (time - timebase);
-		timebase = time;
+	time_fps = glutGet(GLUT_ELAPSED_TIME);
+	if (time_fps - timebase > 1000) {
+		fps = frame*1000.0 / (time_fps - timebase);
+		timebase = time_fps;
 		frame = 0;
 		sprintf(fps_str, "%.2f fps", fps);
 		glutSetWindowTitle(fps_str);
@@ -461,6 +478,7 @@ void criaMenus() {
 	glutAddMenuEntry("Fill", 1);
 	glutAddMenuEntry("Line", 2);
 	glutAddMenuEntry("Point", 3);
+	glutAddMenuEntry("Original", 4);
 	int camSpeed_menu = glutCreateMenu(camSpeed_menu_func);
 	glutAddMenuEntry("Very Slow", 1);
 	glutAddMenuEntry("Slow", 2);
@@ -479,6 +497,7 @@ void criaMenus() {
 	glutAddMenuEntry("Red", 3);
 	glutAddMenuEntry("Green", 4);
 	glutAddMenuEntry("Blue", 5);
+	glutAddMenuEntry("Original", 6);
 
 	int main_menu = glutCreateMenu(main_menu_func);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
