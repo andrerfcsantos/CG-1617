@@ -56,21 +56,17 @@ public:
 
 class Transformacao {
 public:
+	TipoTransformacao tipo;
+
 	union UTr {
 		Translacao t;
 		Rotacao r;
 		Escala e;
 
-		UTr() {
-			memset(this, 0, sizeof(UTr));
-		}
-
+		UTr() {memset(this, 0, sizeof(UTr));}
 	} Tr;
-	TipoTransformacao tipo;
 
-	Transformacao(TipoTransformacao tt) : tipo(tt) {
-
-	}
+	Transformacao(TipoTransformacao tt) : tipo(tt) {}
 
 	friend std::ostream& operator<<(std::ostream& os, const Transformacao& t) {
 		os << t.tipo;
