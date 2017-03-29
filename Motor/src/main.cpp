@@ -300,16 +300,16 @@ void teclas_especiais_func(int key, int x, int y) {
 		case GLUT_KEY_F11: break;
 		case GLUT_KEY_F12: break;
 		case GLUT_KEY_LEFT:
-			camara.esquerda(cameraSpeed * M_PI / 360.0);
+			camara.lookEsquerda(cameraSpeed * M_PI / 360.0);
 			break;
 		case GLUT_KEY_UP:
-			camara.frente(cameraSpeed * M_PI / 360.0);
+			camara.lookCima(cameraSpeed * M_PI / 360.0);
 			break;
 		case GLUT_KEY_RIGHT:
-			camara.direita(cameraSpeed * M_PI / 360.0);
+			camara.lookDireita(cameraSpeed * M_PI / 360.0);
 			break;
 		case GLUT_KEY_DOWN:
-			camara.tras(cameraSpeed * M_PI / 360.0);
+			camara.lookBaixo(cameraSpeed * M_PI / 360.0);
 			break;
 		case GLUT_KEY_PAGE_UP: break;
 		case GLUT_KEY_PAGE_DOWN: break;
