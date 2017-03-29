@@ -25,10 +25,10 @@
 using namespace std;
 using namespace pugi;
 vector<pugi::xml_node> stack;
-vector<Ponto3D> pontos;
-Camara camara = Camara(Ponto3D{ 7.5,5,7 }, M_PI, M_PI / 2 + M_PI / 6);
-//Camara camara = Camara(Ponto3D{-8,0,0},M_PI/2, M_PI/2+0.01);
-//Camara camara = Camara(Ponto3D{0,2,4},0, M_PI/2);
+vector<Coordenadas3D> pontos;
+Camara camara = Camara(Coordenadas3D{ 7.5,5,7 }, M_PI, M_PI / 2 + M_PI / 6);
+//Camara camara = Camara(Coordenadas3D{-8,0,0},M_PI/2, M_PI/2+0.01);
+//Camara camara = Camara(Coordenadas3D{0,2,4},0, M_PI/2);
 GLenum modoPoligonos = GL_LINE;
 GLenum modoFace = GL_FRONT;
 float cameraSpeed = 10.0f;
@@ -163,7 +163,7 @@ void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
 	//glTranslatef(2.0f, 6.0f, 1.0f);
 	for (auto it = it_grupo->pontos.begin(); it != it_grupo->pontos.end(); ++it) {
 		DefsDesenho &def = it->first;
-		vector<Ponto3D> &pts = it->second;
+		vector<Coordenadas3D> &pts = it->second;
 
 		if(polygon_desactivado == false){
 			glPolygonMode(GL_FRONT, def.modoDesenho);
@@ -223,7 +223,7 @@ void renderScene(void) {
 
 	// set the camera
 	glLoadIdentity();
-	Ponto3D la = camara.p + camara.v_d;
+	Coordenadas3D la = camara.p + camara.v_d;
 	gluLookAt(camara.p.x, camara.p.y, camara.p.z,
 		      la.x,la.y,la.z,
 			  0.0f,1.0f,0.0f);
@@ -328,7 +328,7 @@ void percorreArvore() {
 
 Grupo XMLtoGrupo(xml_node node) {
 	Grupo res;
-	pair< DefsDesenho, vector<Ponto3D>> par;
+	pair< DefsDesenho, vector<Coordenadas3D>> par;
 
 	res.nome = node.attribute("name").value();
 
@@ -418,7 +418,7 @@ Grupo XMLtoGrupo(xml_node node) {
 				res.ficheiros.push_back(nome_ficheiro);
 
 				while (fich_inp >> x >> y >> z) {
-					par.second.push_back(Ponto3D{ x,y,z });
+					par.second.push_back(Coordenadas3D{ x,y,z });
 					npontos++;
 				}
 			}

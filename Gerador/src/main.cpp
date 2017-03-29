@@ -3,7 +3,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
-#include "../../utils/Ponto3D.h"
+#include "../../utils/Coordenadas3D.h"
 #include "../../utils/CoordsPolares.h"
 #include "../../utils/CoordsEsfericas.h"
 #include "../../utils/Figura.h"
@@ -29,7 +29,7 @@ int main(int argc, char** argv) {
 		int divsz = atoi(argv[5]);
 		nome_fich = argv[6];
 
-		figura.geraPlanoY(Ponto3D{0.0,0.0,0.0},comp, largura, divsx, divsz, 1);
+		figura.geraPlanoY(Coordenadas3D{0.0,0.0,0.0},comp, largura, divsx, divsz, 1);
 	}
 	if ((str_figura == "circle" || str_figura == "circulo") && argc == 5) {
 		cmd = true;
@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
 		int fatias = atoi(argv[3]);
 		nome_fich = argv[4];
 
-		figura.geraCirculo(Ponto3D{ 0.0,0.0,0.0 }, raio,fatias, 1);
+		figura.geraCirculo(Coordenadas3D{ 0.0,0.0,0.0 }, raio,fatias, 1);
 	}
 
 	if ((str_figura == "ring" || str_figura == "anel") && argc == 6) {
@@ -51,7 +51,7 @@ int main(int argc, char** argv) {
 		int fatias = atoi(argv[4]);
 		nome_fich = argv[5];
 
-		figura.geraAnel(Ponto3D{ 0.0,0.0,0.0 }, rI,rE, fatias);
+		figura.geraAnel(Coordenadas3D{ 0.0,0.0,0.0 }, rI,rE, fatias);
 	}
 
 	if ((str_figura == "box" || str_figura == "caixa") && argc == 9) {
@@ -66,7 +66,7 @@ int main(int argc, char** argv) {
 		int divsy = atoi(argv[7]);
 		nome_fich = argv[8];
 
-		figura.geraCaixa(Ponto3D{ 0.0,0.0,0.0 }, comp, largura, altura, divsx, divsz, divsy);
+		figura.geraCaixa(Coordenadas3D{ 0.0,0.0,0.0 }, comp, largura, altura, divsx, divsz, divsy);
 	}
 
 	if (str_figura == "cone" && argc == 7) {
@@ -79,7 +79,7 @@ int main(int argc, char** argv) {
 		int camadas = atoi(argv[5]);
 		nome_fich = argv[6];
 
-		figura.geraCone(Ponto3D{ 0.0,0.0,0.0 }, raio, altura,fatias,camadas);
+		figura.geraCone(Coordenadas3D{ 0.0,0.0,0.0 }, raio, altura,fatias,camadas);
 	}
 
 	if ((str_figura == "cylinder" || str_figura == "cilindro") && argc == 7) {
@@ -92,7 +92,7 @@ int main(int argc, char** argv) {
 		int camadas = atoi(argv[5]);
 		nome_fich = argv[6];
 
-		figura.geraCilindro(Ponto3D{ 0.0,0.0,0.0 }, raio, altura, fatias, camadas);
+		figura.geraCilindro(Coordenadas3D{ 0.0,0.0,0.0 }, raio, altura, fatias, camadas);
 	}
 
 	if ((str_figura == "esfera" || str_figura == "sphere") && argc == 6) {
@@ -104,8 +104,8 @@ int main(int argc, char** argv) {
 		int camadas = atoi(argv[4]);
 		nome_fich = argv[5];
 
-		figura.geraEsfera(Ponto3D{0,0,0},raio, fatias, camadas);
-		//figura.geraEsfera(Ponto3D{0,5,0}, raio, fatias, camadas);
+		figura.geraEsfera(Coordenadas3D{0,0,0},raio, fatias, camadas);
+		//figura.geraEsfera(Coordenadas3D{0,5,0}, raio, fatias, camadas);
 	}
 
 	if (str_figura == "torus" && argc == 7) {
@@ -118,7 +118,7 @@ int main(int argc, char** argv) {
 		int camadas = atoi(argv[5]);
 		nome_fich = argv[6];
 
-		figura.geraTorus(Ponto3D{ 0.0,0.0,0.0 }, R, r, fatias, camadas);
+		figura.geraTorus(Coordenadas3D{ 0.0,0.0,0.0 }, R, r, fatias, camadas);
 	}
 
 	if ((str_figura == "ellipsoid" || str_figura == "elipsoide") && argc == 8) {
@@ -132,10 +132,10 @@ int main(int argc, char** argv) {
 		int camadas = atoi(argv[6]);
 		nome_fich = argv[7];
 
-		figura.geraElipsoide(Ponto3D{0,0,0},a,b,c,fatias,camadas);
+		figura.geraElipsoide(Coordenadas3D{0,0,0},a,b,c,fatias,camadas);
 	}
 
-	//Ponto3D o, float R, float largura, float divsl, float divscomp
+	//Coordenadas3D o, float R, float largura, float divsl, float divscomp
 
 	if (str_figura == "mobius" && argc == 7) {
 		cmd = true;
@@ -147,7 +147,7 @@ int main(int argc, char** argv) {
 		int divscomp = atoi(argv[5]);
 		nome_fich = argv[6];
 
-		figura.geraFitaMobius(Ponto3D{ 0,0,0 }, raio, largura, divsl, divscomp);
+		figura.geraFitaMobius(Coordenadas3D{ 0,0,0 }, raio, largura, divsl, divscomp);
 	}
 
 	if (str_figura == "seashell" && argc == 9) {
@@ -162,7 +162,7 @@ int main(int argc, char** argv) {
 		int divsV = atoi(argv[7]);
 		nome_fich = argv[8];
 
-		figura.geraSeashell(Ponto3D{ 0,0,0 }, a, b, c, n, divsU, divsV);
+		figura.geraSeashell(Coordenadas3D{ 0,0,0 }, a, b, c, n, divsU, divsV);
 	}
 
 	if (!cmd) {
@@ -170,7 +170,7 @@ int main(int argc, char** argv) {
 	}
 	else {
 		std::ofstream ficheiro(modelos_path + nome_fich);
-		for (Ponto3D ponto : figura.getPontos()) {
+		for (Coordenadas3D ponto : figura.getPontos()) {
 			ficheiro << ponto.x << " " << ponto.y << " " << ponto.z << std::endl;
 		}
 	}

@@ -3,16 +3,16 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include "CoordsEsfericas.h"
-#include "Ponto3D.h"
+#include "Coordenadas3D.h"
 
 class Camara {
 
 public:
-	Ponto3D p;
+	Coordenadas3D p;
 	CoordsEsfericas q;
-	Ponto3D v_d;
+	Coordenadas3D v_d;
 
-	Camara(Ponto3D centro = Ponto3D{ 0,0,0 }, float azimuth = M_PI / 4.0, float polar= M_PI / 4.0) :
+	Camara(Coordenadas3D centro = Coordenadas3D{ 0,0,0 }, float azimuth = M_PI / 4.0, float polar= M_PI / 4.0) :
 		p(centro),q(centro,1.0, azimuth,polar){
 		v_d = q.cCartesianas - p;
 	}
@@ -32,8 +32,8 @@ public:
 	}
 
 	Camara& direita(float k) {
-		Ponto3D v_up = { 0,1,0 };
-		Ponto3D v_r =  v_d.crossproduct(v_up);
+		Coordenadas3D v_up = { 0,1,0 };
+		Coordenadas3D v_r =  v_d.crossproduct(v_up);
 		p = p + v_r.times(k);
 		q.centro = p;
 		q.refreshCartesianas();
@@ -41,8 +41,8 @@ public:
 	}
 
 	Camara& esquerda(float k) {
-		Ponto3D v_up = { 0,1,0 };
-		Ponto3D v_l = v_up.crossproduct(v_d);
+		Coordenadas3D v_up = { 0,1,0 };
+		Coordenadas3D v_l = v_up.crossproduct(v_d);
 		p = p + v_l.times(k);
 		q.centro = p;
 		q.refreshCartesianas();
@@ -50,7 +50,7 @@ public:
 	}
 
 	Camara& cima(float k) {
-		Ponto3D v_up = { 0,1,0 };
+		Coordenadas3D v_up = { 0,1,0 };
 		p = p + v_up.times(k);
 		q.centro = p;
 		q.refreshCartesianas();
@@ -58,7 +58,7 @@ public:
 	}
 
 	Camara& baixo(float k) {
-		Ponto3D v_up = { 0,1,0 };
+		Coordenadas3D v_up = { 0,1,0 };
 		p = p - v_up.times(k);
 		q.centro = p;
 		q.refreshCartesianas();

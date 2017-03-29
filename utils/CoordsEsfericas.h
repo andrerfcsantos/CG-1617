@@ -2,7 +2,7 @@
 
 #define _USE_MATH_DEFINES
 #include <cmath>
-#include "Ponto3D.h"
+#include "Coordenadas3D.h"
 
 
 class CoordsEsfericas {
@@ -10,16 +10,16 @@ public:
 	// Coordenadas Esfericas
 	float raio, azimuth_ang, polar_ang;
 	// Coordenadas cartesianas
-	Ponto3D cCartesianas;
-	Ponto3D centro;
+	Coordenadas3D cCartesianas;
+	Coordenadas3D centro;
 
-	CoordsEsfericas(Ponto3D p_centro = {0,0,0}, float r = 5.0, float az = M_PI / 4.0, float polar = M_PI / 4.0) :
+	CoordsEsfericas(Coordenadas3D p_centro = {0,0,0}, float r = 5.0, float az = M_PI / 4.0, float polar = M_PI / 4.0) :
 		centro(p_centro), raio(r), azimuth_ang(az), polar_ang(polar) {
 		refreshCartesianas();
 	};
 
 	CoordsEsfericas(float r = 5.0, float az = M_PI / 4.0, float polar = M_PI / 4.0) :
-		centro(Ponto3D{0,0,0}), raio(r), azimuth_ang(az), polar_ang(polar) {
+		centro(Coordenadas3D{0,0,0}), raio(r), azimuth_ang(az), polar_ang(polar) {
 		refreshCartesianas();
 	};
 
@@ -68,7 +68,7 @@ public:
 		return *this;
 	}
 
-	Ponto3D toCartesianas() {
+	Coordenadas3D toCartesianas() {
 		return cCartesianas;
 	}
 
