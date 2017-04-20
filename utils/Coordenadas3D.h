@@ -27,6 +27,15 @@ struct Coordenadas3D {
 		return res;
 	}
 
+	Coordenadas3D operator*(float k) {
+		Coordenadas3D res;
+		res.x = x * k;
+		res.y = y * k;
+		res.z = z * k;
+		return res;
+	}
+
+
 	Coordenadas3D times(float k) {
 		Coordenadas3D res;
 		res.x = x * k;

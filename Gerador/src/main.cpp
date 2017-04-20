@@ -2,15 +2,70 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <sstream>
 #include <fstream>
 #include "../../utils/Coordenadas3D.h"
 #include "../../utils/CoordsPolares.h"
 #include "../../utils/CoordsEsfericas.h"
 #include "../../utils/Figura.h"
+#include "SuperficieBezier.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
 
 using namespace std;
+
+SuperficieBezier leBezier(char *fich_in) {
+	int nPatches, nPtsControlo;
+	char *delims = ", \r\n";
+	SuperficieBezier superficie;
+	
+	ifstream fich_inp(fich_in);
+	string linha;
+
+	std::getline(fich_inp, linha);
+	nPatches = stoi(linha);
+	
+	for (int i = 0; i < nPatches;i++) {
+		std::vector<int> patch;
+		int indice;
+		std::getline(fich_inp, linha);
+		stringstream ss(linha);
+
+		while (ss) {
+			if (!std::getline(ss, linha, ',')) {
+				break;
+			}
+			indice = stoi(linha);
+			patch.push_back(indice);
+		}
+
+		superficie.addPatch(patch);
+	}
+
+	std::getline(fich_inp, linha);
+	nPtsControlo = stoi(linha);
+
+	for (int i = 0; i < nPtsControlo; i++) {
+
+		float x,y,z;
+		std::getline(fich_inp, linha);
+		stringstream ss(linha);
+		std::getline(ss, linha, ',');
+		x = stof(linha);
+
+		std::getline(ss, linha, ',');
+		y = stof(linha);
+
+		std::getline(ss, linha, ',');
+		z = stof(linha);
+
+		superficie.addPontoControlo(Coordenadas3D{ x,y,z });
+	}
+
+
+	return superficie;
+}
+
 
 int main(int argc, char** argv) {
 	Figura figura;
@@ -163,6 +218,30 @@ int main(int argc, char** argv) {
 		nome_fich = argv[8];
 
 		figura.geraSeashell(Coordenadas3D{ 0,0,0 }, a, b, c, n, divsU, divsV);
+	}
+
+	if (str_figura == "bezier" && argc == 6) {
+		SuperficieBezier superficie;
+		std::vector<Coordenadas3D> ptsSuperfcie;
+		char *nome_fich_in;
+		cmd = true;
+		//     0     1      2    3       4           5
+		// gerador bezier tessU tessV ficheiroIn ficheiroOut
+		float tessU = atof(argv[2]);
+		float tessV = atof(argv[3]);
+		nome_fich_in = argv[4];
+		nome_fich = argv[5];
+
+		std::cout << "A ler ficheiro bezier..." << std::endl;
+		superficie = leBezier(nome_fich_in);
+		std::cout << "A gerar triangulos..." << std::endl;
+		ptsSuperfcie = superficie.getTriangulos(tessU, tessV);
+
+		std::ofstream ficheiro(modelos_path + nome_fich);
+		for (Coordenadas3D ponto : ptsSuperfcie) {
+			ficheiro << ponto.x << " " << ponto.y << " " << ponto.z << std::endl;
+		}
+		return 0;
 	}
 
 	if (!cmd) {
