@@ -20,6 +20,7 @@ std::ostream& operator<<(std::ostream& os, TipoTransformacao c){
 class Rotacao {
 public:
 	float rang, rx, ry, rz;
+	float time;
 
 	Rotacao() : Rotacao(0.0f, 0.0f, 1.0f, 0.0f) {
 	}
@@ -31,13 +32,17 @@ public:
 
 class Translacao {
 public:
-	float tx, ty, tz;
+	float tx, ty, tz, time;
+	std::vector <Coordenadas3D> ctrlPoints;
 
 	Translacao() : Translacao(0.0f, 0.0f, 0.0f) {
 	}
 
+	Translacao(float p_time) : time(p_time) {
+	}
+
 	Translacao(float p_tx, float p_ty, float p_tz) :
-			tx(p_tx), ty(p_ty), tz(p_tz) {
+			tx(p_tx), ty(p_ty), tz(p_tz), time(-1.0f) {
 	}
 };
 
@@ -64,9 +69,20 @@ public:
 		Escala e;
 
 		UTr() {memset(this, 0, sizeof(UTr));}
+		~UTr() {}
 	} Tr;
 
-	Transformacao(TipoTransformacao tt) : tipo(tt) {}
+	Transformacao(TipoTransformacao tt) : tipo(tt) {
+	}
+	/*
+	Transformacao(const Transformacao &t2) {
+		tipo = t2.tipo;
+		Tr.t = t2.Tr.t;
+		Tr.r = t2.Tr.r;
+		Tr.e = t2.Tr.e;
+	}
+	*/
+	
 
 	friend std::ostream& operator<<(std::ostream& os, const Transformacao& t) {
 		os << t.tipo;

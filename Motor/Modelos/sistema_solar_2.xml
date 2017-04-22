@@ -1,0 +1,76 @@
+<scene>
+	<group name="Sun">
+		<scale uniform="1.1"/>
+		<models>
+			<model mode="FILL" red="1" green="1" blue="0" file="esfera_1.3d"/>
+		</models>
+		<group name="Saturn">
+			<translate X="8.9"/>
+			<scale uniform="0.5032"/>
+			<models>
+				<model mode="FILL" mode="FILL" red="1.0" green="0.8627450980392157" blue="0.3568627450980392" file="esfera_1.3d"/>
+			</models>
+			<group name="Aneis">
+				<rotate angle="30" X="0" Y="0" Z="1"/>
+				<group name="Anel B">
+					<models>
+						<model mode="LINE" red="0.6274509803921569" green="0.5529411764705883" blue="0.2823529411764706" file="anel_b.3d"/>
+					</models>
+				</group>
+				<group name="Anel A">
+					<models>
+						<model mode="LINE" red="0.5294117647058824" green="0.4549019607843137" blue="0.1843137254901961" file="anel_a.3d"/>
+					</models>
+				</group>
+			</group>
+		</group>
+		<group name="Orbita saturno">
+			<models>
+				<model red="0.39215686274509803" green="0.39215686274509803" blue="0.39215686274509803" file="orbita_saturno.3d"/>
+			</models>
+		</group>
+		<group name="Uranus">
+			<translate X="11"/>
+			<scale uniform="0.2912"/>
+			<models>
+				<model mode="FILL" red="0.5882352941176471" green="1.0" blue="1.0" file="esfera_1.3d"/>
+			</models>
+			<group name="Titania">
+				<translate X="0.7" Y="-0.7" Z="0.7"/>
+				<scale uniform="0.11"/>
+				<models>
+					<model red="0.7176470588235294" green="0.7176470588235294" blue="0.7176470588235294" mode="FILL" file="esfera_1.3d"/>
+				</models>
+			</group>
+		</group>
+		<group name="Orbita urano">
+			<models>
+				<model red="0.39215686274509803" green="0.39215686274509803" blue="0.39215686274509803" file="orbita_urano.3d"/>
+			</models>
+		</group>
+		<group name="Neptune">
+			<translate X="13"/>
+			<scale uniform="0.2832"/>
+			<models>
+				<model mode="FILL" red="0.27450980392156865" green="0.5098039215686274" blue="1.0" file="esfera_1.3d"/>
+			</models>
+		</group>
+		<group name="Orbita neptuno">
+			<models>
+				<model red="0.39215686274509803" green="0.39215686274509803" blue="0.39215686274509803" file="orbita_neptuno.3d"/>
+			</models>
+		</group>
+		<group name="Pluto">
+			<translate X="15"/>
+			<scale uniform="0.075"/>
+			<models>
+				<model mode="FILL" red="0.7058823529411765" green="0.39215686274509803" blue="0.0" file="esfera_1.3d"/>
+			</models>
+		</group>
+		<group name="Orbita pluto">
+			<models>
+				<model red="0.39215686274509803" green="0.39215686274509803" blue="0.39215686274509803" file="orbita_pluto.3d"/>
+			</models>
+		</group>
+	</group>
+</scene>

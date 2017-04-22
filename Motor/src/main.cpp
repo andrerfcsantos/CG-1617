@@ -17,6 +17,7 @@
 #include "tree.hh"
 #include "../../utils/Transformacoes.h"
 #include "../../utils/DefsDesenho.h"
+#include "../../utils/CatmullRom.h"
 #include <utility>
 #include <deque>
 #include <string>     // std::string, std::stof
@@ -43,12 +44,26 @@ deque<tree<Grupo>::iterator> stack_group_read;
 deque<xml_node> stack_xmlnode_read;
 std::string modelo_prefix("../../Modelos/");
 int p = 0;
+float up[3] = { 0,1,0 };
 
 // FPS
+int tempo_inicial;
 float fps;
 char fps_str[25];
 int time_fps = 0, timebase = 0, frame = 0;
 int npontos;
+
+void renderCatmullRomCurve(std::vector<Coordenadas3D> p) {
+	int c_points = 100;
+	float dt = 1.0f / c_points;
+	float res[3], deriv[3];
+	glBegin(GL_LINE_LOOP);
+	for (int i = 0; i < c_points; i++) {
+		getGlobalCatmullRomPoint(p, dt*i, res, deriv);
+		glVertex3f(res[0], res[1], res[2]);
+	}
+	glEnd();
+}
 
 void main_menu_func(int opt) {
 	switch (opt) {
@@ -139,16 +154,55 @@ void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
 	Translacao tr;
 	Rotacao rr;
 	Escala er;
+
+	std::cout << "Começa desenho." << std::endl;
+
 	for (auto it = (*it_grupo).transformacoes.begin(); it != (*it_grupo).transformacoes.end(); ++it) {
         switch (it->tipo) {
 
             case TRANSLACAO:
+				std::cout << "Entrou translaçao" << std::endl;
 				tr = it->Tr.t;
-                glTranslatef(tr.tx, tr.ty, tr.tz);
+				if (tr.time == -1) {
+					glTranslatef(tr.tx, tr.ty, tr.tz);
+				}
+				else {
+					renderCatmullRomCurve(tr.ctrlPoints);
+					float t;
+					float res[3], deriv[3];
+					float X[3], Z[3];
+					float m[16];
+					t = (float) fmodf(((glutGet(GLUT_ELAPSED_TIME) - tempo_inicial)*1000), tr.time) / (tr.time+0.0f);
+					
+					// X = norm(deriv)
+					getGlobalCatmullRomPoint(tr.ctrlPoints,t, res, X);
+					normalize(X);
+					// Z = norm(deriv x up)
+					cross(X, up, Z);
+					normalize(Z);
+					// up = norm(deriv x Z)
+					cross(Z, X, up);
+					normalize(up);
+					// buildRotMatrix()
+					buildRotMatrix(X, up, Z, m);
+					glTranslatef(res[0], res[1], res[2]);
+					glMultMatrixf(m);
+
+				}
+				std::cout << "Saiu translacao" << std::endl;
                 break;
             case ROTACAO:
+
 				rr = it->Tr.r;
-                glRotatef(rr.rang, rr.rx, rr.ry, rr.rz);
+				if (rr.time == -1) {
+					glRotatef(rr.rang, rr.rx, rr.ry, rr.rz);
+				}
+				else {
+					float t = (float)fmodf(((glutGet(GLUT_ELAPSED_TIME) - tempo_inicial) * 1000), rr.time) / (rr.time + 0.0f);
+					float ang = (float) (360.0f * t) / (rr.time+0.0f);
+					glRotatef(ang, rr.rx, rr.ry, rr.rz);
+				}
+
                 break;
             case ESCALA:
 				er = it->Tr.e;
@@ -172,7 +226,6 @@ void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
 			glPolygonMode(GL_FRONT, modoPoligonos);
 		}
 		
-
 
 		if (cor_desactivada == false) {
 			glColor3f(def.red, def.green, def.blue);
@@ -233,6 +286,7 @@ void renderScene(void) {
 	//glColor3f(pt_red, pt_green, pt_blue);
 	
 	tree<Grupo>::iterator head = arvoreG.begin();
+
 	desenhaGrupo(head);
 	
 
@@ -338,13 +392,27 @@ Grupo XMLtoGrupo(xml_node node) {
 		if (node_name == "translate") {
 			Transformacao trans(TRANSLACAO);
 			trans.Tr.t.tx = trans.Tr.t.ty = trans.Tr.t.tz = 0;
+			trans.Tr.t.time = -1;
 			for (pugi::xml_attribute_iterator ait = it->attributes_begin(); ait != it->attributes_end(); ++ait)
 			{
 				string name = ait->name();
 				float fl = stof(ait->value());
-				if (name == "X") trans.Tr.t.tx = fl;
-				if (name == "Y") trans.Tr.t.ty = fl;
-				if (name == "Z") trans.Tr.t.tz = fl;
+				if (name == "time") {
+					trans.Tr.t.time = fl;
+					for (pugi::xml_node it_p : it->children("point")) {
+						float x, y, z;
+						Coordenadas3D ponto;
+						ponto.x=stof(it_p.attribute("X").value());
+						ponto.y=stof(it_p.attribute("Y").value());
+						ponto.z=stof(it_p.attribute("Z").value());
+						trans.Tr.t.ctrlPoints.push_back(ponto);
+					}
+				}
+				else {
+					if (name == "X") trans.Tr.t.tx = fl;
+					if (name == "Y") trans.Tr.t.ty = fl;
+					if (name == "Z") trans.Tr.t.tz = fl;
+				}
 			}
 			res.transformacoes.push_back(trans);
 		}
@@ -352,12 +420,15 @@ Grupo XMLtoGrupo(xml_node node) {
 			Transformacao trans(ROTACAO);
 			trans.Tr.r.ry = 0;
 			trans.Tr.r.rang = trans.Tr.r.rx = trans.Tr.r.rz =0 ;
+			trans.Tr.r.time = -1.0f;
+
 			trans.tipo = ROTACAO;
 			for (pugi::xml_attribute_iterator ait = it->attributes_begin(); ait != it->attributes_end(); ++ait)
 			{
 				string name = ait->name();
 				float fl = stof(ait->value());
 				if (name == "angle") trans.Tr.r.rang = fl;
+				if (name == "time") trans.Tr.r.time = fl;
 				if (name == "X") trans.Tr.r.rx = fl;
 				if (name == "Y") trans.Tr.r.ry = fl;
 				if (name == "Z") trans.Tr.r.rz = fl;
@@ -430,7 +501,7 @@ Grupo XMLtoGrupo(xml_node node) {
 }
 
 void leXML() {
-	std::string nomeFicheiro("scene.xml");
+	std::string nomeFicheiro("sistema_solar_2.xml");
 	//std::string nomeFicheiro("scene.xml");
 
 	std::string ficheiro(modelo_prefix + nomeFicheiro);
@@ -538,6 +609,7 @@ int main(int argc, char **argv) {
 	std::cout << "near: " << nf[0] << " far: " << nf[1] << std::endl;
 	std::cout << "npontos: " << npontos << std::endl;
 // enter GLUT's main cycle
+	tempo_inicial = glutGet(GLUT_ELAPSED_TIME);
 	glutMainLoop();
 	
 	return 1;
