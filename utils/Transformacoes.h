@@ -74,14 +74,22 @@ public:
 
 	Transformacao(TipoTransformacao tt) : tipo(tt) {
 	}
-	/*
+	
 	Transformacao(const Transformacao &t2) {
 		tipo = t2.tipo;
-		Tr.t = t2.Tr.t;
-		Tr.r = t2.Tr.r;
-		Tr.e = t2.Tr.e;
+		switch (t2.tipo) {
+		case TRANSLACAO:
+			Tr.t = t2.Tr.t;
+			break;
+		case ROTACAO:
+			Tr.r = t2.Tr.r;
+			break;
+		case ESCALA:
+			Tr.e = t2.Tr.e;
+			break;
+		}
 	}
-	*/
+	
 	
 
 	friend std::ostream& operator<<(std::ostream& os, const Transformacao& t) {

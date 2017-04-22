@@ -501,7 +501,7 @@ Grupo XMLtoGrupo(xml_node node) {
 }
 
 void leXML() {
-	std::string nomeFicheiro("sistema_solar_2.xml");
+	std::string nomeFicheiro("sistema_solar.xml");
 	//std::string nomeFicheiro("scene.xml");
 
 	std::string ficheiro(modelo_prefix + nomeFicheiro);
