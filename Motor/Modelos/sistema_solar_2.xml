@@ -4,6 +4,101 @@
 		<models>
 			<model mode="FILL" red="1" green="1" blue="0" file="esfera_1.3d"/>
 		</models>
+		<group name="Mercury">
+			<translate X="1.8"/>
+			<scale uniform="0.085"/>
+			<models>
+				<model mode="FILL" red="0.7176470588235294" green="0.7176470588235294" blue="0.7176470588235294" file="esfera_1.3d"/>
+			</models>
+		</group>
+		<group name="Orbita mercurio">
+			<models>
+				<model red="0.39215686274509803" green="0.39215686274509803" blue="0.39215686274509803" file="orbita_mercurio.3d"/>
+			</models>
+		</group>
+		<group name="Venus">
+			<translate X="2.4"/>
+			<scale uniform="0.135"/>
+			<models>
+				<model mode="FILL" red="0.9568627450980393" green="0.9568627450980393" blue="0.7843137254901961" file="esfera_1.3d"/>
+			</models>
+		</group>
+		<group name="Orbita venus">
+			<models>
+				<model red="0.39215686274509803" green="0.39215686274509803" blue="0.39215686274509803" file="orbita_venus.3d"/>
+			</models>
+		</group>
+		<group name="Earth">
+			<translate X="3.2"/>
+			<scale uniform="0.14"/>
+			<models>
+				<model mode="FILL" red="0.0" green="0.0" blue="0.5882352941176471" file="esfera_1.3d"/>
+			</models>
+			<group name="Moon">
+				<translate X="1" Y="1" Z="1"/>
+				<scale uniform="0.14"/>
+				<models>
+					<model red="0.7176470588235294" green="0.7176470588235294" blue="0.7176470588235294" mode="FILL" file="esfera_1.3d"/>
+				</models>
+			</group>
+		</group>
+		<group name="Orbita terra">
+			<models>
+				<model red="0.39215686274509803" green="0.39215686274509803" blue="0.39215686274509803" file="orbita_terra.3d"/>
+			</models>
+		</group>
+		<group name="Mars">
+			<translate X="4"/>
+			<scale uniform="0.11"/>
+			<models>
+				<model mode="FILL" red="1.0" green="0.6274509803921569" blue="0.19607843137254902" file="esfera_1.3d"/>
+			</models>
+			<group name="Phobos">
+				<translate X="0.9" Y="0.9" Z="0.9"/>
+				<scale uniform="0.14"/>
+				<models>
+					<model red="0.7176470588235294" green="0.7176470588235294" blue="0.7176470588235294" mode="FILL" file="esfera_1.3d"/>
+				</models>
+			</group>
+			<group name="Deimos">
+				<translate X="0.9" Y="0.8" Z="-1.1"/>
+				<scale uniform="0.10"/>
+				<models>
+					<model red="0.7176470588235294" green="0.7176470588235294" blue="0.7176470588235294" mode="FILL" file="esfera_1.3d"/>
+				</models>
+			</group>
+		</group>
+		<group name="Orbita marte">
+			<models>
+				<model red="0.39215686274509803" green="0.39215686274509803" blue="0.39215686274509803" file="orbita_mars.3d"/>
+			</models>
+		</group>
+		<group name="Jupiter">
+			<translate X="6.20"/>
+			<scale uniform="0.6032"/>
+			<models>
+				<model mode="FILL" red="1.0" green="0.8235294117647058" blue="0.6274509803921569" file="esfera_1.3d"/>
+			</models>
+			<group name="Ganymed">
+				<translate X="0.8" Y="0.8" Z="0.8"/>
+				<scale uniform="0.10"/>
+				<models>
+					<model red="0.7176470588235294" green="0.7176470588235294" blue="0.7176470588235294" mode="FILL" file="esfera_1.3d"/>
+				</models>
+			</group>
+			<group name="Callisto">
+				<translate X="-0.8" Y="-0.8" Z="-0.8"/>
+				<scale uniform="0.11"/>
+				<models>
+					<model red="0.7176470588235294" green="0.7176470588235294" blue="0.7176470588235294" mode="FILL" file="esfera_1.3d"/>
+				</models>
+			</group>
+		</group>
+		<group name="Orbita jupiter">
+			<models>
+				<model red="0.39215686274509803" green="0.39215686274509803" blue="0.39215686274509803" file="orbita_jupiter.3d"/>
+			</models>
+		</group>
 		<group name="Saturn">
 			<translate X="8.9"/>
 			<scale uniform="0.5032"/>

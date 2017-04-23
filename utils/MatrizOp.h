@@ -1,9 +1,9 @@
 #pragma once
 #include "Coordenadas3D.h"
-
+#define _USE_MATH_DEFINES
+#include <cmath>
 
 void multMatrixFP(float m[4][4], Coordenadas3D P[4][4], Coordenadas3D mr[4][4]) {
-
 
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {

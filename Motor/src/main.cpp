@@ -1,8 +1,11 @@
 #include <stdlib.h>
 #include <vector>
+
 #ifdef __APPLE__
+#include <GLUT/glew.h>
 #include <GLUT/glut.h>
 #else
+#include <GL/glew.h>
 #include <GL/glut.h>
 #endif
 
@@ -12,11 +15,12 @@
 #include <math.h>
 #include "../../utils/CoordsEsfericas.h"
 #include "../../utils/Camara.h"
-#include "pugixml.hpp"
 #include "../../utils/Grupo.h"
+#include "pugixml.hpp"
 #include "tree.hh"
 #include "../../utils/Transformacoes.h"
 #include "../../utils/DefsDesenho.h"
+#include "../../utils/Desenho.h"
 #include "../../utils/CatmullRom.h"
 #include <utility>
 #include <deque>
@@ -36,6 +40,7 @@ float cameraSpeed = 10.0f;
 float bg_red =0.0, bg_green =0.0, bg_blue = 0.0;
 float pt_red = 1.0, pt_green = 1.0, pt_blue = 1.0;
 bool cor_desactivada = false, polygon_desactivado=false;
+bool modoImediato = false;
 int mouse_x, mouse_y;
 pugi::xml_document doc;
 tree<Grupo> arvoreG;
@@ -77,6 +82,14 @@ void polMode_menu_func(int opt) {
 	case 2:  modoPoligonos = GL_LINE; polygon_desactivado = true; break;
 	case 3:  modoPoligonos = GL_POINT; polygon_desactivado = true; break;
 	case 4:  polygon_desactivado = false; break;
+	}
+	glutPostRedisplay();
+}
+
+void vertexMode_menu_func(int opt) {
+	switch (opt) {
+	case 1:  modoImediato = true; break;
+	case 2:  modoImediato = false; break;
 	}
 	glutPostRedisplay();
 }
@@ -155,13 +168,10 @@ void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
 	Rotacao rr;
 	Escala er;
 
-	std::cout << "Começa desenho." << std::endl;
-
 	for (auto it = (*it_grupo).transformacoes.begin(); it != (*it_grupo).transformacoes.end(); ++it) {
         switch (it->tipo) {
 
             case TRANSLACAO:
-				std::cout << "Entrou translaçao" << std::endl;
 				tr = it->Tr.t;
 				if (tr.time == -1) {
 					glTranslatef(tr.tx, tr.ty, tr.tz);
@@ -189,7 +199,6 @@ void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
 					glMultMatrixf(m);
 
 				}
-				std::cout << "Saiu translacao" << std::endl;
                 break;
             case ROTACAO:
 
@@ -214,36 +223,33 @@ void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
 
     }
     
-	//glTranslatef(2.0f, 6.0f, 1.0f);
-	for (auto it = it_grupo->pontos.begin(); it != it_grupo->pontos.end(); ++it) {
-		DefsDesenho &def = it->first;
-		vector<Coordenadas3D> &pts = it->second;
+	for (auto it = it_grupo->desenhos.begin(); it != it_grupo->desenhos.end(); ++it) {
+		DefsDesenho &def = it->defsDesenho;
+		vector<Coordenadas3D> &pts = it->pontos;
 
-		if(polygon_desactivado == false){
-			glPolygonMode(GL_FRONT, def.modoDesenho);
-		}
-		else {
-			glPolygonMode(GL_FRONT, modoPoligonos);
-		}
+		if(polygon_desactivado == false) glPolygonMode(GL_FRONT, def.modoDesenho);
+		else glPolygonMode(GL_FRONT, modoPoligonos);
+		
+		if (cor_desactivada == false) glColor3f(def.red, def.green, def.blue);
+		else glColor3f(pt_red, pt_green, pt_blue);
 		
 
-		if (cor_desactivada == false) {
-			glColor3f(def.red, def.green, def.blue);
+		if (modoImediato) {
+			glBegin(GL_TRIANGLES);
+			for (auto it_pts = pts.begin(); it_pts != pts.end(); ++it_pts) {
+				glVertex3f(it_pts->x, it_pts->y, it_pts->z);
+			}
+			glEnd();
 		}
 		else {
-			glColor3f(pt_red, pt_green, pt_blue);
+			glBindBuffer(GL_ARRAY_BUFFER, it->nBuff);
+			glVertexPointer(3, GL_FLOAT, 0, 0);
+			glDrawArrays(GL_TRIANGLES, 0, it->pontos.size());
+			
 		}
-		
-
-		glBegin(GL_TRIANGLES);
-		for (auto it_pts = pts.begin(); it_pts != pts.end(); ++it_pts) {
-			glVertex3f(it_pts->x, it_pts->y, it_pts->z);
-		}
-		glEnd();
 		
 	}
     
-
 	for (auto chld_it = arvoreG.child(it_grupo, 0); chld_it != chld_it.end(); ++chld_it) {
 		desenhaGrupo(chld_it);
 	}
@@ -382,7 +388,7 @@ void percorreArvore() {
 
 Grupo XMLtoGrupo(xml_node node) {
 	Grupo res;
-	pair< DefsDesenho, vector<Coordenadas3D>> par;
+	Desenho desenho;
 
 	res.nome = node.attribute("name").value();
 
@@ -465,36 +471,42 @@ Grupo XMLtoGrupo(xml_node node) {
 					float fl;
 					if (name == "mode") {
 						string mode = ait->value();
-						if (mode == "FILL") par.first.modoDesenho = GL_FILL;
-						if (mode == "LINE") par.first.modoDesenho = GL_LINE;
-						if (mode == "POINT") par.first.modoDesenho = GL_POINT;
+						if (mode == "FILL") desenho.defsDesenho.modoDesenho= GL_FILL;
+						if (mode == "LINE") desenho.defsDesenho.modoDesenho = GL_LINE;
+						if (mode == "POINT") desenho.defsDesenho.modoDesenho = GL_POINT;
 					}
 					if (name == "red") {
 						fl = stof(ait->value());
-						par.first.red = fl;
+						desenho.defsDesenho.red = fl;
 					}
 					if (name == "green") {
 						fl = stof(ait->value());
-						par.first.green = fl;
+						desenho.defsDesenho.green = fl;
 					}
 					if (name == "blue") {
 						fl = stof(ait->value());
-						par.first.blue = fl;
+						desenho.defsDesenho.blue = fl;
 					}
 				}
 
 				float x, y, z;
+				GLuint nBuffer[1];
 				string nome_ficheiro = nfile.attribute("file").value();
 				ifstream fich_inp(modelo_prefix + nome_ficheiro);
 				res.ficheiros.push_back(nome_ficheiro);
 
 				while (fich_inp >> x >> y >> z) {
-					par.second.push_back(Coordenadas3D{ x,y,z });
+					desenho.pontos.push_back(Coordenadas3D{ x,y,z });
 					npontos++;
 				}
-			}
 
-			res.pontos.push_back(par);
+				desenho.pontos.size();
+				glGenBuffers(1, nBuffer);
+				glBindBuffer(GL_ARRAY_BUFFER, nBuffer[0]);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * desenho.pontos.size() * 3, &desenho.pontos[0], GL_STATIC_DRAW);
+				desenho.nBuff = nBuffer[0];
+			}
+			res.desenhos.push_back(desenho);
 		}
 	}
 	return res;
@@ -502,7 +514,6 @@ Grupo XMLtoGrupo(xml_node node) {
 
 void leXML() {
 	std::string nomeFicheiro("sistema_solar.xml");
-	//std::string nomeFicheiro("scene.xml");
 
 	std::string ficheiro(modelo_prefix + nomeFicheiro);
 	pugi::xml_parse_result result = doc.load_file(ficheiro.c_str());
@@ -569,9 +580,13 @@ void criaMenus() {
 	glutAddMenuEntry("Green", 4);
 	glutAddMenuEntry("Blue", 5);
 	glutAddMenuEntry("Original", 6);
+	int vertexMode_menu = glutCreateMenu(vertexMode_menu_func);
+	glutAddMenuEntry("Immediate", 1);
+	glutAddMenuEntry("VBO's", 2);
 
 	int main_menu = glutCreateMenu(main_menu_func);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
+	glutAddSubMenu("Vertex Mode", vertexMode_menu);
 	glutAddSubMenu("Polygon Mode", polMode_menu);
 	glutAddSubMenu("Camera Speed", camSpeed_menu);
 	glutAddSubMenu("Background Color", bgColor_menu);
@@ -580,21 +595,20 @@ void criaMenus() {
 }
 
 int main(int argc, char **argv) {
-	leXML();
-	//percorreArvore();
-// init GLUT and the window
+
+	// init GLUT and the window
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH|GLUT_DOUBLE|GLUT_RGBA);
 	glutInitWindowPosition(75,50);
 	glutInitWindowSize(1250,700);
 	glutCreateWindow("CG@DI-UM");
 		
-// Required callback registry 
+	// Required callback registry 
 	glutDisplayFunc(renderScene);
 	glutReshapeFunc(changeSize);
 	glutIdleFunc(renderScene);
 	
-// put here the registration of the keyboard callbacks
+	// put here the registration of the keyboard callbacks
 	glutKeyboardFunc(teclas_normais_func);
 	glutSpecialFunc(teclas_especiais_func);
 	glutMouseFunc(mouse_events_func);
@@ -602,14 +616,17 @@ int main(int argc, char **argv) {
 
 	criaMenus();
 
+	glewInit();
+
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
-	GLdouble nf[2];
-	glGetDoublev(GL_DEPTH_RANGE,nf);
-	std::cout << "near: " << nf[0] << " far: " << nf[1] << std::endl;
+	glEnableClientState(GL_VERTEX_ARRAY);
+
+	leXML();
+	
 	std::cout << "npontos: " << npontos << std::endl;
-// enter GLUT's main cycle
 	tempo_inicial = glutGet(GLUT_ELAPSED_TIME);
+
 	glutMainLoop();
 	
 	return 1;

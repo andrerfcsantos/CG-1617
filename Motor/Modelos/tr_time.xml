@@ -1,0 +1,8 @@
+<scene>
+	<group name="Sun">
+		<scale uniform="1.1"/>
+		<models>
+			<model blue="0" file="esfera_1.3d" green="1" mode="FILL" red="1"/>
+		</models>
+	</group>
+</scene>

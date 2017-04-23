@@ -9,6 +9,7 @@
 #include "Transformacoes.h"
 #include "Coordenadas3D.h"
 #include "DefsDesenho.h"
+#include "Desenho.h"
 
 using namespace std;
 
@@ -18,7 +19,7 @@ public:
 	std::string nome;
 	std::vector<std::string> ficheiros;
 	std::vector<Transformacao> transformacoes;
-	vector< pair<DefsDesenho , vector<Coordenadas3D> >> pontos;
+	std::vector<Desenho> desenhos;
 
 	friend std::ostream& operator<<(std::ostream& os, const Grupo& t) {
 		if (t.nome != "") {
