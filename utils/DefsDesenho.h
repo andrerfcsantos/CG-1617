@@ -10,8 +10,9 @@
 class DefsDesenho {
 public:
 	float red, green, blue;
+	GLenum modoPoligonos;
 	GLenum modoDesenho;
 	DefsDesenho(float p_red = 1, float p_green =1, float p_blue =1, GLenum p_md = GL_LINE) :
-		red(p_red), green(p_green), blue(p_blue),modoDesenho(p_md) {
+		red(p_red), green(p_green), blue(p_blue),modoPoligonos(p_md) {
 	}
 };

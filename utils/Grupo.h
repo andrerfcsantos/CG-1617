@@ -20,6 +20,7 @@ public:
 	std::vector<std::string> ficheiros;
 	std::vector<Transformacao> transformacoes;
 	std::vector<Desenho> desenhos;
+	std::vector<Desenho> catmullDes;
 
 	friend std::ostream& operator<<(std::ostream& os, const Grupo& t) {
 		if (t.nome != "") {

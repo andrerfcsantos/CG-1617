@@ -162,13 +162,16 @@ void changeSize(int w, int h) {
 }
 
 void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
-
+	bool temRotacao = false;
 	glPushMatrix();
 	Translacao tr;
 	Rotacao rr;
 	Escala er;
 
+
+
 	for (auto it = (*it_grupo).transformacoes.begin(); it != (*it_grupo).transformacoes.end(); ++it) {
+
         switch (it->tipo) {
 
             case TRANSLACAO:
@@ -177,13 +180,36 @@ void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
 					glTranslatef(tr.tx, tr.ty, tr.tz);
 				}
 				else {
-					renderCatmullRomCurve(tr.ctrlPoints);
+					for (auto it = it_grupo->catmullDes.begin(); it != it_grupo->catmullDes.end(); ++it) {
+						DefsDesenho &def = it->defsDesenho;
+						vector<Coordenadas3D> &pts = it->pontos;
+
+						if (polygon_desactivado == false) glPolygonMode(GL_FRONT, def.modoPoligonos);
+						else glPolygonMode(GL_FRONT, modoPoligonos);
+
+						if (cor_desactivada == false) glColor3f(def.red, def.green, def.blue);
+						else glColor3f(pt_red, pt_green, pt_blue);
+
+
+						if (modoImediato) {
+							glBegin(it->defsDesenho.modoDesenho);
+							for (auto it_pts = pts.begin(); it_pts != pts.end(); ++it_pts) {
+								glVertex3f(it_pts->x, it_pts->y, it_pts->z);
+							}
+							glEnd();
+						}
+						else {
+							glBindBuffer(GL_ARRAY_BUFFER, it->nBuff);
+							glVertexPointer(3, GL_FLOAT, 0, 0);
+							glDrawArrays(it->defsDesenho.modoDesenho, 0, it->pontos.size());
+						}
+					}
+
 					float t;
 					float res[3], deriv[3];
 					float X[3], Z[3];
 					float m[16];
-					t = (float) fmodf(((glutGet(GLUT_ELAPSED_TIME) - tempo_inicial)*1000), tr.time) / (tr.time+0.0f);
-					
+					t = (float) fmodf(((glutGet(GLUT_ELAPSED_TIME) - tempo_inicial)/1000.0f), tr.time) / (tr.time+0.0f);
 					// X = norm(deriv)
 					getGlobalCatmullRomPoint(tr.ctrlPoints,t, res, X);
 					normalize(X);
@@ -207,8 +233,10 @@ void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
 					glRotatef(rr.rang, rr.rx, rr.ry, rr.rz);
 				}
 				else {
-					float t = (float)fmodf(((glutGet(GLUT_ELAPSED_TIME) - tempo_inicial) * 1000), rr.time) / (rr.time + 0.0f);
-					float ang = (float) (360.0f * t) / (rr.time+0.0f);
+					glPushMatrix();
+					temRotacao=true;
+					float t = (float)fmodf(((glutGet(GLUT_ELAPSED_TIME) - tempo_inicial)/ 1000.0f), rr.time) / (rr.time + 0.0f);
+					float ang = (float) (360.0f * t);
 					glRotatef(ang, rr.rx, rr.ry, rr.rz);
 				}
 
@@ -223,11 +251,13 @@ void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
 
     }
     
+	
+
 	for (auto it = it_grupo->desenhos.begin(); it != it_grupo->desenhos.end(); ++it) {
 		DefsDesenho &def = it->defsDesenho;
 		vector<Coordenadas3D> &pts = it->pontos;
 
-		if(polygon_desactivado == false) glPolygonMode(GL_FRONT, def.modoDesenho);
+		if(polygon_desactivado == false) glPolygonMode(GL_FRONT, def.modoPoligonos);
 		else glPolygonMode(GL_FRONT, modoPoligonos);
 		
 		if (cor_desactivada == false) glColor3f(def.red, def.green, def.blue);
@@ -235,7 +265,7 @@ void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
 		
 
 		if (modoImediato) {
-			glBegin(GL_TRIANGLES);
+			glBegin(it->defsDesenho.modoDesenho);
 			for (auto it_pts = pts.begin(); it_pts != pts.end(); ++it_pts) {
 				glVertex3f(it_pts->x, it_pts->y, it_pts->z);
 			}
@@ -244,12 +274,16 @@ void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
 		else {
 			glBindBuffer(GL_ARRAY_BUFFER, it->nBuff);
 			glVertexPointer(3, GL_FLOAT, 0, 0);
-			glDrawArrays(GL_TRIANGLES, 0, it->pontos.size());
+			glDrawArrays(it->defsDesenho.modoDesenho, 0, it->pontos.size());
 			
 		}
 		
 	}
     
+	if (temRotacao) {
+		glPopMatrix();
+	}
+
 	for (auto chld_it = arvoreG.child(it_grupo, 0); chld_it != chld_it.end(); ++chld_it) {
 		desenhaGrupo(chld_it);
 	}
@@ -286,17 +320,10 @@ void renderScene(void) {
 	gluLookAt(camara.p.x, camara.p.y, camara.p.z,
 		      la.x,la.y,la.z,
 			  0.0f,1.0f,0.0f);
-
-	// put the geometric transformations here
-
-	//glColor3f(pt_red, pt_green, pt_blue);
 	
 	tree<Grupo>::iterator head = arvoreG.begin();
-
 	desenhaGrupo(head);
-	
 
-	// End of frame
 	glutSwapBuffers();
 }
 
@@ -388,7 +415,7 @@ void percorreArvore() {
 
 Grupo XMLtoGrupo(xml_node node) {
 	Grupo res;
-	Desenho desenho;
+	GLuint nBuffer[1];
 
 	res.nome = node.attribute("name").value();
 
@@ -404,6 +431,12 @@ Grupo XMLtoGrupo(xml_node node) {
 				string name = ait->name();
 				float fl = stof(ait->value());
 				if (name == "time") {
+					Desenho desenho;
+					desenho.defsDesenho.red = 0.39215686274509803f;
+					desenho.defsDesenho.green = 0.39215686274509803f;
+					desenho.defsDesenho.blue = 0.39215686274509803f;
+					desenho.defsDesenho.modoPoligonos = GL_LINE;
+
 					trans.Tr.t.time = fl;
 					for (pugi::xml_node it_p : it->children("point")) {
 						float x, y, z;
@@ -412,7 +445,23 @@ Grupo XMLtoGrupo(xml_node node) {
 						ponto.y=stof(it_p.attribute("Y").value());
 						ponto.z=stof(it_p.attribute("Z").value());
 						trans.Tr.t.ctrlPoints.push_back(ponto);
+						
 					}
+
+					int c_points = 100;
+					float dt = 1.0f / c_points;
+					float resultado[3], deriv[3];
+					for (int i = 0; i < c_points; i++) {
+						getGlobalCatmullRomPoint(trans.Tr.t.ctrlPoints, dt*i, resultado, deriv);
+						desenho.pontos.push_back(Coordenadas3D{ resultado[0],resultado[1],resultado[2] });
+					}
+
+					glGenBuffers(1, nBuffer);
+					glBindBuffer(GL_ARRAY_BUFFER, nBuffer[0]);
+					glBufferData(GL_ARRAY_BUFFER, sizeof(float) * desenho.pontos.size() * 3, &desenho.pontos[0], GL_STATIC_DRAW);
+					desenho.nBuff = nBuffer[0];
+					desenho.defsDesenho.modoDesenho = GL_LINE_LOOP;
+					res.catmullDes.push_back(desenho);
 				}
 				else {
 					if (name == "X") trans.Tr.t.tx = fl;
@@ -463,17 +512,16 @@ Grupo XMLtoGrupo(xml_node node) {
 		}
 
 		if (node_name == "models") {
-			
 			for (pugi::xml_node nfile : it->children("model")){
-
+				Desenho desenho;
 				for (pugi::xml_attribute_iterator ait = nfile.attributes_begin(); ait != nfile.attributes_end(); ++ait) {
 					string name = ait->name();
 					float fl;
 					if (name == "mode") {
 						string mode = ait->value();
-						if (mode == "FILL") desenho.defsDesenho.modoDesenho= GL_FILL;
-						if (mode == "LINE") desenho.defsDesenho.modoDesenho = GL_LINE;
-						if (mode == "POINT") desenho.defsDesenho.modoDesenho = GL_POINT;
+						if (mode == "FILL") desenho.defsDesenho.modoPoligonos= GL_FILL;
+						if (mode == "LINE") desenho.defsDesenho.modoPoligonos = GL_LINE;
+						if (mode == "POINT") desenho.defsDesenho.modoPoligonos = GL_POINT;
 					}
 					if (name == "red") {
 						fl = stof(ait->value());
@@ -490,7 +538,6 @@ Grupo XMLtoGrupo(xml_node node) {
 				}
 
 				float x, y, z;
-				GLuint nBuffer[1];
 				string nome_ficheiro = nfile.attribute("file").value();
 				ifstream fich_inp(modelo_prefix + nome_ficheiro);
 				res.ficheiros.push_back(nome_ficheiro);
@@ -505,8 +552,11 @@ Grupo XMLtoGrupo(xml_node node) {
 				glBindBuffer(GL_ARRAY_BUFFER, nBuffer[0]);
 				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * desenho.pontos.size() * 3, &desenho.pontos[0], GL_STATIC_DRAW);
 				desenho.nBuff = nBuffer[0];
+				desenho.defsDesenho.modoDesenho = GL_TRIANGLES;
+				res.desenhos.push_back(desenho);
 			}
-			res.desenhos.push_back(desenho);
+			
+			
 		}
 	}
 	return res;
