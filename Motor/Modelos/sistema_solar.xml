@@ -4,7 +4,7 @@
 			<rotate time="15" X="0" Y="1" Z="0"/>
 			<scale uniform="1.1"/>
 			<models>
-				<model mode="FILL" red="1" green="1" blue="0" file="esfera_1.3d"/>
+				<model mode="LINE" red="1" green="1" blue="0" file="esfera_50.3d"/>
 			</models>
 		</group>
 		<group name="Mercury">
@@ -27,7 +27,7 @@
 			</translate>
 			<scale uniform="0.085"/>
 			<models>
-				<model mode="FILL" red="0.7176470588235294" green="0.7176470588235294" blue="0.7176470588235294" file="esfera_1.3d"/>
+				<model mode="LINE" red="0.7176470588235294" green="0.7176470588235294" blue="0.7176470588235294" file="esfera_25.3d"/>
 			</models>
 		</group>
 		<group name="Venus">
@@ -50,7 +50,7 @@
 			</translate>
 			<scale uniform="0.135"/>
 			<models>
-				<model mode="FILL" red="0.9568627450980393" green="0.9568627450980393" blue="0.7843137254901961" file="esfera_1.3d"/>
+				<model mode="LINE" red="0.9568627450980393" green="0.9568627450980393" blue="0.7843137254901961" file="esfera_25.3d"/>
 			</models>
 		</group>
 		<group name="Earth System">
@@ -75,7 +75,7 @@
 			<group name="Planet Earth">
 				<scale uniform="0.14"/>
 				<models>
-					<model mode="FILL" red="0.0" green="0.0" blue="0.5882352941176471" file="esfera_1.3d"/>
+					<model mode="LINE" red="0.0" green="0.0" blue="0.5882352941176471" file="esfera_25.3d"/>
 				</models>
 			</group>
 
@@ -93,7 +93,7 @@
 				</translate>
 				<scale uniform="0.03"/>
 				<models>
-					<model red="0.7176470588235294" green="0.7176470588235294" blue="0.7176470588235294" mode="FILL" file="esfera_1.3d"/>
+					<model red="0.7176470588235294" green="0.7176470588235294" blue="0.7176470588235294" mode="LINE" file="esfera_10.3d"/>
 				</models>
 			</group>
 		</group>
@@ -138,7 +138,7 @@
 			<group name="Mars Planet">
 				<scale uniform="0.11"/>
 				<models>
-					<model mode="FILL" red="1.0" green="0.6274509803921569" blue="0.19607843137254902" file="esfera_1.3d"/>
+					<model mode="LINE" red="1.0" green="0.6274509803921569" blue="0.19607843137254902" file="esfera_25.3d"/>
 				</models>
 			</group>
 			<group name="Phobos (Mars Moon)">
@@ -155,7 +155,7 @@
 				</translate>
 				<scale uniform="0.03"/>
 				<models>
-					<model red="0.7176470588235294" green="0.7176470588235294" blue="0.7176470588235294" mode="FILL" file="esfera_1.3d"/>
+					<model red="0.7176470588235294" green="0.7176470588235294" blue="0.7176470588235294" mode="LINE" file="esfera_10.3d"/>
 				</models>
 			</group>
 			<group name="Deimos (Mars Moon)">
@@ -172,7 +172,7 @@
 				</translate>
 				<scale uniform="0.02"/>
 				<models>
-					<model red="0.7176470588235294" green="0.7176470588235294" blue="0.7176470588235294" mode="FILL" file="esfera_1.3d"/>
+					<model red="0.7176470588235294" green="0.7176470588235294" blue="0.7176470588235294" mode="LINE" file="esfera_10.3d"/>
 				</models>
 			</group>
 		</group>
@@ -203,7 +203,7 @@
 			<group name="Jupiter">
 				<scale uniform="0.6032"/>
 				<models>
-					<model mode="FILL" red="1.0" green="0.8235294117647058" blue="0.6274509803921569" file="esfera_1.3d"/>
+					<model mode="LINE" red="1.0" green="0.8235294117647058" blue="0.6274509803921569" file="esfera_25.3d"/>
 				</models>
 			</group>
 			<group name="Ganymed (Jupiter Moon)">
@@ -224,7 +224,7 @@
 				</translate>
 				<scale uniform="0.06"/>
 				<models>
-					<model red="0.7176470588235294" green="0.7176470588235294" blue="0.7176470588235294" mode="FILL" file="esfera_1.3d"/>
+					<model red="0.7176470588235294" green="0.7176470588235294" blue="0.7176470588235294" mode="LINE" file="esfera_10.3d"/>
 				</models>
 			</group>
 
@@ -246,7 +246,7 @@
 				</translate>
 				<scale uniform="0.04"/>
 				<models>
-					<model red="0.7176470588235294" green="0.7176470588235294" blue="0.7176470588235294" mode="FILL" file="esfera_1.3d"/>
+					<model red="0.7176470588235294" green="0.7176470588235294" blue="0.7176470588235294" mode="LINE" file="esfera_10.3d"/>
 				</models>
 			</group>
 		</group>
@@ -275,7 +275,7 @@
 			</translate>
 			<scale uniform="0.5032"/>
 			<models>
-				<model mode="FILL" mode="FILL" red="1.0" green="0.8627450980392157" blue="0.3568627450980392" file="esfera_1.3d"/>
+				<model mode="LINE" mode="LINE" red="1.0" green="0.8627450980392157" blue="0.3568627450980392" file="esfera_25.3d"/>
 			</models>
 			<group name="Saturn Rings">
 				<rotate angle="30" X="0" Y="0" Z="1"/>
@@ -317,7 +317,7 @@
 			<group name="Uranus">
 				<scale uniform="0.2912"/>
 				<models>
-					<model mode="FILL" red="0.5882352941176471" green="1.0" blue="1.0" file="esfera_1.3d"/>
+					<model mode="LINE" red="0.5882352941176471" green="1.0" blue="1.0" file="esfera_25.3d"/>
 				</models>
 			</group>
 			<group name="Titania (Uranus moon)">
@@ -341,7 +341,7 @@
 				</translate>
 				<scale uniform="0.065"/>
 				<models>
-					<model red="0.7176470588235294" green="0.7176470588235294" blue="0.7176470588235294" mode="FILL" file="esfera_1.3d"/>
+					<model red="0.7176470588235294" green="0.7176470588235294" blue="0.7176470588235294" mode="LINE" file="esfera_10.3d"/>
 				</models>
 			</group>
 		</group>
@@ -370,7 +370,7 @@
 			</translate>
 			<scale uniform="0.2832"/>
 			<models>
-				<model mode="FILL" red="0.27450980392156865" green="0.5098039215686274" blue="1.0" file="esfera_1.3d"/>
+				<model mode="LINE" red="0.27450980392156865" green="0.5098039215686274" blue="1.0" file="esfera_25.3d"/>
 			</models>
 		</group>
 		<group name="Pluto">
@@ -398,7 +398,7 @@
 			</translate>
 			<scale uniform="0.075"/>
 			<models>
-				<model mode="FILL" red="0.7058823529411765" green="0.39215686274509803" blue="0.0" file="esfera_1.3d"/>
+				<model mode="LINE" red="0.7058823529411765" green="0.39215686274509803" blue="0.0" file="esfera_10.3d"/>
 			</models>
 		</group>
 	</group>
