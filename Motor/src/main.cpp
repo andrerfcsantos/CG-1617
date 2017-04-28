@@ -233,8 +233,6 @@ void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
 					glRotatef(rr.rang, rr.rx, rr.ry, rr.rz);
 				}
 				else {
-					glPushMatrix();
-					temRotacao=true;
 					float t = (float)fmodf(((glutGet(GLUT_ELAPSED_TIME) - tempo_inicial)/ 1000.0f), rr.time) / (rr.time + 0.0f);
 					float ang = (float) (360.0f * t);
 					glRotatef(ang, rr.rx, rr.ry, rr.rz);
@@ -278,10 +276,6 @@ void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
 			
 		}
 		
-	}
-    
-	if (temRotacao) {
-		glPopMatrix();
 	}
 
 	for (auto chld_it = arvoreG.child(it_grupo, 0); chld_it != chld_it.end(); ++chld_it) {
@@ -426,10 +420,10 @@ Grupo XMLtoGrupo(xml_node node) {
 			Transformacao trans(TRANSLACAO);
 			trans.Tr.t.tx = trans.Tr.t.ty = trans.Tr.t.tz = 0;
 			trans.Tr.t.time = -1;
+
 			for (pugi::xml_attribute_iterator ait = it->attributes_begin(); ait != it->attributes_end(); ++ait)
 			{
 				string name = ait->name();
-				float fl = stof(ait->value());
 				if (name == "time") {
 					Desenho desenho;
 					desenho.defsDesenho.red = 0.39215686274509803f;
@@ -437,7 +431,7 @@ Grupo XMLtoGrupo(xml_node node) {
 					desenho.defsDesenho.blue = 0.39215686274509803f;
 					desenho.defsDesenho.modoPoligonos = GL_LINE;
 
-					trans.Tr.t.time = fl;
+					trans.Tr.t.time = stof(ait->value());
 					for (pugi::xml_node it_p : it->children("point")) {
 						float x, y, z;
 						Coordenadas3D ponto;
@@ -448,25 +442,31 @@ Grupo XMLtoGrupo(xml_node node) {
 						
 					}
 
-					int c_points = 100;
-					float dt = 1.0f / c_points;
-					float resultado[3], deriv[3];
-					for (int i = 0; i < c_points; i++) {
-						getGlobalCatmullRomPoint(trans.Tr.t.ctrlPoints, dt*i, resultado, deriv);
-						desenho.pontos.push_back(Coordenadas3D{ resultado[0],resultado[1],resultado[2] });
+					string str_drawCatmullCurve = it->attribute("drawCatmullCurve").value();
+
+					if (str_drawCatmullCurve == "true") {
+						string str_npts = it->attribute("nrCatmullPointsToDraw").value();
+						int c_points = (str_npts != "") ? stoi(str_npts): trans.Tr.t.ctrlPoints.size();
+						float dt = 1.0f / c_points;
+						float resultado[3], deriv[3];
+						for (int i = 0; i < c_points; i++) {
+							getGlobalCatmullRomPoint(trans.Tr.t.ctrlPoints, dt*i, resultado, deriv);
+							desenho.pontos.push_back(Coordenadas3D{ resultado[0],resultado[1],resultado[2] });
+						}
+
+						glGenBuffers(1, nBuffer);
+						glBindBuffer(GL_ARRAY_BUFFER, nBuffer[0]);
+						glBufferData(GL_ARRAY_BUFFER, sizeof(float) * desenho.pontos.size() * 3, &desenho.pontos[0], GL_STATIC_DRAW);
+						desenho.nBuff = nBuffer[0];
+						desenho.defsDesenho.modoDesenho = GL_LINE_LOOP;
+						res.catmullDes.push_back(desenho);
 					}
 
-					glGenBuffers(1, nBuffer);
-					glBindBuffer(GL_ARRAY_BUFFER, nBuffer[0]);
-					glBufferData(GL_ARRAY_BUFFER, sizeof(float) * desenho.pontos.size() * 3, &desenho.pontos[0], GL_STATIC_DRAW);
-					desenho.nBuff = nBuffer[0];
-					desenho.defsDesenho.modoDesenho = GL_LINE_LOOP;
-					res.catmullDes.push_back(desenho);
 				}
 				else {
-					if (name == "X") trans.Tr.t.tx = fl;
-					if (name == "Y") trans.Tr.t.ty = fl;
-					if (name == "Z") trans.Tr.t.tz = fl;
+					if (name == "X") trans.Tr.t.tx = stof(ait->value());
+					if (name == "Y") trans.Tr.t.ty = stof(ait->value());
+					if (name == "Z") trans.Tr.t.tz = stof(ait->value());
 				}
 			}
 			res.transformacoes.push_back(trans);

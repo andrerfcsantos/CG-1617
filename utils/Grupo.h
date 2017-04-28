@@ -21,6 +21,7 @@ public:
 	std::vector<Transformacao> transformacoes;
 	std::vector<Desenho> desenhos;
 	std::vector<Desenho> catmullDes;
+	int nrCRPtsToDraw;
 
 	friend std::ostream& operator<<(std::ostream& os, const Grupo& t) {
 		if (t.nome != "") {

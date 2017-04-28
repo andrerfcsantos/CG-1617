@@ -1,12 +1,14 @@
 <scene>
-	<group name="Sun">
-		<rotate time="15" X="0" Y="1" Z="0"/>
-		<scale uniform="1.1"/>
-		<models>
-			<model mode="FILL" red="1" green="1" blue="0" file="esfera_1.3d"/>
-		</models>
+	<group name="Solar System">
+		<group name="Sun">
+			<rotate time="15" X="0" Y="1" Z="0"/>
+			<scale uniform="1.1"/>
+			<models>
+				<model mode="FILL" red="1" green="1" blue="0" file="esfera_1.3d"/>
+			</models>
+		</group>
 		<group name="Mercury">
-			<translate time="5.0">
+			<translate time="5.0" drawCatmullCurve="true" nrCatmullPointsToDraw="100">
 				<point X="0.0" Y="0" Z="1.8"/>
 				<point X="0.7321259575364403" Y="0" Z="1.6443818237566816"/>
 				<point X="1.3376606858593094" Y="0" Z="1.204435091445945"/>
@@ -29,7 +31,7 @@
 			</models>
 		</group>
 		<group name="Venus">
-			<translate time="7.0">
+			<translate time="7.0" drawCatmullCurve="true" nrCatmullPointsToDraw="100">
 				<point X="0.0" Y="0" Z="2.4"/>
 				<point X="0.9761679433819204" Y="0" Z="2.192509098342242"/>
 				<point X="1.783547581145746" Y="0" Z="1.6059134552612597"/>
@@ -51,8 +53,8 @@
 				<model mode="FILL" red="0.9568627450980393" green="0.9568627450980393" blue="0.7843137254901961" file="esfera_1.3d"/>
 			</models>
 		</group>
-		<group name="Earth">
-			<translate time="12.0">
+		<group name="Earth System">
+			<translate time="12.0" drawCatmullCurve="true" nrCatmullPointsToDraw="100">
 				<point X="0.0" Y="0" Z="3.2"/>
 				<point X="1.3015572578425605" Y="0" Z="2.923345464456323"/>
 				<point X="2.378063441527661" Y="0" Z="2.1412179403483464"/>
@@ -69,23 +71,27 @@
 				<point X="-2.378063441527663" Y="0" Z="2.141217940348345"/>
 				<point X="-1.3015572578425632" Y="0" Z="2.9233454644563217"/>
 			</translate>
-			<scale uniform="0.14"/>
-			<models>
-				<model mode="FILL" red="0.0" green="0.0" blue="0.5882352941176471" file="esfera_1.3d"/>
-			</models>
-			<group name="Moon">
-				<rotate angle="15" X="1" Y="0" Z="0"/>
-				<translate time="3.0">
-					<point X="0.0" Y="0" Z="2.1"/>
-					<point X="1.48492424049175" Y="0" Z="1.48492424049175"/>
-					<point X="2.1" Y="0" Z="1.285879139104721e-16"/>
-					<point X="1.48492424049175" Y="0" Z="-1.4849242404917498"/>
-					<point X="2.571758278209442e-16" Y="0" Z="-2.1"/>
-					<point X="-1.4849242404917498" Y="0" Z="-1.4849242404917502"/>
-					<point X="-2.1" Y="0" Z="-3.8576374173141627e-16"/>
-					<point X="-1.4849242404917502" Y="0" Z="1.4849242404917495"/>
-				</translate>
+
+			<group name="Planet Earth">
 				<scale uniform="0.14"/>
+				<models>
+					<model mode="FILL" red="0.0" green="0.0" blue="0.5882352941176471" file="esfera_1.3d"/>
+				</models>
+			</group>
+
+			<group name="Earth Moon">
+				<rotate angle="15" X="1" Y="0" Z="0"/>
+				<translate time="3.0" drawCatmullCurve="true" nrCatmullPointsToDraw="100">
+					<point X="0.0" Y="0" Z="0.3"/>
+					<point X="0.21213203435596426" Y="0" Z="0.21213203435596426"/>
+					<point X="0.3" Y="0" Z="1.8369701987210297e-17"/>
+					<point X="0.21213203435596426" Y="0" Z="-0.21213203435596423"/>
+					<point X="3.6739403974420595e-17" Y="0" Z="-0.3"/>
+					<point X="-0.21213203435596423" Y="0" Z="-0.2121320343559643"/>
+					<point X="-0.3" Y="0" Z="-5.510910596163089e-17"/>
+					<point X="-0.2121320343559643" Y="0" Z="0.2121320343559642"/>
+				</translate>
+				<scale uniform="0.03"/>
 				<models>
 					<model red="0.7176470588235294" green="0.7176470588235294" blue="0.7176470588235294" mode="FILL" file="esfera_1.3d"/>
 				</models>
@@ -94,7 +100,7 @@
 		<group name="Cometa">
 			<translate X="0" Y="-5" Z="5"/>
 			<rotate angle="40" X="1" Y="0" Z="0"/>
-			<translate time="20.0">
+			<translate time="20.0" drawCatmullCurve="true" nrCatmullPointsToDraw="100">
 				<point X="0.0" Y="0" Z="9.0"/>
 				<point X="2.938926261462366" Y="0" Z="7.281152949374527"/>
 				<point X="4.755282581475767" Y="0" Z="2.781152949374527"/>
@@ -106,13 +112,13 @@
 				<point X="-4.755282581475768" Y="0" Z="2.7811529493745253"/>
 				<point X="-2.938926261462367" Y="0" Z="7.281152949374526"/>
 			</translate>
-			<scale uniform="0.05"/>
+			<scale uniform="0.1"/>
 			<models>
 				<model red="0.6784313725490196" green="0.2823529411764706" blue="0.050980392156862744" file="bezier.3d"/>
 			</models>
 		</group>
-		<group name="Mars">
-			<translate time="18.0">
+		<group name="Mars System">
+			<translate time="18.0" drawCatmullCurve="true" nrCatmullPointsToDraw="100">
 				<point X="0.0" Y="0" Z="4.0"/>
 				<point X="1.6269465723032006" Y="0" Z="3.6541818305704035"/>
 				<point X="2.9725793019095765" Y="0" Z="2.676522425435433"/>
@@ -129,27 +135,49 @@
 				<point X="-2.9725793019095783" Y="0" Z="2.676522425435431"/>
 				<point X="-1.6269465723032037" Y="0" Z="3.654181830570402"/>
 			</translate>
-			<scale uniform="0.11"/>
-			<models>
-				<model mode="FILL" red="1.0" green="0.6274509803921569" blue="0.19607843137254902" file="esfera_1.3d"/>
-			</models>
-			<group name="Phobos">
-				<translate X="0.9" Y="0.9" Z="0.9"/>
-				<scale uniform="0.14"/>
+			<group name="Mars Planet">
+				<scale uniform="0.11"/>
+				<models>
+					<model mode="FILL" red="1.0" green="0.6274509803921569" blue="0.19607843137254902" file="esfera_1.3d"/>
+				</models>
+			</group>
+			<group name="Phobos (Mars Moon)">
+				<rotate angle="700" X="1" Y="0" Z="0"/>
+				<translate time="3.0" drawCatmullCurve="true" nrCatmullPointsToDraw="100">
+					<point X="0.0" Y="0" Z="0.3"/>
+					<point X="0.21213203435596426" Y="0" Z="0.21213203435596426"/>
+					<point X="0.3" Y="0" Z="1.8369701987210297e-17"/>
+					<point X="0.21213203435596426" Y="0" Z="-0.21213203435596423"/>
+					<point X="3.6739403974420595e-17" Y="0" Z="-0.3"/>
+					<point X="-0.21213203435596423" Y="0" Z="-0.2121320343559643"/>
+					<point X="-0.3" Y="0" Z="-5.510910596163089e-17"/>
+					<point X="-0.2121320343559643" Y="0" Z="0.2121320343559642"/>
+				</translate>
+				<scale uniform="0.03"/>
 				<models>
 					<model red="0.7176470588235294" green="0.7176470588235294" blue="0.7176470588235294" mode="FILL" file="esfera_1.3d"/>
 				</models>
 			</group>
-			<group name="Deimos">
-				<translate X="0.9" Y="0.8" Z="-1.1"/>
-				<scale uniform="0.10"/>
+			<group name="Deimos (Mars Moon)">
+				<rotate angle="30" X="0" Y="0" Z="1"/>
+				<translate time="3.0" drawCatmullCurve="true" nrCatmullPointsToDraw="100">
+					<point X="0.0" Y="0" Z="0.2"/>
+					<point X="0.14142135623730953" Y="0" Z="0.14142135623730953"/>
+					<point X="0.2" Y="0" Z="1.2246467991473533e-17"/>
+					<point X="0.14142135623730953" Y="0" Z="-0.1414213562373095"/>
+					<point X="2.4492935982947065e-17" Y="0" Z="-0.2"/>
+					<point X="-0.1414213562373095" Y="0" Z="-0.14142135623730953"/>
+					<point X="-0.2" Y="0" Z="-3.6739403974420595e-17"/>
+					<point X="-0.14142135623730953" Y="0" Z="0.14142135623730948"/>
+				</translate>
+				<scale uniform="0.02"/>
 				<models>
 					<model red="0.7176470588235294" green="0.7176470588235294" blue="0.7176470588235294" mode="FILL" file="esfera_1.3d"/>
 				</models>
 			</group>
 		</group>
-		<group name="Jupiter">
-			<translate time="25.0">
+		<group name="Jupiter System">
+			<translate time="25.0" drawCatmullCurve="true" nrCatmullPointsToDraw="100">
 				<point X="0.0" Y="0" Z="6.2"/>
 				<point X="1.9159053651246738" Y="0" Z="5.896550401029952"/>
 				<point X="3.6442685642133337" Y="0" Z="5.0159053651246746"/>
@@ -171,27 +199,59 @@
 				<point X="-3.644268564213335" Y="0" Z="5.015905365124674"/>
 				<point X="-1.9159053651246756" Y="0" Z="5.896550401029952"/>
 			</translate>
-			<scale uniform="0.6032"/>
-			<models>
-				<model mode="FILL" red="1.0" green="0.8235294117647058" blue="0.6274509803921569" file="esfera_1.3d"/>
-			</models>
-			<group name="Ganymed">
-				<translate X="0.8" Y="0.8" Z="0.8"/>
-				<scale uniform="0.10"/>
+
+			<group name="Jupiter">
+				<scale uniform="0.6032"/>
+				<models>
+					<model mode="FILL" red="1.0" green="0.8235294117647058" blue="0.6274509803921569" file="esfera_1.3d"/>
+				</models>
+			</group>
+			<group name="Ganymed (Jupiter Moon)">
+				<rotate angle="50" X="0" Y="0" Z="1"/>
+				<translate time="3.0" drawCatmullCurve="true" nrCatmullPointsToDraw="100">
+					<point X="0.0" Y="0" Z="0.8"/>
+					<point X="0.39999999999999997" Y="0" Z="0.692820323027551"/>
+					<point X="0.6928203230275509" Y="0" Z="0.40000000000000013"/>
+					<point X="0.8" Y="0" Z="4.898587196589413e-17"/>
+					<point X="0.692820323027551" Y="0" Z="-0.39999999999999986"/>
+					<point X="0.4000000000000003" Y="0" Z="-0.6928203230275508"/>
+					<point X="9.797174393178826e-17" Y="0" Z="-0.8"/>
+					<point X="-0.3999999999999998" Y="0" Z="-0.6928203230275511"/>
+					<point X="-0.6928203230275507" Y="0" Z="-0.40000000000000036"/>
+					<point X="-0.8" Y="0" Z="-1.4695761589768238e-16"/>
+					<point X="-0.6928203230275513" Y="0" Z="0.39999999999999947"/>
+					<point X="-0.40000000000000036" Y="0" Z="0.6928203230275507"/>
+				</translate>
+				<scale uniform="0.06"/>
 				<models>
 					<model red="0.7176470588235294" green="0.7176470588235294" blue="0.7176470588235294" mode="FILL" file="esfera_1.3d"/>
 				</models>
 			</group>
-			<group name="Callisto">
-				<translate X="-0.8" Y="-0.8" Z="-0.8"/>
-				<scale uniform="0.11"/>
+
+			<group name="Callisto (Jupiter Moon)">
+				<rotate angle="30" X="1" Y="0" Z="0"/>
+				<translate time="3.0" drawCatmullCurve="true" nrCatmullPointsToDraw="100">
+					<point X="0.0" Y="0" Z="1.2"/>
+					<point X="0.5999999999999999" Y="0" Z="1.0392304845413265"/>
+					<point X="1.0392304845413263" Y="0" Z="0.6000000000000001"/>
+					<point X="1.2" Y="0" Z="7.347880794884119e-17"/>
+					<point X="1.0392304845413265" Y="0" Z="-0.5999999999999998"/>
+					<point X="0.6000000000000004" Y="0" Z="-1.039230484541326"/>
+					<point X="1.4695761589768238e-16" Y="0" Z="-1.2"/>
+					<point X="-0.5999999999999996" Y="0" Z="-1.0392304845413265"/>
+					<point X="-1.039230484541326" Y="0" Z="-0.6000000000000005"/>
+					<point X="-1.2" Y="0" Z="-2.2043642384652356e-16"/>
+					<point X="-1.0392304845413267" Y="0" Z="0.5999999999999991"/>
+					<point X="-0.6000000000000005" Y="0" Z="1.039230484541326"/>
+				</translate>
+				<scale uniform="0.04"/>
 				<models>
 					<model red="0.7176470588235294" green="0.7176470588235294" blue="0.7176470588235294" mode="FILL" file="esfera_1.3d"/>
 				</models>
 			</group>
 		</group>
 		<group name="Saturn">
-			<translate time="38.0">
+			<translate time="38.0" drawCatmullCurve="true" nrCatmullPointsToDraw="100">
 				<point X="0.0" Y="0" Z="8.9"/>
 				<point X="2.750251249937032" Y="0" Z="8.464402995026866"/>
 				<point X="5.2312887454030115" Y="0" Z="7.200251249937033"/>
@@ -217,22 +277,22 @@
 			<models>
 				<model mode="FILL" mode="FILL" red="1.0" green="0.8627450980392157" blue="0.3568627450980392" file="esfera_1.3d"/>
 			</models>
-			<group name="Aneis">
+			<group name="Saturn Rings">
 				<rotate angle="30" X="0" Y="0" Z="1"/>
-				<group name="Anel B">
+				<group name="Ring B">
 					<models>
 						<model mode="LINE" red="0.6274509803921569" green="0.5529411764705883" blue="0.2823529411764706" file="anel_b.3d"/>
 					</models>
 				</group>
-				<group name="Anel A">
+				<group name="Ring A">
 					<models>
 						<model mode="LINE" red="0.5294117647058824" green="0.4549019607843137" blue="0.1843137254901961" file="anel_a.3d"/>
 					</models>
 				</group>
 			</group>
 		</group>
-		<group name="Uranus">
-			<translate time="50.0">
+		<group name="Uranus System">
+			<translate time="50.0" drawCatmullCurve="true" nrCatmullPointsToDraw="100">
 				<point X="0.0" Y="0" Z="11.0"/>
 				<point X="3.3991869381244215" Y="0" Z="10.461621679246688"/>
 				<point X="6.465637775217204" Y="0" Z="8.899186938124423"/>
@@ -254,20 +314,39 @@
 				<point X="-6.465637775217207" Y="0" Z="8.899186938124421"/>
 				<point X="-3.3991869381244246" Y="0" Z="10.461621679246688"/>
 			</translate>
-			<scale uniform="0.2912"/>
-			<models>
-				<model mode="FILL" red="0.5882352941176471" green="1.0" blue="1.0" file="esfera_1.3d"/>
-			</models>
-			<group name="Titania">
-				<translate X="0.7" Y="-0.7" Z="0.7"/>
-				<scale uniform="0.11"/>
+			<group name="Uranus">
+				<scale uniform="0.2912"/>
+				<models>
+					<model mode="FILL" red="0.5882352941176471" green="1.0" blue="1.0" file="esfera_1.3d"/>
+				</models>
+			</group>
+			<group name="Titania (Uranus moon)">
+				<rotate angle="45" X="0" Y="0" Z="1"/>
+				<translate time="3.0" drawCatmullCurve="true" nrCatmullPointsToDraw="100">
+					<point X="0.0" Y="0" Z="0.45"/>
+					<point X="0.18303148938411007" Y="0" Z="0.4110954559391704"/>
+					<point X="0.33441517146482735" Y="0" Z="0.30110877286148624"/>
+					<point X="0.4279754323328191" Y="0" Z="0.13905764746872637"/>
+					<point X="0.44753485291572304" Y="0" Z="-0.047037808470444004"/>
+					<point X="0.38971143170299744" Y="0" Z="-0.2249999999999999"/>
+					<point X="0.26450336353161297" Y="0" Z="-0.3640576474687263"/>
+					<point X="0.09356026086799188" Y="0" Z="-0.4401664203302125"/>
+					<point X="-0.09356026086799159" Y="0" Z="-0.4401664203302126"/>
+					<point X="-0.26450336353161286" Y="0" Z="-0.3640576474687264"/>
+					<point X="-0.38971143170299727" Y="0" Z="-0.2250000000000002"/>
+					<point X="-0.447534852915723" Y="0" Z="-0.047037808470444406"/>
+					<point X="-0.42797543233281915" Y="0" Z="0.13905764746872626"/>
+					<point X="-0.3344151714648276" Y="0" Z="0.301108772861486"/>
+					<point X="-0.18303148938411043" Y="0" Z="0.41109545593917024"/>
+				</translate>
+				<scale uniform="0.065"/>
 				<models>
 					<model red="0.7176470588235294" green="0.7176470588235294" blue="0.7176470588235294" mode="FILL" file="esfera_1.3d"/>
 				</models>
 			</group>
 		</group>
 		<group name="Neptune">
-			<translate time="73.0">
+			<translate time="73.0" drawCatmullCurve="true" nrCatmullPointsToDraw="100">
 				<point X="0.0" Y="0" Z="13.0"/>
 				<point X="4.017220926874316" Y="0" Z="12.363734711836996"/>
 				<point X="7.641208279802151" Y="0" Z="10.517220926874316"/>
@@ -295,7 +374,7 @@
 			</models>
 		</group>
 		<group name="Pluto">
-			<translate time="95.0">
+			<translate time="95.0" drawCatmullCurve="true" nrCatmullPointsToDraw="100">
 				<point X="0.0" Y="0" Z="15.0"/>
 				<point X="4.635254915624211" Y="0" Z="14.265847744427303"/>
 				<point X="8.816778784387097" Y="0" Z="12.135254915624213"/>
