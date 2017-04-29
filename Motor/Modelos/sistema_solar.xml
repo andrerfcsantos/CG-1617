@@ -25,6 +25,7 @@
 				<point X="-1.3376606858593103" Y="0" Z="1.204435091445944"/>
 				<point X="-0.7321259575364417" Y="0" Z="1.644381823756681"/>
 			</translate>
+			<rotate time="10" X="0" Y="1" Z="0" direction="ccw"/>
 			<scale uniform="0.085"/>
 			<models>
 				<model mode="LINE" red="0.7176470588235294" green="0.7176470588235294" blue="0.7176470588235294" file="esfera_25.3d"/>
@@ -48,6 +49,7 @@
 				<point X="-1.7835475811457469" Y="0" Z="1.6059134552612586"/>
 				<point X="-0.9761679433819221" Y="0" Z="2.1925090983422413"/>
 			</translate>
+			<rotate time="30" X="0" Y="1" Z="0" direction="cw"/>
 			<scale uniform="0.135"/>
 			<models>
 				<model mode="LINE" red="0.9568627450980393" green="0.9568627450980393" blue="0.7843137254901961" file="esfera_25.3d"/>
@@ -73,6 +75,7 @@
 			</translate>
 
 			<group name="Planet Earth">
+				<rotate time="5" X="0" Y="1" Z="0" direction="ccw"/>
 				<scale uniform="0.14"/>
 				<models>
 					<model mode="LINE" red="0.0" green="0.0" blue="0.5882352941176471" file="esfera_25.3d"/>
@@ -136,6 +139,7 @@
 				<point X="-1.6269465723032037" Y="0" Z="3.654181830570402"/>
 			</translate>
 			<group name="Mars Planet">
+				<rotate time="5" X="0" Y="1" Z="0" direction="ccw"/>
 				<scale uniform="0.11"/>
 				<models>
 					<model mode="LINE" red="1.0" green="0.6274509803921569" blue="0.19607843137254902" file="esfera_25.3d"/>
@@ -201,6 +205,7 @@
 			</translate>
 
 			<group name="Jupiter">
+				<rotate time="2" X="0" Y="1" Z="0" direction="ccw"/>
 				<scale uniform="0.6032"/>
 				<models>
 					<model mode="LINE" red="1.0" green="0.8235294117647058" blue="0.6274509803921569" file="esfera_25.3d"/>
@@ -250,7 +255,7 @@
 				</models>
 			</group>
 		</group>
-		<group name="Saturn">
+		<group name="Saturn System">
 			<translate time="38.0" drawCatmullCurve="true" nrCatmullPointsToDraw="100">
 				<point X="0.0" Y="0" Z="8.9"/>
 				<point X="2.750251249937032" Y="0" Z="8.464402995026866"/>
@@ -273,12 +278,16 @@
 				<point X="-5.231288745403013" Y="0" Z="7.200251249937032"/>
 				<point X="-2.750251249937034" Y="0" Z="8.464402995026866"/>
 			</translate>
-			<scale uniform="0.5032"/>
-			<models>
-				<model mode="LINE" mode="LINE" red="1.0" green="0.8627450980392157" blue="0.3568627450980392" file="esfera_25.3d"/>
-			</models>
+			<group name="Saturn">
+				<rotate time="2" X="0" Y="1" Z="0" direction="ccw"/>
+				<scale uniform="0.5032"/>
+				<models>
+					<model mode="LINE" mode="LINE" red="1.0" green="0.8627450980392157" blue="0.3568627450980392" file="esfera_25.3d"/>
+				</models>
+			</group>
 			<group name="Saturn Rings">
 				<rotate angle="30" X="0" Y="0" Z="1"/>
+				<scale uniform="0.5032"/>
 				<group name="Ring B">
 					<models>
 						<model mode="LINE" red="0.6274509803921569" green="0.5529411764705883" blue="0.2823529411764706" file="anel_b.3d"/>
@@ -315,6 +324,7 @@
 				<point X="-3.3991869381244246" Y="0" Z="10.461621679246688"/>
 			</translate>
 			<group name="Uranus">
+				<rotate time="3.5" X="0" Y="1" Z="0" direction="cw"/>
 				<scale uniform="0.2912"/>
 				<models>
 					<model mode="LINE" red="0.5882352941176471" green="1.0" blue="1.0" file="esfera_25.3d"/>
@@ -368,6 +378,7 @@
 				<point X="-7.641208279802154" Y="0" Z="10.517220926874316"/>
 				<point X="-4.0172209268743195" Y="0" Z="12.363734711836996"/>
 			</translate>
+			<rotate time="3.5" X="0" Y="1" Z="0" direction="ccw"/>
 			<scale uniform="0.2832"/>
 			<models>
 				<model mode="LINE" red="0.27450980392156865" green="0.5098039215686274" blue="1.0" file="esfera_25.3d"/>
