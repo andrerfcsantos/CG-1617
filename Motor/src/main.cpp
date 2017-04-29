@@ -210,6 +210,9 @@ void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
 					float X[3], Z[3];
 					float m[16];
 					t = (float) fmodf(((glutGet(GLUT_ELAPSED_TIME) - tempo_inicial)/1000.0f), tr.time) / (tr.time+0.0f);
+					if (tr.ccw == false) {
+						t = 1 - t;
+					}
 					// X = norm(deriv)
 					getGlobalCatmullRomPoint(tr.ctrlPoints,t, res, X);
 					normalize(X);
@@ -234,6 +237,9 @@ void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
 				}
 				else {
 					float t = (float)fmodf(((glutGet(GLUT_ELAPSED_TIME) - tempo_inicial)/ 1000.0f), rr.time) / (rr.time + 0.0f);
+					if (rr.ccw == false) {
+						t = 1 - t;
+					}
 					float ang = (float) (360.0f * t);
 					glRotatef(ang, rr.rx, rr.ry, rr.rz);
 				}
@@ -442,6 +448,10 @@ Grupo XMLtoGrupo(xml_node node) {
 						
 					}
 
+					string str_direction = it->attribute("direction").value();
+
+					trans.Tr.t.ccw = (str_direction == "cw") ? false : true ;
+
 					string str_drawCatmullCurve = it->attribute("drawCatmullCurve").value();
 
 					if (str_drawCatmullCurve == "true") {
@@ -481,12 +491,15 @@ Grupo XMLtoGrupo(xml_node node) {
 			for (pugi::xml_attribute_iterator ait = it->attributes_begin(); ait != it->attributes_end(); ++ait)
 			{
 				string name = ait->name();
-				float fl = stof(ait->value());
-				if (name == "angle") trans.Tr.r.rang = fl;
-				if (name == "time") trans.Tr.r.time = fl;
-				if (name == "X") trans.Tr.r.rx = fl;
-				if (name == "Y") trans.Tr.r.ry = fl;
-				if (name == "Z") trans.Tr.r.rz = fl;
+				if (name == "angle") trans.Tr.r.rang = stof(ait->value());
+				if (name == "time") {
+					trans.Tr.r.time = stof(ait->value());
+					string str_direction = it->attribute("direction").value();
+					trans.Tr.r.ccw = (str_direction == "cw") ? false : true;
+				}
+				if (name == "X") trans.Tr.r.rx = stof(ait->value());
+				if (name == "Y") trans.Tr.r.ry = stof(ait->value());
+				if (name == "Z") trans.Tr.r.rz = stof(ait->value());
 			}
 			res.transformacoes.push_back(trans);
 		}

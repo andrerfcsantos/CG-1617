@@ -21,12 +21,13 @@ class Rotacao {
 public:
 	float rang, rx, ry, rz;
 	float time;
+	bool ccw;
 
-	Rotacao() : Rotacao(0.0f, 0.0f, 1.0f, 0.0f) {
+	Rotacao() : Rotacao(0.0f, 0.0f, 1.0f, 0.0f, true) {
 	}
 
-	Rotacao(float p_rang, float p_rx, float p_ry, float p_rz) :
-			rang(p_rang), rx(p_rx),   ry(p_ry),   rz(p_rz) {
+	Rotacao(float p_rang, float p_rx, float p_ry, float p_rz, bool p_ccw) :
+			rang(p_rang), rx(p_rx),   ry(p_ry),   rz(p_rz), ccw(p_ccw) {
 	}
 };
 
@@ -34,15 +35,16 @@ class Translacao {
 public:
 	float tx, ty, tz, time;
 	std::vector <Coordenadas3D> ctrlPoints;
+	bool ccw;
 
-	Translacao() : Translacao(0.0f, 0.0f, 0.0f) {
+	Translacao() : Translacao(0.0f, 0.0f, 0.0f, true) {
 	}
 
 	Translacao(float p_time) : time(p_time) {
 	}
 
-	Translacao(float p_tx, float p_ty, float p_tz) :
-			tx(p_tx), ty(p_ty), tz(p_tz), time(-1.0f) {
+	Translacao(float p_tx, float p_ty, float p_tz, bool p_ccw) :
+			tx(p_tx), ty(p_ty), tz(p_tz), time(-1.0f), ccw(p_ccw) {
 	}
 };
 
