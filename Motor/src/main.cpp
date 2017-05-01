@@ -168,8 +168,6 @@ void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
 	Rotacao rr;
 	Escala er;
 
-
-
 	for (auto it = (*it_grupo).transformacoes.begin(); it != (*it_grupo).transformacoes.end(); ++it) {
 
         switch (it->tipo) {
@@ -439,7 +437,7 @@ Grupo XMLtoGrupo(xml_node node) {
 
 					trans.Tr.t.time = stof(ait->value());
 					for (pugi::xml_node it_p : it->children("point")) {
-						float x, y, z;
+						float x=0, y=0, z=0;
 						Coordenadas3D ponto;
 						ponto.x=stof(it_p.attribute("X").value());
 						ponto.y=stof(it_p.attribute("Y").value());
@@ -559,8 +557,7 @@ Grupo XMLtoGrupo(xml_node node) {
 					desenho.pontos.push_back(Coordenadas3D{ x,y,z });
 					npontos++;
 				}
-
-				desenho.pontos.size();
+				
 				glGenBuffers(1, nBuffer);
 				glBindBuffer(GL_ARRAY_BUFFER, nBuffer[0]);
 				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * desenho.pontos.size() * 3, &desenho.pontos[0], GL_STATIC_DRAW);
