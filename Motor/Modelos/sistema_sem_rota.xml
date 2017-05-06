@@ -1,10 +1,10 @@
 <scene>
 	<lights>
-		<light type="DIRECTIONAL" posX="0" posY="0" posZ="0"/>
+		<light type="POINT" posX="5" posY="5" posZ="5"/>
 	</lights>
 	<group name="Solar System">
 		<group name="Sun">
-			<rotate time="15" X="0" Y="1" Z="0"/>
+			
 			<scale uniform="1.1"/>
 			<models>
 				<model mode="LINE" red="1" green="1" blue="0" file="esfera_50.3d"/>
@@ -28,7 +28,7 @@
 				<point X="-1.3376606858593103" Y="0" Z="1.204435091445944"/>
 				<point X="-0.7321259575364417" Y="0" Z="1.644381823756681"/>
 			</translate>
-			<rotate time="10" X="0" Y="1" Z="0" direction="ccw"/>
+			
 			<scale uniform="0.085"/>
 			<models>
 				<model mode="LINE" red="0.7176470588235294" green="0.7176470588235294" blue="0.7176470588235294" file="esfera_25.3d"/>
@@ -52,7 +52,7 @@
 				<point X="-1.7835475811457469" Y="0" Z="1.6059134552612586"/>
 				<point X="-0.9761679433819221" Y="0" Z="2.1925090983422413"/>
 			</translate>
-			<rotate time="30" X="0" Y="1" Z="0" direction="cw"/>
+			
 			<scale uniform="0.135"/>
 			<models>
 				<model mode="LINE" red="0.9568627450980393" green="0.9568627450980393" blue="0.7843137254901961" file="esfera_25.3d"/>
@@ -78,7 +78,7 @@
 			</translate>
 
 			<group name="Planet Earth">
-				<rotate time="5" X="0" Y="1" Z="0" direction="ccw"/>
+				
 				<scale uniform="0.14"/>
 				<models>
 					<model mode="LINE" red="0.0" green="0.0" blue="0.5882352941176471" file="esfera_25.3d"/>
@@ -86,7 +86,7 @@
 			</group>
 
 			<group name="Earth Moon">
-				<rotate angle="15" X="1" Y="0" Z="0"/>
+				
 				<translate time="3.0" drawCatmullCurve="true" nrCatmullPointsToDraw="100">
 					<point X="0.0" Y="0" Z="0.3"/>
 					<point X="0.21213203435596426" Y="0" Z="0.21213203435596426"/>
@@ -105,7 +105,7 @@
 		</group>
 		<group name="Cometa">
 			<translate X="0" Y="-5" Z="5"/>
-			<rotate angle="40" X="1" Y="0" Z="0"/>
+			
 			<translate time="20.0" drawCatmullCurve="true" nrCatmullPointsToDraw="100">
 				<point X="0.0" Y="0" Z="9.0"/>
 				<point X="2.938926261462366" Y="0" Z="7.281152949374527"/>
@@ -142,14 +142,14 @@
 				<point X="-1.6269465723032037" Y="0" Z="3.654181830570402"/>
 			</translate>
 			<group name="Mars Planet">
-				<rotate time="5" X="0" Y="1" Z="0" direction="ccw"/>
+				
 				<scale uniform="0.11"/>
 				<models>
 					<model mode="LINE" red="1.0" green="0.6274509803921569" blue="0.19607843137254902" file="esfera_25.3d"/>
 				</models>
 			</group>
 			<group name="Phobos (Mars Moon)">
-				<rotate angle="700" X="1" Y="0" Z="0"/>
+				
 				<translate time="3.0" drawCatmullCurve="true" nrCatmullPointsToDraw="100">
 					<point X="0.0" Y="0" Z="0.3"/>
 					<point X="0.21213203435596426" Y="0" Z="0.21213203435596426"/>
@@ -166,7 +166,7 @@
 				</models>
 			</group>
 			<group name="Deimos (Mars Moon)">
-				<rotate angle="30" X="0" Y="0" Z="1"/>
+				
 				<translate time="3.0" drawCatmullCurve="true" nrCatmullPointsToDraw="100">
 					<point X="0.0" Y="0" Z="0.2"/>
 					<point X="0.14142135623730953" Y="0" Z="0.14142135623730953"/>
@@ -208,14 +208,14 @@
 			</translate>
 
 			<group name="Jupiter">
-				<rotate time="2" X="0" Y="1" Z="0" direction="ccw"/>
+				
 				<scale uniform="0.6032"/>
 				<models>
 					<model mode="LINE" red="1.0" green="0.8235294117647058" blue="0.6274509803921569" file="esfera_25.3d"/>
 				</models>
 			</group>
 			<group name="Ganymed (Jupiter Moon)">
-				<rotate angle="50" X="0" Y="0" Z="1"/>
+				
 				<translate time="3.0" drawCatmullCurve="true" nrCatmullPointsToDraw="100">
 					<point X="0.0" Y="0" Z="0.8"/>
 					<point X="0.39999999999999997" Y="0" Z="0.692820323027551"/>
@@ -237,7 +237,7 @@
 			</group>
 
 			<group name="Callisto (Jupiter Moon)">
-				<rotate angle="30" X="1" Y="0" Z="0"/>
+				
 				<translate time="3.0" drawCatmullCurve="true" nrCatmullPointsToDraw="100">
 					<point X="0.0" Y="0" Z="1.2"/>
 					<point X="0.5999999999999999" Y="0" Z="1.0392304845413265"/>
@@ -282,14 +282,14 @@
 				<point X="-2.750251249937034" Y="0" Z="8.464402995026866"/>
 			</translate>
 			<group name="Saturn">
-				<rotate time="2" X="0" Y="1" Z="0" direction="ccw"/>
+				
 				<scale uniform="0.5032"/>
 				<models>
 					<model mode="LINE" mode="LINE" red="1.0" green="0.8627450980392157" blue="0.3568627450980392" file="esfera_25.3d"/>
 				</models>
 			</group>
 			<group name="Saturn Rings">
-				<rotate angle="30" X="0" Y="0" Z="1"/>
+				
 				<scale uniform="0.5032"/>
 				<group name="Ring B">
 					<models>
@@ -327,14 +327,14 @@
 				<point X="-3.3991869381244246" Y="0" Z="10.461621679246688"/>
 			</translate>
 			<group name="Uranus">
-				<rotate time="3.5" X="0" Y="1" Z="0" direction="cw"/>
+				
 				<scale uniform="0.2912"/>
 				<models>
 					<model mode="LINE" red="0.5882352941176471" green="1.0" blue="1.0" file="esfera_25.3d"/>
 				</models>
 			</group>
 			<group name="Titania (Uranus moon)">
-				<rotate angle="45" X="0" Y="0" Z="1"/>
+				
 				<translate time="3.0" drawCatmullCurve="true" nrCatmullPointsToDraw="100">
 					<point X="0.0" Y="0" Z="0.45"/>
 					<point X="0.18303148938411007" Y="0" Z="0.4110954559391704"/>
@@ -381,7 +381,7 @@
 				<point X="-7.641208279802154" Y="0" Z="10.517220926874316"/>
 				<point X="-4.0172209268743195" Y="0" Z="12.363734711836996"/>
 			</translate>
-			<rotate time="3.5" X="0" Y="1" Z="0" direction="ccw"/>
+			
 			<scale uniform="0.2832"/>
 			<models>
 				<model mode="LINE" red="0.27450980392156865" green="0.5098039215686274" blue="1.0" file="esfera_25.3d"/>

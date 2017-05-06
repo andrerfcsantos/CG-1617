@@ -81,7 +81,7 @@ void getCatmullRomPoint(float t,
 
 
 	// T = [t^3, t^2, t, 1]
-	float tv[4] = { pow(t,3),pow(t,2),pow(t,1),1 };
+	float tv[4] = { t*t*t,t*t,t,1 };
 
 	// Compute point resx = T *Ax
 	res[0] = tv[0] * Ax[0] + tv[1] * Ax[1] + tv[2] * Ax[2] + tv[3] * Ax[3];
@@ -93,7 +93,7 @@ void getCatmullRomPoint(float t,
 
 	// T = [3t^2, 2t, 1, 0]
 	// compute deriv = T' * Ax
-	float tvl[4] = { 3 * pow(t,2),2 * t,1,0 };
+	float tvl[4] = { 3 *t*t,2 * t,1,0 };
 	deriv[0] = tvl[0] * Ax[0] + tvl[1] * Ax[1] + tvl[2] * Ax[2] + tvl[3] * Ax[3];
 	// compute deriv = T' * Ay
 	deriv[1] = tvl[0] * Ay[0] + tvl[1] * Ay[1] + tvl[2] * Ay[2] + tvl[3] * Ay[3];

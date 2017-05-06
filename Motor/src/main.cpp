@@ -2,7 +2,6 @@
 #include <vector>
 
 #ifdef __APPLE__
-#include <GLUT/glew.h>
 #include <GLUT/glut.h>
 #else
 #include <GL/glew.h>
@@ -16,6 +15,7 @@
 #include "../../utils/CoordsEsfericas.h"
 #include "../../utils/Camara.h"
 #include "../../utils/Grupo.h"
+#include "../../utils/Light.h"
 #include "pugixml.hpp"
 #include "tree.hh"
 #include "../../utils/Transformacoes.h"
@@ -46,7 +46,7 @@ pugi::xml_document doc;
 tree<Grupo> arvoreG;
 deque<tree<Grupo>::iterator> stack_group;
 deque<tree<Grupo>::iterator> stack_group_read;
-std::vector<Luz> luzes;
+std::vector<Light> luzes;
 deque<xml_node> stack_xmlnode_read;
 std::string modelo_prefix("../../Modelos/");
 int p = 0;
@@ -412,6 +412,82 @@ void percorreArvore() {
 	}
 }
 
+void XMLtoLights(xml_node node) {
+	for (auto it = node.begin(); it != node.end(); ++it) {
+		Light l;
+		for (pugi::xml_attribute_iterator ait = it->attributes_begin(); ait != it->attributes_end(); ++ait) {
+			string name = ait->name();
+			if (name == "type") {
+				l.type = ait->value();
+				if (l.type == "DIRECTIONAL") {
+					l.pos[3] = 0.0;
+				}
+			}
+			if (name == "posX") {
+				l.pos[0] = stof(ait->value());
+			}
+			if (name == "posY") {
+				l.pos[1] = stof(ait->value());
+			}
+			if (name == "posZ") {
+				l.pos[2] = stof(ait->value());
+			}
+			if (name == "diffR") {
+				l.diff[0] = stof(ait->value());
+			}
+			if (name == "diffG") {
+				l.diff[1] = stof(ait->value());
+			}
+			if (name == "diffB") {
+				l.diff[2] = stof(ait->value());
+			}
+			if (name == "ambR") {
+				l.amb[0] = stof(ait->value());
+			}
+			if (name == "ambG") {
+				l.amb[1] = stof(ait->value());
+			}
+			if (name == "ambB") {
+				l.amb[2] = stof(ait->value());
+			}
+			if (name == "emisR") {
+				l.emiss[0] = stof(ait->value());
+			}
+			if (name == "emisG") {
+				l.emiss[1] = stof(ait->value());
+			}
+			if (name == "emisB") {
+				l.emiss[2] = stof(ait->value());
+			}
+			if (name == "spotX") {
+				l.spotDir[0] = stof(ait->value());
+			}
+			if (name == "spotY") {
+				l.spotDir[1] = stof(ait->value());
+			}
+			if (name == "spotZ") {
+				l.spotDir[2] = stof(ait->value());
+			}
+			if (name == "cutoff") {
+				l.cutoff = stof(ait->value());
+			}
+			if (name == "exponent") {
+				l.exponent = stof(ait->value());
+			}
+			if (name == "const_Att") {
+				l.attenuation[0] = stof(ait->value());
+			}
+			if (name == "linear_Att") {
+				l.attenuation[1] = stof(ait->value());
+			}
+			if (name == "quad_Att") {
+				l.attenuation[2] = stof(ait->value());
+			}
+		}
+		luzes.push_back(l);
+	}
+}
+
 Grupo XMLtoGrupo(xml_node node) {
 	Grupo res;
 	GLuint nBuffer[1];
@@ -549,13 +625,15 @@ Grupo XMLtoGrupo(xml_node node) {
 					}
 				}
 
-				float x, y, z;
+				float x, y, z,nx,ny,nz,t1,t2;
 				string nome_ficheiro = nfile.attribute("file").value();
 				ifstream fich_inp(modelo_prefix + nome_ficheiro);
 				res.ficheiros.push_back(nome_ficheiro);
 
-				while (fich_inp >> x >> y >> z) {
+				while (fich_inp >> x >> y >> z >> nx >> ny >> nz >> t1 >> t2) {
 					desenho.pontos.push_back(Coordenadas3D{ x,y,z });
+					desenho.normais.push_back(Coordenadas3D{nx,ny,nz});
+					desenho.coordsText.push_back(CoordsTextura{t1,t2});
 					npontos++;
 				}
 				
@@ -574,7 +652,7 @@ Grupo XMLtoGrupo(xml_node node) {
 }
 
 void leXML() {
-	std::string nomeFicheiro("sistema_solar.xml");
+	std::string nomeFicheiro("sistema_sem_rota.xml");
 
 	std::string ficheiro(modelo_prefix + nomeFicheiro);
 	pugi::xml_parse_result result = doc.load_file(ficheiro.c_str());
@@ -588,6 +666,9 @@ void leXML() {
 			return;
 		}
 	}
+
+	xml_node root_lights = doc.child("scene").child("lights");
+	XMLtoLights(root_lights);
 
 	Grupo g;
 	tree<Grupo>::iterator na, na_aux;
@@ -663,6 +744,10 @@ int main(int argc, char **argv) {
 	glutInitWindowPosition(75,50);
 	glutInitWindowSize(1250,700);
 	glutCreateWindow("CG@DI-UM");
+
+#ifndef __APPLE__
+	glewInit();
+#endif
 		
 	// Required callback registry 
 	glutDisplayFunc(renderScene);
@@ -677,23 +762,25 @@ int main(int argc, char **argv) {
 
 	criaMenus();
 
-	glewInit();
-
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 
-	glEnable(GL_TEXTURE_2D);
+	//glEnable(GL_TEXTURE_2D);
 
 	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_NORMAL_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-
+	//glEnableClientState(GL_NORMAL_ARRAY);
+	//glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	leXML();
-	
+
+	if (luzes.size() > 0) {
+		glEnable(GL_LIGHTING);
+		for (int i = 0; i < luzes.size(); ++i) {
+			luzes[i].apply(i);
+			glEnable(GL_LIGHT0 + i);
+		}
+	}
+
 	std::cout << "npontos: " << npontos << std::endl;
 	tempo_inicial = glutGet(GLUT_ELAPSED_TIME);
 
