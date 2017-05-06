@@ -1,7 +1,6 @@
 #pragma once
 
-#define _USE_MATH_DEFINES
-#include <math.h>
+
 #include <vector>
 #include <fstream>
 #include "Coordenadas3D.h"
@@ -45,10 +44,10 @@ public:
 				nc = C - o;
 				nd = D - o;
 
-				ctA = CoordsTextura{ (deltaAz*i) / 360.0, (deltaPolar*j) / 360.0 };
-				ctB = CoordsTextura{ (deltaAz*(i + 1)) / 360.0, (deltaPolar*j) / 360.0 };
-				ctC = CoordsTextura{ (deltaAz*i) / 360.0, (deltaPolar*(j + 1)) / 360.0 };
-				ctD = CoordsTextura{ (deltaAz*(i + 1)) / 360.0, (deltaPolar*(j + 1)) / 360.0 };
+				ctA = CoordsTextura{ (deltaAz*i) / 360.0f, (deltaPolar*j) / 360.0f };
+				ctB = CoordsTextura{ (deltaAz*(i + 1)) / 360.0f, (deltaPolar*j) / 360.0f };
+				ctC = CoordsTextura{ (deltaAz*i) / 360.0f, (deltaPolar*(j + 1)) / 360.0f };
+				ctD = CoordsTextura{ (deltaAz*(i + 1)) / 360.0f, (deltaPolar*(j + 1)) / 360.0f };
 
 				pontos.push_back(A);
 				normais.push_back(na.normalize());
@@ -102,10 +101,10 @@ public:
 			C = CoordsPolares(o, raioInterno, deltaAz*(i + 1)).toCartesianas();
 			D = CoordsPolares(o, raioExterno, deltaAz*(i + 1)).toCartesianas();
 
-			ctA = CoordsTextura{ (deltaAz*i) / 360.0      , 1 };
-			ctB = CoordsTextura{ (deltaAz*i) / 360.0      , 0 };
-			ctC = CoordsTextura{ (deltaAz*(i + 1)) / 360.0, 1 };
-			ctD = CoordsTextura{ (deltaAz*(i + 1)) / 360.0, 0 };
+			ctA = CoordsTextura{ (deltaAz*i) / 360.0f      , 1 };
+			ctB = CoordsTextura{ (deltaAz*i) / 360.0f      , 0 };
+			ctC = CoordsTextura{ (deltaAz*(i + 1)) / 360.0f, 1 };
+			ctD = CoordsTextura{ (deltaAz*(i + 1)) / 360.0f, 0 };
 
 			if (orientacao == CIMA || orientacao == AMBOS) {
 				pontos.push_back(A);
@@ -168,7 +167,7 @@ public:
 							float raio, int fatias,
 							ORIENTACAO_FIG orientacao) {
 
-		float deltaAz = (float)2 * M_PI / fatias;
+		float deltaAz = (float) (2.0f * M_PI) / fatias;
 		Coordenadas3D A, B;
 		CoordsTextura ctA, ctB, ctO;
 		Coordenadas3D centroTextura = Coordenadas3D{0.5,0,0.5};
@@ -177,12 +176,18 @@ public:
 
 		for (int i = 0; i < fatias; ++i) {
 			A = CoordsPolares(o, raio, deltaAz*i).toCartesianas();
-			ctA = CoordsTextura{0.5 + 0.5*cos((deltaAz*i) - (M_PI/2)),0.5 + 0.5*sin((deltaAz*i) - (M_PI / 2))};
+			float s1 = 0.5f + 0.5*cos((deltaAz*i) - (M_PI / 2.0));
+			float t1 = 0.5f + 0.5*sin((deltaAz*i) - (M_PI / 2.0));
+
+			ctA = CoordsTextura{ s1,t1 };
 
 			B = CoordsPolares(o, raio, deltaAz*(i + 1)).toCartesianas();
-			ctB = CoordsTextura{ 0.5 + 0.5*cos((deltaAz*(i+1)) - (M_PI / 2)),0.5 + 0.5*sin((deltaAz*(i+1)) - (M_PI / 2)) };
+			
+			float s2 = 0.5f + 0.5f*cos((deltaAz*(i + 1)) - (M_PI / 2.0));
+			float t2 = 0.5f + 0.5f*sin((deltaAz*(i + 1)) - (M_PI / 2.0));
+			ctB = CoordsTextura{s2,t2};
 
-			ctO = CoordsTextura{ 0.5,0.5 };
+			ctO = CoordsTextura{ 0.5f,0.5f };
 
 			if (orientacao == CIMA || orientacao == AMBOS) {
 				pontos.push_back(A);
@@ -219,6 +224,7 @@ public:
 		float deltaAz = (float)2 * M_PI / fatias;
 		float deltaAltura = (float)altura / camadas;
 		float deltaRaio = (float)raio / camadas;
+		float s1, t1, s2, t2;
 		Coordenadas3D A, B, C, D, E, F, G, H, I, J, K, L;
 		CoordsTextura ctA, ctB, ctC, ctD, ctE, ctF, ctG, ctH, ctI, ctJ, ctK, ctL,ctO;
 
@@ -229,12 +235,18 @@ public:
 
 		for (int i = 0; i < fatias; ++i) {
 			A = CoordsPolares(o, raio, deltaAz*i).toCartesianas();
-			ctA = CoordsTextura{ 0.5 + 0.5*cos((deltaAz*i) - (M_PI / 2)),0.5 + 0.5*sin((deltaAz*i) - (M_PI / 2)) };
+
+			s1 = 0.5f + 0.5*cos((deltaAz*i) - (M_PI / 2));
+			t1 = 0.5 + 0.5*sin((deltaAz*i) - (M_PI / 2));
+			ctA = CoordsTextura{ s1,t1};
 
 			B = CoordsPolares(o, raio, deltaAz*(i + 1)).toCartesianas();
-			ctB = CoordsTextura{ 0.5 + 0.5*cos((deltaAz*(i + 1)) - (M_PI / 2)),0.5 + 0.5*sin((deltaAz*(i + 1)) - (M_PI / 2)) };
 
-			ctO = CoordsTextura{ 0.5,0.5 };
+			s2 = 0.5f + 0.5f*cos((deltaAz*(i + 1)) - (M_PI / 2.0f));
+			t2 = 0.5f + 0.5f*sin((deltaAz*(i + 1)) - (M_PI / 2.0f));
+			ctB = CoordsTextura{ s2,t2};
+
+			ctO = CoordsTextura{ 0.5f,0.5f };
 
 			pontos.push_back(A);
 			normais.push_back(down);
@@ -515,8 +527,8 @@ public:
 		float deltaAz = (float) (2.0f * M_PI) / fatias;
 		float deltaAlt = (float) altura/camadas;
 
-		geraCirculo(o, raio, fatias,0);
-		geraCirculo(Coordenadas3D{o.x,o.y + altura,o.z}, raio, fatias, 1);
+		geraCirculo(o, raio, fatias,BAIXO);
+		geraCirculo(Coordenadas3D{o.x,o.y + altura,o.z}, raio, fatias, CIMA);
 
 		for (int j = 0; j < camadas; ++j) {
 			Coordenadas3D cBaixo = { o.x, o.y + deltaAlt*(j) , o.z };
@@ -686,6 +698,16 @@ public:
 	std::vector<Coordenadas3D> getPontos() {
 		return pontos;
 	}
+
+	std::vector<Coordenadas3D> getNormais() {
+		return normais;
+	}
+
+
+	std::vector<CoordsTextura> getTextCoords() {
+		return textCoords;
+	}
+
 
 private:
 	std::vector<Coordenadas3D> pontos;

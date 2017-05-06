@@ -94,7 +94,7 @@ int main(int argc, char** argv) {
 		int fatias = atoi(argv[3]);
 		nome_fich = argv[4];
 
-		figura.geraCirculo(Coordenadas3D{ 0.0,0.0,0.0 }, raio,fatias, 1);
+		figura.geraCirculo(Coordenadas3D{ 0.0,0.0,0.0 }, raio,fatias, CIMA);
 	}
 
 	if ((str_figura == "ring" || str_figura == "anel") && argc == 6) {
@@ -106,7 +106,7 @@ int main(int argc, char** argv) {
 		int fatias = atoi(argv[4]);
 		nome_fich = argv[5];
 
-		figura.geraAnel(Coordenadas3D{ 0.0,0.0,0.0 }, rI,rE, fatias);
+		figura.geraAnel(Coordenadas3D{ 0.0,0.0,0.0 }, rI,rE, fatias,AMBOS);
 	}
 
 	if ((str_figura == "box" || str_figura == "caixa") && argc == 9) {
@@ -249,8 +249,21 @@ int main(int argc, char** argv) {
 	}
 	else {
 		std::ofstream ficheiro(modelos_path + nome_fich);
-		for (Coordenadas3D ponto : figura.getPontos()) {
+
+		std::vector<Coordenadas3D> pontos= figura.getPontos();
+		std::vector<Coordenadas3D> normais = figura.getNormais();
+		std::vector<CoordsTextura> textCoords= figura.getTextCoords();
+		Coordenadas3D ponto, normal;
+		CoordsTextura ct;
+
+		for (int i = 0; i < pontos.size(); i++) {
+			ponto = pontos[i];
+			normal= normais[i];
+			ct = textCoords[i];
+
 			ficheiro << ponto.x << " " << ponto.y << " " << ponto.z << std::endl;
+			ficheiro << normal.x << " " << normal.y << " " << normal.z << std::endl;
+			ficheiro << ct.s << " " << ct.t << std::endl;
 		}
 	}
 	
