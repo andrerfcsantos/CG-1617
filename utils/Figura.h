@@ -7,80 +7,209 @@
 #include "Coordenadas3D.h"
 #include "CoordsPolares.h"
 #include "CoordsEsfericas.h"
+#include "CoordsTextura.h"
+
 
 using namespace std;
+
+enum ORIENTACAO_FIG { CIMA, BAIXO, AMBOS };
 
 class Figura {
 public:
 	
-	Figura& geraEsfera(Coordenadas3D o,float raio, int fatias, int camadas) {
+	Figura& geraEsfera(Coordenadas3D o,
+						float raio, int fatias, int camadas) {
+		Coordenadas3D A, B, C, D;
+		CoordsTextura ctA, ctB, ctC, ctD;
+		Coordenadas3D na, nb, nc, nd;
 
 		float deltaAz = (float)2 * M_PI / fatias;
 		float deltaPolar = (float)M_PI / camadas;
 
 		for (int j = 0; j < camadas; ++j) {
 			for (int i = 0; i < fatias; ++i) {
-				Coordenadas3D a = CoordsEsfericas(raio, deltaAz*i, deltaPolar*j).toCartesianas() + o;
-				Coordenadas3D b = CoordsEsfericas(raio, deltaAz*(i + 1), deltaPolar*j).toCartesianas() + o;
-				Coordenadas3D c = CoordsEsfericas(raio, deltaAz*i, deltaPolar*(j + 1)).toCartesianas() + o;
-				Coordenadas3D d = CoordsEsfericas(raio, deltaAz*(i + 1), deltaPolar*(j + 1)).toCartesianas() + o;
+				/*
+					A ---------- B               i
+					|            |           ----->    
+					|            |       j |
+					C ---------- D         v
+				*/
 
-				pontos.push_back(a);
-				pontos.push_back(c);
-				pontos.push_back(d);
-				pontos.push_back(a);
-				pontos.push_back(d);
-				pontos.push_back(b);
+				A = CoordsEsfericas(raio, deltaAz*i, deltaPolar*j).toCartesianas() + o;
+				B = CoordsEsfericas(raio, deltaAz*(i + 1), deltaPolar*j).toCartesianas() + o;
+				C = CoordsEsfericas(raio, deltaAz*i, deltaPolar*(j + 1)).toCartesianas() + o;
+				D = CoordsEsfericas(raio, deltaAz*(i + 1), deltaPolar*(j + 1)).toCartesianas() + o;
+				
+				na = A - o;
+				nb = B - o;
+				nc = C - o;
+				nd = D - o;
+
+				ctA = CoordsTextura{ (deltaAz*i) / 360.0, (deltaPolar*j) / 360.0 };
+				ctB = CoordsTextura{ (deltaAz*(i + 1)) / 360.0, (deltaPolar*j) / 360.0 };
+				ctC = CoordsTextura{ (deltaAz*i) / 360.0, (deltaPolar*(j + 1)) / 360.0 };
+				ctD = CoordsTextura{ (deltaAz*(i + 1)) / 360.0, (deltaPolar*(j + 1)) / 360.0 };
+
+				pontos.push_back(A);
+				normais.push_back(na.normalize());
+				textCoords.push_back(ctA);
+
+				pontos.push_back(C);
+				normais.push_back(nc.normalize());
+				textCoords.push_back(ctC);
+
+				pontos.push_back(D);
+				normais.push_back(nd.normalize());
+				textCoords.push_back(ctD);
+
+				pontos.push_back(A);
+				normais.push_back(na.normalize());
+				textCoords.push_back(ctA);
+				
+				pontos.push_back(D);
+				normais.push_back(nd.normalize());
+				textCoords.push_back(ctD);
+
+				pontos.push_back(B);
+				normais.push_back(nb.normalize());
+				textCoords.push_back(ctB);
 			}
 		}
 
 		return *this;
 	}
 
-	Figura& geraAnel(Coordenadas3D o, float raioInterno, float raioExterno, int fatias) {
+	Figura& geraAnel(Coordenadas3D o,
+						float raioInterno, float raioExterno,int fatias,
+						ORIENTACAO_FIG orientacao) {
 		float deltaAz = (float)2 * M_PI / fatias;
+		Coordenadas3D A, B, C, D;
+		CoordsTextura ctA, ctB, ctC, ctD;
+		Coordenadas3D up = Coordenadas3D{0,1,0};
+		Coordenadas3D down = Coordenadas3D{ 0,-1,0 };
+
 
 		for (int i = 0; i < fatias; ++i) {
-			Coordenadas3D a = CoordsPolares(o, raioInterno, deltaAz*i).toCartesianas();
-			Coordenadas3D b = CoordsPolares(o, raioExterno, deltaAz*i).toCartesianas();
-			Coordenadas3D c = CoordsPolares(o, raioInterno, deltaAz*(i + 1)).toCartesianas();
-			Coordenadas3D d = CoordsPolares(o, raioExterno, deltaAz*(i + 1)).toCartesianas();
+			/*
+			A ---------- C  raio interno        i
+			|            |                   ----->
+			|            |       
+			B ---------- D  raio externo
+			*/
 
-			pontos.push_back(a);
-			pontos.push_back(b);
-			pontos.push_back(c);
-			pontos.push_back(c);
-			pontos.push_back(b);
-			pontos.push_back(d);
+			A = CoordsPolares(o, raioInterno, deltaAz*i).toCartesianas();
+			B = CoordsPolares(o, raioExterno, deltaAz*i).toCartesianas();
+			C = CoordsPolares(o, raioInterno, deltaAz*(i + 1)).toCartesianas();
+			D = CoordsPolares(o, raioExterno, deltaAz*(i + 1)).toCartesianas();
 
-			pontos.push_back(a);
-			pontos.push_back(c);
-			pontos.push_back(b);
-			pontos.push_back(c);
-			pontos.push_back(d);
-			pontos.push_back(b);
+			ctA = CoordsTextura{ (deltaAz*i) / 360.0      , 1 };
+			ctB = CoordsTextura{ (deltaAz*i) / 360.0      , 0 };
+			ctC = CoordsTextura{ (deltaAz*(i + 1)) / 360.0, 1 };
+			ctD = CoordsTextura{ (deltaAz*(i + 1)) / 360.0, 0 };
 
+			if (orientacao == CIMA || orientacao == AMBOS) {
+				pontos.push_back(A);
+				normais.push_back(up);
+				textCoords.push_back(ctA);
+
+				pontos.push_back(B);
+				normais.push_back(up);
+				textCoords.push_back(ctB);
+
+				pontos.push_back(C);
+				normais.push_back(up);
+				textCoords.push_back(ctC);
+
+				pontos.push_back(C);
+				normais.push_back(up);
+				textCoords.push_back(ctC);
+
+				pontos.push_back(B);
+				normais.push_back(up);
+				textCoords.push_back(ctB);
+
+				pontos.push_back(D);
+				normais.push_back(up);
+				textCoords.push_back(ctD);
+			}
+			
+
+			if (orientacao == BAIXO || orientacao == AMBOS) {
+				pontos.push_back(A);
+				normais.push_back(down);
+				textCoords.push_back(ctA);
+
+				pontos.push_back(C);
+				normais.push_back(down);
+				textCoords.push_back(ctC);
+
+				pontos.push_back(B);
+				normais.push_back(down);
+				textCoords.push_back(ctB);
+
+				pontos.push_back(C);
+				normais.push_back(down);
+				textCoords.push_back(ctC);
+
+				pontos.push_back(D);
+				normais.push_back(down);
+				textCoords.push_back(ctD);
+
+				pontos.push_back(B);
+				normais.push_back(down);
+				textCoords.push_back(ctB);
+			}
 		}
 		return *this;
 
 	}
 
-	Figura& geraCirculo(Coordenadas3D o, float raio, int fatias, int orientacao) {
+	Figura& geraCirculo(Coordenadas3D o,
+							float raio, int fatias,
+							ORIENTACAO_FIG orientacao) {
+
 		float deltaAz = (float)2 * M_PI / fatias;
+		Coordenadas3D A, B;
+		CoordsTextura ctA, ctB, ctO;
+		Coordenadas3D centroTextura = Coordenadas3D{0.5,0,0.5};
+		Coordenadas3D up = Coordenadas3D{ 0,1,0 };
+		Coordenadas3D down = Coordenadas3D{ 0,-1,0 };
 
 		for (int i = 0; i < fatias; ++i) {
-			CoordsPolares a = CoordsPolares(o, raio, deltaAz*i);
-			CoordsPolares b = CoordsPolares(o, raio, deltaAz*(i + 1));
+			A = CoordsPolares(o, raio, deltaAz*i).toCartesianas();
+			ctA = CoordsTextura{0.5 + 0.5*cos((deltaAz*i) - (M_PI/2)),0.5 + 0.5*sin((deltaAz*i) - (M_PI / 2))};
 
-			if (orientacao == 1) {
-				pontos.push_back(a.toCartesianas());
-				pontos.push_back(b.toCartesianas());
+			B = CoordsPolares(o, raio, deltaAz*(i + 1)).toCartesianas();
+			ctB = CoordsTextura{ 0.5 + 0.5*cos((deltaAz*(i+1)) - (M_PI / 2)),0.5 + 0.5*sin((deltaAz*(i+1)) - (M_PI / 2)) };
+
+			ctO = CoordsTextura{ 0.5,0.5 };
+
+			if (orientacao == CIMA || orientacao == AMBOS) {
+				pontos.push_back(A);
+				normais.push_back(up);
+				textCoords.push_back(ctA);
+
+				pontos.push_back(B);
+				normais.push_back(up);
+				textCoords.push_back(ctB);
+
 				pontos.push_back(o);
+				normais.push_back(up);
+				textCoords.push_back(ctO);
 			}
-			else {
-				pontos.push_back(a.toCartesianas());
+
+			if (orientacao == BAIXO || orientacao == AMBOS) {
+				pontos.push_back(A);
+				normais.push_back(down);
+				textCoords.push_back(ctA);
+
 				pontos.push_back(o);
-				pontos.push_back(b.toCartesianas());
+				normais.push_back(down);
+				textCoords.push_back(ctO);
+
+				pontos.push_back(B);
+				normais.push_back(down);
+				textCoords.push_back(ctB);
 			}
 		}
 		return *this;
@@ -90,30 +219,124 @@ public:
 		float deltaAz = (float)2 * M_PI / fatias;
 		float deltaAltura = (float)altura / camadas;
 		float deltaRaio = (float)raio / camadas;
+		Coordenadas3D A, B, C, D, E, F, G, H, I, J, K, L;
+		CoordsTextura ctA, ctB, ctC, ctD, ctE, ctF, ctG, ctH, ctI, ctJ, ctK, ctL,ctO;
 
-		geraCirculo(o, raio, fatias, 0);
+		Coordenadas3D up = Coordenadas3D{ 0,1,0 };
+		Coordenadas3D down = Coordenadas3D{ 0,-1,0 };
+
+		// Circulo de baixo
+
+		for (int i = 0; i < fatias; ++i) {
+			A = CoordsPolares(o, raio, deltaAz*i).toCartesianas();
+			ctA = CoordsTextura{ 0.5 + 0.5*cos((deltaAz*i) - (M_PI / 2)),0.5 + 0.5*sin((deltaAz*i) - (M_PI / 2)) };
+
+			B = CoordsPolares(o, raio, deltaAz*(i + 1)).toCartesianas();
+			ctB = CoordsTextura{ 0.5 + 0.5*cos((deltaAz*(i + 1)) - (M_PI / 2)),0.5 + 0.5*sin((deltaAz*(i + 1)) - (M_PI / 2)) };
+
+			ctO = CoordsTextura{ 0.5,0.5 };
+
+			pontos.push_back(A);
+			normais.push_back(down);
+			textCoords.push_back(ctA);
+
+			pontos.push_back(o);
+			normais.push_back(down);
+			textCoords.push_back(ctO);
+
+			pontos.push_back(B);
+			normais.push_back(down);
+			textCoords.push_back(ctB);
+		}
+
+		// Superficie lateral
 
 		for (int j = 0; j < camadas; ++j) {
 			for (int i = 0; i < fatias; ++i) {
-				CoordsPolares a = CoordsPolares(Coordenadas3D{ o.x , o.y + deltaAltura*j, o.z },
+				A = CoordsPolares(Coordenadas3D{ o.x , o.y + deltaAltura*j, o.z },
 					raio - (deltaRaio*j),
-					deltaAz*i);
-				CoordsPolares b = CoordsPolares(Coordenadas3D{ o.x , o.y + deltaAltura*j, o.z },
+					deltaAz*i).toCartesianas();
+				B = CoordsPolares(Coordenadas3D{ o.x , o.y + deltaAltura*j, o.z },
 					raio - (deltaRaio*j),
-					deltaAz*(i + 1));
-				CoordsPolares c = CoordsPolares(Coordenadas3D{ o.x , o.y + deltaAltura*(j + 1), o.z },
+					deltaAz*(i + 1)).toCartesianas();
+				C = CoordsPolares(Coordenadas3D{ o.x , o.y + deltaAltura*(j + 1), o.z },
 					raio - (deltaRaio*(j + 1)),
-					deltaAz*(i + 1));
-				CoordsPolares d = CoordsPolares(Coordenadas3D{ o.x , o.y + deltaAltura*(j + 1), o.z },
+					deltaAz*(i + 1)).toCartesianas();
+				D = CoordsPolares(Coordenadas3D{ o.x , o.y + deltaAltura*(j + 1), o.z },
 					raio - (deltaRaio*(j + 1)),
-					deltaAz*i);
+					deltaAz*i).toCartesianas();
 
-				pontos.push_back(a.toCartesianas());
-				pontos.push_back(b.toCartesianas());
-				pontos.push_back(c.toCartesianas());
-				pontos.push_back(a.toCartesianas());
-				pontos.push_back(c.toCartesianas());
-				pontos.push_back(d.toCartesianas());
+				if (j + 2 <= camadas) {
+					E = CoordsPolares(Coordenadas3D{ o.x , o.y + deltaAltura*(j + 2), o.z },
+						raio - (deltaRaio*(j + 2)),
+						deltaAz*i).toCartesianas();
+					F = CoordsPolares(Coordenadas3D{ o.x , o.y + deltaAltura*(j + 2), o.z },
+						raio - (deltaRaio*(j + 2)),
+						deltaAz*(i + 1)).toCartesianas();
+				}
+				else{
+					F = C;
+					E = D;
+				}
+
+				if (i + 2 <= fatias) {
+					G = CoordsPolares(Coordenadas3D{ o.x , o.y + deltaAltura*(j + 1), o.z },
+						raio - (deltaRaio*(j + 1)),
+						deltaAz*(i + 2)).toCartesianas();
+					H = CoordsPolares(Coordenadas3D{ o.x , o.y + deltaAltura*j, o.z },
+						raio - (deltaRaio*j),
+						deltaAz*(i + 2)).toCartesianas();
+				}
+				else {
+					G = C;
+					H = B;
+				}
+
+				if (j - 1 >= 0) {
+					I = CoordsPolares(Coordenadas3D{ o.x , o.y + deltaAltura*(j - 1), o.z },
+						raio - (deltaRaio*(j - 1)),
+						deltaAz*(i + 1)).toCartesianas();
+					J = CoordsPolares(Coordenadas3D{ o.x , o.y + deltaAltura*(j - 1), o.z },
+						raio - (deltaRaio*(j - 1)),
+						deltaAz*i).toCartesianas();
+				}else{
+					I = B;
+					J = A;
+				}
+
+
+				if (i - 1 >= 0) {
+					K = CoordsPolares(Coordenadas3D{ o.x , o.y + deltaAltura*(j + 1), o.z },
+						raio - (deltaRaio*(j + 1)),
+						deltaAz*(i - 1)).toCartesianas();
+					L = CoordsPolares(Coordenadas3D{ o.x , o.y + deltaAltura*j, o.z },
+						raio - (deltaRaio*j),
+						deltaAz*(i - 1)).toCartesianas();
+				}
+				else {
+					K = D;
+					L = A;
+				}
+
+				pontos.push_back(A);
+				normais.push_back((J-D).crossproduct(B-L).normalize());
+
+				pontos.push_back(B);
+				normais.push_back((I-C).crossproduct(H-A).normalize());
+
+				pontos.push_back(C);
+				normais.push_back((B - F).crossproduct(G - D).normalize());
+
+
+				pontos.push_back(A);
+				normais.push_back((J - D).crossproduct(B - L).normalize());
+
+				pontos.push_back(C);
+				normais.push_back((B - F).crossproduct(G - D).normalize());
+
+				pontos.push_back(D);
+				normais.push_back((A-E).crossproduct(C-K).normalize());
+
 			}
 		}
 		return *this;
@@ -123,6 +346,10 @@ public:
 		float x, z;
 		float deltaComp = (float)comp / divsx;
 		float deltaLarg = (float)larg / divsz;
+
+		Coordenadas3D up = { 0,1,0 };
+		Coordenadas3D down = { 0,-1,0 };
+
 
 		for (int j = 0; j < divsz; ++j) {
 			for (int i = 0; i < divsx; ++i) {
@@ -135,19 +362,42 @@ public:
 
 				if (orientacao == 1) {
 					pontos.push_back(a);
+					normais.push_back(up);
+
 					pontos.push_back(b);
+					normais.push_back(up);
+
 					pontos.push_back(c);
+					normais.push_back(up);
+
 					pontos.push_back(a);
+					normais.push_back(up);
+					
 					pontos.push_back(c);
+					normais.push_back(up);
+
 					pontos.push_back(d);
+					normais.push_back(up);
+
 				}
 				else {
 					pontos.push_back(a);
+					normais.push_back(down);
+
 					pontos.push_back(c);
+					normais.push_back(down);
+					
 					pontos.push_back(b);
+					normais.push_back(down);
+
 					pontos.push_back(a);
+					normais.push_back(down);
+
 					pontos.push_back(d);
+					normais.push_back(down);
+
 					pontos.push_back(c);
+					normais.push_back(down);
 				}
 			}
 		}
@@ -439,5 +689,7 @@ public:
 
 private:
 	std::vector<Coordenadas3D> pontos;
+	std::vector<Coordenadas3D> normais;
+	std::vector<CoordsTextura> textCoords;
 
 };

@@ -35,12 +35,28 @@ struct Coordenadas3D {
 		return res;
 	}
 
+	Coordenadas3D inv() {
+		Coordenadas3D res;
+		res.x = -x;
+		res.y = -y;
+		res.z = -z;
+		return res;
+	}
 
 	Coordenadas3D times(float k) {
 		Coordenadas3D res;
 		res.x = x * k;
 		res.y = y * k;
 		res.z = z * k;
+		return res;
+	}
+
+	Coordenadas3D normalize() {
+		Coordenadas3D res;
+		float l = sqrt(x*x + y*y + z*z);
+		res.x = x / l;
+		res.y = y / l;
+		res.z = z / l;
 		return res;
 	}
 };

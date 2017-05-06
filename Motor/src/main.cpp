@@ -46,6 +46,7 @@ pugi::xml_document doc;
 tree<Grupo> arvoreG;
 deque<tree<Grupo>::iterator> stack_group;
 deque<tree<Grupo>::iterator> stack_group_read;
+std::vector<Luz> luzes;
 deque<xml_node> stack_xmlnode_read;
 std::string modelo_prefix("../../Modelos/");
 int p = 0;
@@ -197,7 +198,7 @@ void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
 							glEnd();
 						}
 						else {
-							glBindBuffer(GL_ARRAY_BUFFER, it->nBuff);
+							glBindBuffer(GL_ARRAY_BUFFER, it->nBuffPontos);
 							glVertexPointer(3, GL_FLOAT, 0, 0);
 							glDrawArrays(it->defsDesenho.modoDesenho, 0, it->pontos.size());
 						}
@@ -274,7 +275,7 @@ void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
 			glEnd();
 		}
 		else {
-			glBindBuffer(GL_ARRAY_BUFFER, it->nBuff);
+			glBindBuffer(GL_ARRAY_BUFFER, it->nBuffPontos);
 			glVertexPointer(3, GL_FLOAT, 0, 0);
 			glDrawArrays(it->defsDesenho.modoDesenho, 0, it->pontos.size());
 			
@@ -465,7 +466,7 @@ Grupo XMLtoGrupo(xml_node node) {
 						glGenBuffers(1, nBuffer);
 						glBindBuffer(GL_ARRAY_BUFFER, nBuffer[0]);
 						glBufferData(GL_ARRAY_BUFFER, sizeof(float) * desenho.pontos.size() * 3, &desenho.pontos[0], GL_STATIC_DRAW);
-						desenho.nBuff = nBuffer[0];
+						desenho.nBuffPontos = nBuffer[0];
 						desenho.defsDesenho.modoDesenho = GL_LINE_LOOP;
 						res.catmullDes.push_back(desenho);
 					}
@@ -561,7 +562,7 @@ Grupo XMLtoGrupo(xml_node node) {
 				glGenBuffers(1, nBuffer);
 				glBindBuffer(GL_ARRAY_BUFFER, nBuffer[0]);
 				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * desenho.pontos.size() * 3, &desenho.pontos[0], GL_STATIC_DRAW);
-				desenho.nBuff = nBuffer[0];
+				desenho.nBuffPontos = nBuffer[0];
 				desenho.defsDesenho.modoDesenho = GL_TRIANGLES;
 				res.desenhos.push_back(desenho);
 			}
@@ -680,7 +681,16 @@ int main(int argc, char **argv) {
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
+
+	glEnable(GL_TEXTURE_2D);
+
 	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+
 
 	leXML();
 	
