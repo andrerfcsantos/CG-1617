@@ -277,8 +277,11 @@ void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
 		else {
 			glBindBuffer(GL_ARRAY_BUFFER, it->nBuffPontos);
 			glVertexPointer(3, GL_FLOAT, 0, 0);
+
+			glBindBuffer(GL_ARRAY_BUFFER, it->nBuffNormal);
+			glNormalPointer(GL_FLOAT, 0, 0);
+
 			glDrawArrays(it->defsDesenho.modoDesenho, 0, it->pontos.size());
-			
 		}
 		
 	}
@@ -490,7 +493,10 @@ void XMLtoLights(xml_node node) {
 
 Grupo XMLtoGrupo(xml_node node) {
 	Grupo res;
-	GLuint nBuffer[1];
+	GLuint buffer_pontos[1];
+	GLuint buffer_normais[1];
+	GLuint buffer_coords_textura[1];
+
 
 	res.nome = node.attribute("name").value();
 
@@ -539,10 +545,10 @@ Grupo XMLtoGrupo(xml_node node) {
 							desenho.pontos.push_back(Coordenadas3D{ resultado[0],resultado[1],resultado[2] });
 						}
 
-						glGenBuffers(1, nBuffer);
-						glBindBuffer(GL_ARRAY_BUFFER, nBuffer[0]);
+						glGenBuffers(1, buffer_pontos);
+						glBindBuffer(GL_ARRAY_BUFFER, buffer_pontos[0]);
 						glBufferData(GL_ARRAY_BUFFER, sizeof(float) * desenho.pontos.size() * 3, &desenho.pontos[0], GL_STATIC_DRAW);
-						desenho.nBuffPontos = nBuffer[0];
+						desenho.nBuffPontos = buffer_pontos[0];
 						desenho.defsDesenho.modoDesenho = GL_LINE_LOOP;
 						res.catmullDes.push_back(desenho);
 					}
@@ -637,11 +643,17 @@ Grupo XMLtoGrupo(xml_node node) {
 					npontos++;
 				}
 				
-				glGenBuffers(1, nBuffer);
-				glBindBuffer(GL_ARRAY_BUFFER, nBuffer[0]);
+				glGenBuffers(1, buffer_pontos);
+				glBindBuffer(GL_ARRAY_BUFFER, buffer_pontos[0]);
 				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * desenho.pontos.size() * 3, &desenho.pontos[0], GL_STATIC_DRAW);
-				desenho.nBuffPontos = nBuffer[0];
+				desenho.nBuffPontos = buffer_pontos[0];
 				desenho.defsDesenho.modoDesenho = GL_TRIANGLES;
+
+				glGenBuffers(1, buffer_normais);
+				glBindBuffer(GL_ARRAY_BUFFER, buffer_normais[0]);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * desenho.pontos.size() * 3, &desenho.pontos[0], GL_STATIC_DRAW);
+				desenho.nBuffNormal = buffer_normais[0];
+
 				res.desenhos.push_back(desenho);
 			}
 			
@@ -652,7 +664,7 @@ Grupo XMLtoGrupo(xml_node node) {
 }
 
 void leXML() {
-	std::string nomeFicheiro("sistema_sem_rota.xml");
+	std::string nomeFicheiro("sistema_solar.xml");
 
 	std::string ficheiro(modelo_prefix + nomeFicheiro);
 	pugi::xml_parse_result result = doc.load_file(ficheiro.c_str());
@@ -768,7 +780,7 @@ int main(int argc, char **argv) {
 	//glEnable(GL_TEXTURE_2D);
 
 	glEnableClientState(GL_VERTEX_ARRAY);
-	//glEnableClientState(GL_NORMAL_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
 	//glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	leXML();
