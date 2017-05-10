@@ -170,21 +170,20 @@ public:
 		float deltaAz = (float) (2.0f * M_PI) / fatias;
 		Coordenadas3D A, B;
 		CoordsTextura ctA, ctB, ctO;
-		Coordenadas3D centroTextura = Coordenadas3D{0.5,0,0.5};
 		Coordenadas3D up = Coordenadas3D{ 0,1,0 };
 		Coordenadas3D down = Coordenadas3D{ 0,-1,0 };
 
 		for (int i = 0; i < fatias; ++i) {
 			A = CoordsPolares(o, raio, deltaAz*i).toCartesianas();
-			float s1 = 0.5f + 0.5*cos((deltaAz*i) - (M_PI / 2.0));
-			float t1 = 0.5f + 0.5*sin((deltaAz*i) - (M_PI / 2.0));
+			float s1 = 0.5f + 0.5*cos((deltaAz*i);
+			float t1 = 0.5f + 0.5*sin((deltaAz*i);
 
 			ctA = CoordsTextura{ s1,t1 };
 
 			B = CoordsPolares(o, raio, deltaAz*(i + 1)).toCartesianas();
 			
-			float s2 = 0.5f + 0.5f*cos((deltaAz*(i + 1)) - (M_PI / 2.0));
-			float t2 = 0.5f + 0.5f*sin((deltaAz*(i + 1)) - (M_PI / 2.0));
+			float s2 = 0.5f + 0.5f*cos((deltaAz*(i + 1));
+			float t2 = 0.5f + 0.5f*sin((deltaAz*(i + 1));
 			ctB = CoordsTextura{s2,t2};
 
 			ctO = CoordsTextura{ 0.5f,0.5f };
@@ -225,45 +224,49 @@ public:
 		float deltaAltura = (float)altura / camadas;
 		float deltaRaio = (float)raio / camadas;
 		float s1, t1, s2, t2;
-		Coordenadas3D A, B, C, D, E, F, G, H, I, J, K, L;
-		CoordsTextura ctA, ctB, ctC, ctD, ctE, ctF, ctG, ctH, ctI, ctJ, ctK, ctL,ctO;
+		Coordenadas3D A, B, C, D;
+		CoordsTextura ctA, ctB, ctC, ctD;
 
-		Coordenadas3D up = Coordenadas3D{ 0,1,0 };
 		Coordenadas3D down = Coordenadas3D{ 0,-1,0 };
 
-		// Circulo de baixo
+		CoordsTextura ctOrigem = CoordsTextura{0.5f, 0.1875f};
+		float raioTex = 0.1875;
 
+		// Circulo de baixo
 		for (int i = 0; i < fatias; ++i) {
 			A = CoordsPolares(o, raio, deltaAz*i).toCartesianas();
+			float s1 = ctOrigemBaixo.s + raioTex*cos((deltaAz*i);
+			float t1 = ctOrigemBaixo.t + raioTex*sin((deltaAz*i);
 
-			s1 = 0.5f + 0.5*cos((deltaAz*i) - (M_PI / 2));
-			t1 = 0.5 + 0.5*sin((deltaAz*i) - (M_PI / 2));
-			ctA = CoordsTextura{ s1,t1};
+			ctA = CoordsTextura{ s1,t1 };
 
 			B = CoordsPolares(o, raio, deltaAz*(i + 1)).toCartesianas();
-
-			s2 = 0.5f + 0.5f*cos((deltaAz*(i + 1)) - (M_PI / 2.0f));
-			t2 = 0.5f + 0.5f*sin((deltaAz*(i + 1)) - (M_PI / 2.0f));
-			ctB = CoordsTextura{ s2,t2};
-
-			ctO = CoordsTextura{ 0.5f,0.5f };
+			
+			float s2 = ctOrigemBaixo.s + raioTex*cos((deltaAz*(i+1)));
+			float t2 = ctOrigemBaixo.t + raioTex*sin((deltaAz*(i+1)));
+			ctB = CoordsTextura{s2,t2};
 
 			pontos.push_back(A);
 			normais.push_back(down);
 			textCoords.push_back(ctA);
 
-			pontos.push_back(o);
-			normais.push_back(down);
-			textCoords.push_back(ctO);
-
 			pontos.push_back(B);
 			normais.push_back(down);
 			textCoords.push_back(ctB);
+
+			pontos.push_back(o);
+			normais.push_back(down);
+			textCoords.push_back(ctO);
 		}
 
 		// Superficie lateral
-
+		float alfaTex = (float) 2 * M_PI * 0.1875f / (1 - 0.375f);
+		float alfaTexInic = (float)3 * M_PI / 2.0f - alfaTex / 2.0f;
+		float deltaAlfaTex = (float)alfaTex / fatias;
+		float deltaRaioTex = (float)(1 - 0.375f) / camadas;
 		for (int j = 0; j < camadas; ++j) {
+			Coordenadas3D cBaixo = { o.x, o.y + deltaAlt*(j) , o.z };
+			Coordenadas3D cAlto = { o.x, o.y + deltaAlt*(j+1) , o.z };
 			for (int i = 0; i < fatias; ++i) {
 				A = CoordsPolares(Coordenadas3D{ o.x , o.y + deltaAltura*j, o.z },
 					raio - (deltaRaio*j),
@@ -278,86 +281,58 @@ public:
 					raio - (deltaRaio*(j + 1)),
 					deltaAz*i).toCartesianas();
 
-				if (j + 2 <= camadas) {
-					E = CoordsPolares(Coordenadas3D{ o.x , o.y + deltaAltura*(j + 2), o.z },
-						raio - (deltaRaio*(j + 2)),
-						deltaAz*i).toCartesianas();
-					F = CoordsPolares(Coordenadas3D{ o.x , o.y + deltaAltura*(j + 2), o.z },
-						raio - (deltaRaio*(j + 2)),
-						deltaAz*(i + 1)).toCartesianas();
-				}
-				else{
-					F = C;
-					E = D;
-				}
+				Coordenadas3D na = A - cBaixo;
+				na.y = (float) raio / altura;
+				Coordenadas3D nb = B - cBaixo;
+				nb.y = (float) raio / altura;
+				Coordenadas3D nc = C - cAlto;
+				nc.y = (float) raio / altura;
+				Coordenadas3D nd = D - cAlto;
+				nd.y = (float) raio / altura;
 
-				if (i + 2 <= fatias) {
-					G = CoordsPolares(Coordenadas3D{ o.x , o.y + deltaAltura*(j + 1), o.z },
-						raio - (deltaRaio*(j + 1)),
-						deltaAz*(i + 2)).toCartesianas();
-					H = CoordsPolares(Coordenadas3D{ o.x , o.y + deltaAltura*j, o.z },
-						raio - (deltaRaio*j),
-						deltaAz*(i + 2)).toCartesianas();
-				}
-				else {
-					G = C;
-					H = B;
-				}
-
-				if (j - 1 >= 0) {
-					I = CoordsPolares(Coordenadas3D{ o.x , o.y + deltaAltura*(j - 1), o.z },
-						raio - (deltaRaio*(j - 1)),
-						deltaAz*(i + 1)).toCartesianas();
-					J = CoordsPolares(Coordenadas3D{ o.x , o.y + deltaAltura*(j - 1), o.z },
-						raio - (deltaRaio*(j - 1)),
-						deltaAz*i).toCartesianas();
-				}else{
-					I = B;
-					J = A;
-				}
-
-
-				if (i - 1 >= 0) {
-					K = CoordsPolares(Coordenadas3D{ o.x , o.y + deltaAltura*(j + 1), o.z },
-						raio - (deltaRaio*(j + 1)),
-						deltaAz*(i - 1)).toCartesianas();
-					L = CoordsPolares(Coordenadas3D{ o.x , o.y + deltaAltura*j, o.z },
-						raio - (deltaRaio*j),
-						deltaAz*(i - 1)).toCartesianas();
-				}
-				else {
-					K = D;
-					L = A;
-				}
-
+				CoordsTextura at = CoodsTextura{(0.625f - deltaRaioTex * j) * cos(alfaTexInic + deltaAlfaTex * i) + 0.5f,
+												(0.625f - deltaRaioTex * j) * sin(alfaTexInic + deltaAlfaTex * i) + 1.0f};
+				CoordsTextura bt = CoodsTextura{(0.625f - deltaRaioTex * j) * cos(alfaTexInic + deltaAlfaTex * (i+1)) + 0.5f,
+												(0.625f - deltaRaioTex * j) * sin(alfaTexInic + deltaAlfaTex * (i+1)) + 1.0f};
+				CoordsTextura ct = CoodsTextura{(0.625f - deltaRaioTex * (j+1)) * cos(alfaTexInic + deltaAlfaTex * (i+1)) + 0.5f,
+												(0.625f - deltaRaioTex * (j+1)) * sin(alfaTexInic + deltaAlfaTex * (i+1)) + 1.0f};
+				CoordsTextura dt = CoodsTextura{(0.625f - deltaRaioTex * (j+1)) * cos(alfaTexInic + deltaAlfaTex * i) + 0.5f,
+												(0.625f - deltaRaioTex * (j+1)) * sin(alfaTexInic + deltaAlfaTex * i) + 1.0f};
+				
 				pontos.push_back(A);
-				normais.push_back((J-D).crossproduct(B-L).normalize());
+				normais.push_back(na.normalize());
+				textCoords.push_back(at);
 
 				pontos.push_back(B);
-				normais.push_back((I-C).crossproduct(H-A).normalize());
+				normais.push_back(nb.normalize());
+				textCoords.push_back(bt);
 
 				pontos.push_back(C);
-				normais.push_back((B - F).crossproduct(G - D).normalize());
-
+				normais.push_back(nc.normalize());
+				textCoords.push_back(ct);
 
 				pontos.push_back(A);
-				normais.push_back((J - D).crossproduct(B - L).normalize());
+				normais.push_back(na.normalize());
+				textCoords.push_back(at);
 
 				pontos.push_back(C);
-				normais.push_back((B - F).crossproduct(G - D).normalize());
+				normais.push_back(nc.normalize());
+				textCoords.push_back(ct);
 
 				pontos.push_back(D);
-				normais.push_back((A-E).crossproduct(C-K).normalize());
-
+				normais.push_back(nd.normalize());
+				textCoords.push_back(dt);
 			}
 		}
 		return *this;
 	}
 
-	Figura& geraPlanoY(Coordenadas3D o, float comp, float larg, int divsx, int divsz, int orientacao) {
+	Figura& geraPlanoY(Coordenadas3D o, float comp, float larg, int divsx, int divsz, ORIENTACAO_FIG orientacao) {
 		float x, z;
 		float deltaComp = (float)comp / divsx;
 		float deltaLarg = (float)larg / divsz;
+		float deltaTexS = (float)1.0f / divsx;
+		float deltaTexT = (float)1.0f / divsz;
 
 		Coordenadas3D up = { 0,1,0 };
 		Coordenadas3D down = { 0,-1,0 };
@@ -372,44 +347,55 @@ public:
 				Coordenadas3D c = { x + deltaComp + o.x, 0 + o.y, z - deltaLarg + o.z };
 				Coordenadas3D d = { x + o.x            , 0 + o.y, z - deltaLarg + o.z };
 
-				if (orientacao == 1) {
+				if (orientacao == CIMA || orientacao == AMBOS) {
 					pontos.push_back(a);
 					normais.push_back(up);
+					textCoords.push_back(CoordsTextura{i * deltaTexS, j * deltaTexT});
 
 					pontos.push_back(b);
 					normais.push_back(up);
+					textCoords.push_back(CoordsTextura{(i+1) * deltaTexS, j * deltaTexT});
 
 					pontos.push_back(c);
 					normais.push_back(up);
+					textCoords.push_back(CoordsTextura{(i+1) * deltaTexS, (j+1) * deltaTexT});
 
 					pontos.push_back(a);
 					normais.push_back(up);
+					textCoords.push_back(CoordsTextura{i * deltaTexS, j * deltaTexT});
 					
 					pontos.push_back(c);
 					normais.push_back(up);
+					textCoords.push_back(CoordsTextura{(i+1) * deltaTexS, (j+1) * deltaTexT});
 
 					pontos.push_back(d);
 					normais.push_back(up);
-
+					textCoords.push_back(CoordsTextura{i * deltaTexS, (j+1) * deltaTexT});
 				}
-				else {
+				if (orientacao == BAIXO || orientacao == AMBOS) {
 					pontos.push_back(a);
 					normais.push_back(down);
+					textCoords.push_back(CoordsTextura{i * deltaTexS, j * deltaTexT});
 
 					pontos.push_back(c);
 					normais.push_back(down);
+					textCoords.push_back(CoordsTextura{(i+1) * deltaTexS, (j+1) * deltaTexT});
 					
 					pontos.push_back(b);
 					normais.push_back(down);
+					textCoords.push_back(CoordsTextura{(i+1) * deltaTexS, j * deltaTexT});
 
 					pontos.push_back(a);
 					normais.push_back(down);
+					textCoords.push_back(CoordsTextura{i * deltaTexS, j * deltaTexT});
 
 					pontos.push_back(d);
 					normais.push_back(down);
+					textCoords.push_back(CoordsTextura{i * deltaTexS, (j+1) * deltaTexT});
 
 					pontos.push_back(c);
 					normais.push_back(down);
+					textCoords.push_back(CoordsTextura{(i+1) * deltaTexS, (j+1) * deltaTexT});
 				}
 			}
 		}
@@ -420,6 +406,10 @@ public:
 		float z, y;
 		float deltaLargura = (float)largura / divsz;
 		float deltaAltura = (float)altura / divsy;
+		float deltaTexS = (float)1.0f / divsz;
+		float deltaTexT = (float)1.0f / divsy;
+		Coordenadas3D normal1 = Coordenadas3D{1, 0, 0};
+		Coordenadas3D normal2 = Coordenadas3D{-1, 0, 0};
 
 		for (int j = 0; j < divsy; ++j) {
 			for (int i = 0; i < divsz; ++i) {
@@ -430,21 +420,55 @@ public:
 				Coordenadas3D c = { 0 + o.x, y + deltaAltura + o.y, z - deltaLargura + o.z };
 				Coordenadas3D d = { 0 + o.x            , y + deltaAltura + o.y, z + o.z };
 
-				if (orientacao == 1) {
+				if (orientacao == CIMA || orientacao == AMBOS) {
 					pontos.push_back(a);
+					normais.push_back(normal1);
+					textCoords.push_back(CoordsTextura{i * deltaTexS, j * deltaTexT});
+
 					pontos.push_back(b);
+					normais.push_back(normal1);
+					textCoords.push_back(CoordsTextura{(i+1) * deltaTexS, j * deltaTexT});
+
 					pontos.push_back(c);
+					normais.push_back(normal1);
+					textCoords.push_back(CoordsTextura{(i+1) * deltaTexS, (j+1) * deltaTexT});
+
 					pontos.push_back(a);
+					normais.push_back(normal1);
+					textCoords.push_back(CoordsTextura{i * deltaTexS, j * deltaTexT});
+					
 					pontos.push_back(c);
+					normais.push_back(normal1);
+					textCoords.push_back(CoordsTextura{(i+1) * deltaTexS, (j+1) * deltaTexT});
+
 					pontos.push_back(d);
+					normais.push_back(normal1);
+					textCoords.push_back(CoordsTextura{i * deltaTexS, (j+1) * deltaTexT});
 				}
-				else {
+				if (orientacao == BAIXO || orientacao == AMBOS) {
 					pontos.push_back(a);
+					normais.push_back(normal2);
+					textCoords.push_back(CoordsTextura{i * deltaTexS, j * deltaTexT});
+
 					pontos.push_back(c);
+					normais.push_back(normal2);
+					textCoords.push_back(CoordsTextura{(i+1) * deltaTexS, (j+1) * deltaTexT});
+					
 					pontos.push_back(b);
+					normais.push_back(normal2);
+					textCoords.push_back(CoordsTextura{(i+1) * deltaTexS, j * deltaTexT});
+
 					pontos.push_back(a);
+					normais.push_back(normal2);
+					textCoords.push_back(CoordsTextura{i * deltaTexS, j * deltaTexT});
+
 					pontos.push_back(d);
+					normais.push_back(normal2);
+					textCoords.push_back(CoordsTextura{i * deltaTexS, (j+1) * deltaTexT});
+
 					pontos.push_back(c);
+					normais.push_back(normal2);
+					textCoords.push_back(CoordsTextura{(i+1) * deltaTexS, (j+1) * deltaTexT});
 				}
 			}
 		}
@@ -455,6 +479,10 @@ public:
 		float x, y;
 		float deltaComp = (float)comp / divsx;
 		float deltaAltura = (float)altura / divsy;
+		float deltaTexS = (float)1.0f / divsx;
+		float deltaTexT = (float)1.0f / divsy;
+		Coordenadas3D normal1 = Coordenadas3D{0, 0, 1};
+		Coordenadas3D normal2 = Coordenadas3D{0, 0, -1};
 
 		for (int j = 0; j < divsy; ++j) {
 			for (int i = 0; i < divsx; ++i) {
@@ -467,19 +495,53 @@ public:
 
 				if (orientacao == 1) {
 					pontos.push_back(a);
+					normais.push_back(normal1);
+					textCoords.push_back(CoordsTextura{i * deltaTexS, j * deltaTexT});
+
 					pontos.push_back(b);
+					normais.push_back(normal1);
+					textCoords.push_back(CoordsTextura{(i+1) * deltaTexS, j * deltaTexT});
+
 					pontos.push_back(c);
+					normais.push_back(normal1);
+					textCoords.push_back(CoordsTextura{(i+1) * deltaTexS, (j+1) * deltaTexT});
+
 					pontos.push_back(a);
+					normais.push_back(normal1);
+					textCoords.push_back(CoordsTextura{i * deltaTexS, j * deltaTexT});
+					
 					pontos.push_back(c);
+					normais.push_back(normal1);
+					textCoords.push_back(CoordsTextura{(i+1) * deltaTexS, (j+1) * deltaTexT});
+
 					pontos.push_back(d);
+					normais.push_back(normal1);
+					textCoords.push_back(CoordsTextura{i * deltaTexS, (j+1) * deltaTexT});
 				}
-				else {
+				if (orientacao == BAIXO || orientacao == AMBOS) {
 					pontos.push_back(a);
+					normais.push_back(normal2);
+					textCoords.push_back(CoordsTextura{i * deltaTexS, j * deltaTexT});
+
 					pontos.push_back(c);
+					normais.push_back(normal2);
+					textCoords.push_back(CoordsTextura{(i+1) * deltaTexS, (j+1) * deltaTexT});
+					
 					pontos.push_back(b);
+					normais.push_back(normal2);
+					textCoords.push_back(CoordsTextura{(i+1) * deltaTexS, j * deltaTexT});
+
 					pontos.push_back(a);
+					normais.push_back(normal2);
+					textCoords.push_back(CoordsTextura{i * deltaTexS, j * deltaTexT});
+
 					pontos.push_back(d);
+					normais.push_back(normal2);
+					textCoords.push_back(CoordsTextura{i * deltaTexS, (j+1) * deltaTexT});
+
 					pontos.push_back(c);
+					normais.push_back(normal2);
+					textCoords.push_back(CoordsTextura{(i+1) * deltaTexS, (j+1) * deltaTexT});
 				}
 			}
 		}
@@ -496,28 +558,27 @@ public:
 
 		// Plano B
 		centroPlano = { o.x + 0.0f ,o.y + 0.0f, o.z + mLargura };
-		geraPlanoZ(centroPlano, comprimento, altura, divsx, divsy, 1);
+		geraPlanoZ(centroPlano, comprimento, altura, divsx, divsy, CIMA);
 
 		// Plano B'
 		centroPlano = { o.x + 0.0f ,o.y + 0.0f, o.z - mLargura };
-		geraPlanoZ(centroPlano, comprimento, altura, divsx, divsy, 0);
+		geraPlanoZ(centroPlano, comprimento, altura, divsx, divsy, BAIXO);
 
 		// Plano C
 		centroPlano = { o.x + mComprimento, o.y + 0.0f,o.z + 0.0f };
-		geraPlanoX(centroPlano, largura, altura,  divsz, divsy,1);
+		geraPlanoX(centroPlano, largura, altura,  divsz, divsy, CIMA);
 
 		// Plano C'
 		centroPlano = { o.x - mComprimento, o.y + 0.0f,o.z + 0.0f };
-		geraPlanoX(centroPlano, largura, altura, divsz, divsy, 0);
+		geraPlanoX(centroPlano, largura, altura, divsz, divsy, BAIXO);
 
 		// Plano A
 		centroPlano = { o.x + 0.0f, o.y + mAltura, o.z + 0.0f };
-		geraPlanoY(centroPlano, comprimento,largura, divsx, divsz, 1);
+		geraPlanoY(centroPlano, comprimento,largura, divsx, divsz, CIMA);
 
 		// Plano A'
 		centroPlano = { o.x + 0.0f, o.y - mAltura, o.z + 0.0f };
-		geraPlanoY(centroPlano, comprimento, largura, divsx, divsz, 0);
-
+		geraPlanoY(centroPlano, comprimento, largura, divsx, divsz, BAIXO);
 
 		return *this;
 	}
@@ -526,10 +587,75 @@ public:
 
 		float deltaAz = (float) (2.0f * M_PI) / fatias;
 		float deltaAlt = (float) altura/camadas;
+		Coordenadas3D A, B;
+		CoordsTextura ctA, ctB;
+		
+		CoordsTextura ctOrigemCima = CoordsTextura{0.4375f, 0.1875f};
+		CoordsTextura ctOrigemBaixo = CoordsTextura{0.8125f, 0.1875f};
+		float raioTex = 0.1875;
 
-		geraCirculo(o, raio, fatias,BAIXO);
-		geraCirculo(Coordenadas3D{o.x,o.y + altura,o.z}, raio, fatias, CIMA);
+		Coordenadas3D up = Coordenadas3D{ 0,1,0 };
+		Coordenadas3D down = Coordenadas3D{ 0,-1,0 };
 
+		Coordenadas3D oCima = Coordenadas3D{o.x, o.y + altura, o.z}
+
+		// Círculo superior
+		for (int i = 0; i < fatias; ++i) {
+			A = CoordsPolares(oCima, raio, deltaAz*i).toCartesianas();
+			float s1 = ctOrigemCima.s + raioTex*cos((deltaAz*i);
+			float t1 = ctOrigemCima.t + raioTex*sin((deltaAz*i);
+
+			ctA = CoordsTextura{ s1,t1 };
+
+			B = CoordsPolares(oCima, raio, deltaAz*(i + 1)).toCartesianas();
+			
+			float s2 = ctOrigemCima.s + raioTex*cos((deltaAz*(i+1)));
+			float t2 = ctOrigemCima.t + raioTex*sin((deltaAz*(i+1)));
+			ctB = CoordsTextura{s2,t2};
+
+			pontos.push_back(A);
+			normais.push_back(up);
+			textCoords.push_back(ctA);
+
+			pontos.push_back(B);
+			normais.push_back(up);
+			textCoords.push_back(ctB);
+
+			pontos.push_back(oCima);
+			normais.push_back(up);
+			textCoords.push_back(ctO);
+		}
+
+		// Círculo inferior
+		for (int i = 0; i < fatias; ++i) {
+			A = CoordsPolares(o, raio, deltaAz*i).toCartesianas();
+			float s1 = ctOrigemBaixo.s + raioTex*cos((deltaAz*i);
+			float t1 = ctOrigemBaixo.t + raioTex*sin((deltaAz*i);
+
+			ctA = CoordsTextura{ s1,t1 };
+
+			B = CoordsPolares(o, raio, deltaAz*(i + 1)).toCartesianas();
+			
+			float s2 = ctOrigemBaixo.s + raioTex*cos((deltaAz*(i+1)));
+			float t2 = ctOrigemBaixo.t + raioTex*sin((deltaAz*(i+1)));
+			ctB = CoordsTextura{s2,t2};
+
+			pontos.push_back(A);
+			normais.push_back(down);
+			textCoords.push_back(ctA);
+
+			pontos.push_back(B);
+			normais.push_back(down);
+			textCoords.push_back(ctB);
+
+			pontos.push_back(o);
+			normais.push_back(down);
+			textCoords.push_back(ctO);
+		}
+
+		// Corpo
+		float deltaTexS = (float) 1.0f/fatias;
+		float deltaTexT = (float) (1.0f - 0.375f)/camadas;
 		for (int j = 0; j < camadas; ++j) {
 			Coordenadas3D cBaixo = { o.x, o.y + deltaAlt*(j) , o.z };
 			Coordenadas3D cAlto = { o.x, o.y + deltaAlt*(j+1) , o.z };
@@ -539,12 +665,34 @@ public:
 				CoordsPolares c = CoordsPolares(cAlto, raio, deltaAz *  (i+1));
 				CoordsPolares d = CoordsPolares(cAlto, raio, deltaAz * i);
 
+				Coordenadas3D na = a - cBaixo;
+				Coordenadas3D nb = b - cBaixo;
+				Coordenadas3D nc = c - cAlto;
+				Coordenadas3D nd = d - cAlto;
+
 				pontos.push_back(a.toCartesianas());
+				normais.push_back(na.normalize());
+				textCoords.push_back(CoordsTextura{deltaTexS * i, deltaTexT * j + 0.375});
+
 				pontos.push_back(b.toCartesianas());
+				normais.push_back(nb.normalize());
+				textCoords.push_back(CoordsTextura{deltaTexS * (i+1), deltaTexT * j + 0.375});
+
 				pontos.push_back(c.toCartesianas());
+				normais.push_back(nc.normalize());
+				textCoords.push_back(CoordsTextura{deltaTexS * (i+1), deltaTexT * (j+1) + 0.375});
+				
 				pontos.push_back(a.toCartesianas());
+				normais.push_back(na.normalize());
+				textCoords.push_back(CoordsTextura{deltaTexS * i, deltaTexT * j + 0.375});
+				
 				pontos.push_back(c.toCartesianas());
+				normais.push_back(nc.normalize());
+				textCoords.push_back(CoordsTextura{deltaTexS * (i+1), deltaTexT * (j+1) + 0.375});
+				
 				pontos.push_back(d.toCartesianas());
+				normais.push_back(nd.normalize());
+				textCoords.push_back(CoordsTextura{deltaTexS * i, deltaTexT * (j+1) + 0.375});
 			}
 		}
 		return *this;
