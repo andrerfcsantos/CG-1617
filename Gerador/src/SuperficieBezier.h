@@ -6,9 +6,16 @@
 #include <math.h>
 #include "../../utils/MatrizOp.h"
 
-
-class SuperficieBezier {
+class ComponentesPonto {
 public:
+	std::vector<Coordenadas3D> pontos;
+	std::vector<Coordenadas3D> normais;
+	std::vector<CoordsTextura> coordsTextura;
+}
+
+class SuperficieBezier
+{
+  public:
 	std::vector<Coordenadas3D> pontosControlo;
 	std::vector<std::vector<int>> patches;
 
@@ -22,9 +29,9 @@ public:
 		return *this;
 	}
 
-	std::vector<Coordenadas3D> getTriangulos(int divsU, int divsV) {
-		std::vector<Coordenadas3D> res;
-		int i = 0, j=0;
+	ComponentesPonto getPontos(int divsU, int divsV) {
+		ComponentesPonto cp;
+		int i = 0, j = 0;
 
 		float m[4][4] = { {-1.0f,  3.0f, -3.0f,  1.0f},
 						  {3.0f, -6.0f,  3.0f, 0.0f},
@@ -47,10 +54,11 @@ public:
 			}
 
 			Coordenadas3D mr[4][4];
-			Coordenadas3D r[4][4];
+			Coordenadas3D mPmT[4][4];
 
 			multMatrixFP(m,P,mr);
-			multMatrixPF(mr,mt,r);
+			multMatrixPF(mr,mt,mPmT);
+
 
 			float deltaU = (float) 1.0f / divsU;
 			float deltaV = (float) 1.0f / divsV;
@@ -63,24 +71,39 @@ public:
 					float v1 = j*deltaV;
 					float v2 = (j+1)*deltaV;
 
-					Coordenadas3D b1 = calculaB(r, u1, v1);
-					Coordenadas3D b2 = calculaB(r, u2, v1);
-					Coordenadas3D b3 = calculaB(r, u1, v2);
-					Coordenadas3D b4 = calculaB(r, u2, v2);
+					Coordenadas3D b1 = calculaB(mPmT, u1, v1);
+					Coordenadas3D b2 = calculaB(mPmT, u2, v1);
+					Coordenadas3D b3 = calculaB(mPmT, u1, v2);
+					Coordenadas3D b4 = calculaB(mPmT, u2, v2);
 
-					res.push_back(b1);
-					res.push_back(b3);
-					res.push_back(b2);
-					res.push_back(b2);
-					res.push_back(b3);
-					res.push_back(b4);
+					Coordenadas3D n1 = calculaNormal(mPmT, u1, v1);
+					Coordenadas3D n2 = calculaNormal(mPmT, u2, v1);
+					Coordenadas3D n3 = calculaNormal(mPmT, u1, v2);
+					Coordenadas3D n4 = calculaNormal(mPmT, u2, v2);
 
-					//res.push_back(b1);
-					//res.push_back(b2);
-					//res.push_back(b3);
-					//res.push_back(b2);
-					//res.push_back(b4);
-					//res.push_back(b3);
+					cp.pontos.push_back(b1);
+					cp.textCoords.push_back(CoordsTextura{u1, v1});
+					cp.textCoords.push_back(n1);
+
+					cp.pontos.push_back(b3);
+					cp.textCoords.push_back(CoordsTextura{u1, v2});
+					cp.textCoords.push_back(n3);
+
+					cp.pontos.push_back(b2);
+					cp.textCoords.push_back(CoordsTextura{u2, v1});
+					cp.textCoords.push_back(n2);
+
+					cp.pontos.push_back(b2);
+					cp.textCoords.push_back(CoordsTextura{u2, v1});
+					cp.textCoords.push_back(n2);
+
+					cp.pontos.push_back(b3);
+					cp.textCoords.push_back(CoordsTextura{u1, v2});
+					cp.textCoords.push_back(n3);
+
+					cp.pontos.push_back(b4);
+					cp.textCoords.push_back(CoordsTextura{u2, v2});
+					cp.textCoords.push_back(n4);
 
 				}
 			}

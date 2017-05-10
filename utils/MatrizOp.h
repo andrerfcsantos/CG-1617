@@ -64,3 +64,21 @@ Coordenadas3D calculaB(Coordenadas3D r[4][4], float u, float v) {
 	return rf;
 
 }
+
+Coordenadas3D calculaNormal(Coordenadas3D r[4][4], float u, float v){
+	Coordenadas3D du,dv,dr;
+	float vu[4] = { pow(u,3), pow(u,2), u, 1 };
+	float dvu[4] = { 3*u*u, 2*u, 1, 0 };
+	float vv[4] = { pow(v,3),pow(v,2),v,1 };
+	float dvv[4] = { 3*v*v,2*v,1,0};
+	Coordenadas3D ru[4], rv[4];
+
+	multMatrix_VP(dvu, r, ru);
+	du = multMatrix_PV(ru,vv);
+
+	multMatrix_VP(u, r, rv);
+	dv = multMatrix_PV(rv,dvv);
+
+	dr = du.crossproduct(dv);
+	return dr;
+}

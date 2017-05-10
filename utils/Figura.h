@@ -337,7 +337,6 @@ public:
 		Coordenadas3D up = { 0,1,0 };
 		Coordenadas3D down = { 0,-1,0 };
 
-
 		for (int j = 0; j < divsz; ++j) {
 			for (int i = 0; i < divsx; ++i) {
 				x = -comp / 2 + deltaComp*i;
