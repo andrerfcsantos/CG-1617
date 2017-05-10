@@ -11,10 +11,9 @@ public:
 	std::vector<Coordenadas3D> pontos;
 	std::vector<Coordenadas3D> normais;
 	std::vector<CoordsTextura> coordsTextura;
-}
+};
 
-class SuperficieBezier
-{
+class SuperficieBezier {
   public:
 	std::vector<Coordenadas3D> pontosControlo;
 	std::vector<std::vector<int>> patches;
@@ -82,35 +81,35 @@ class SuperficieBezier
 					Coordenadas3D n4 = calculaNormal(mPmT, u2, v2);
 
 					cp.pontos.push_back(b1);
-					cp.textCoords.push_back(CoordsTextura{u1, v1});
-					cp.textCoords.push_back(n1);
+					cp.coordsTextura.push_back(CoordsTextura{u1, v1});
+					cp.normais.push_back(n1);
 
 					cp.pontos.push_back(b3);
-					cp.textCoords.push_back(CoordsTextura{u1, v2});
-					cp.textCoords.push_back(n3);
+					cp.coordsTextura.push_back(CoordsTextura{u1, v2});
+					cp.normais.push_back(n3);
 
 					cp.pontos.push_back(b2);
-					cp.textCoords.push_back(CoordsTextura{u2, v1});
-					cp.textCoords.push_back(n2);
+					cp.coordsTextura.push_back(CoordsTextura{u2, v1});
+					cp.normais.push_back(n2);
 
 					cp.pontos.push_back(b2);
-					cp.textCoords.push_back(CoordsTextura{u2, v1});
-					cp.textCoords.push_back(n2);
+					cp.coordsTextura.push_back(CoordsTextura{u2, v1});
+					cp.normais.push_back(n2);
 
 					cp.pontos.push_back(b3);
-					cp.textCoords.push_back(CoordsTextura{u1, v2});
-					cp.textCoords.push_back(n3);
+					cp.coordsTextura.push_back(CoordsTextura{u1, v2});
+					cp.normais.push_back(n3);
 
 					cp.pontos.push_back(b4);
-					cp.textCoords.push_back(CoordsTextura{u2, v2});
-					cp.textCoords.push_back(n4);
+					cp.coordsTextura.push_back(CoordsTextura{u2, v2});
+					cp.normais.push_back(n4);
 
 				}
 			}
 
 		}
 
-		return res;
+		return cp;
 	}
 
 

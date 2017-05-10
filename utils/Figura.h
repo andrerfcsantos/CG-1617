@@ -175,15 +175,15 @@ public:
 
 		for (int i = 0; i < fatias; ++i) {
 			A = CoordsPolares(o, raio, deltaAz*i).toCartesianas();
-			float s1 = 0.5f + 0.5*cos((deltaAz*i);
-			float t1 = 0.5f + 0.5*sin((deltaAz*i);
+			float s1 = 0.5f + 0.5*cos((deltaAz*i));
+			float t1 = 0.5f + 0.5*sin((deltaAz*i));
 
 			ctA = CoordsTextura{ s1,t1 };
 
 			B = CoordsPolares(o, raio, deltaAz*(i + 1)).toCartesianas();
 			
-			float s2 = 0.5f + 0.5f*cos((deltaAz*(i + 1));
-			float t2 = 0.5f + 0.5f*sin((deltaAz*(i + 1));
+			float s2 = 0.5f + 0.5f*cos((deltaAz*(i + 1)));
+			float t2 = 0.5f + 0.5f*sin((deltaAz*(i + 1)));
 			ctB = CoordsTextura{s2,t2};
 
 			ctO = CoordsTextura{ 0.5f,0.5f };
@@ -235,15 +235,15 @@ public:
 		// Circulo de baixo
 		for (int i = 0; i < fatias; ++i) {
 			A = CoordsPolares(o, raio, deltaAz*i).toCartesianas();
-			float s1 = ctOrigemBaixo.s + raioTex*cos((deltaAz*i);
-			float t1 = ctOrigemBaixo.t + raioTex*sin((deltaAz*i);
+			float s1 = ctOrigem.s + raioTex*cos((deltaAz*i));
+			float t1 = ctOrigem.t + raioTex*sin((deltaAz*i));
 
 			ctA = CoordsTextura{ s1,t1 };
 
 			B = CoordsPolares(o, raio, deltaAz*(i + 1)).toCartesianas();
 			
-			float s2 = ctOrigemBaixo.s + raioTex*cos((deltaAz*(i+1)));
-			float t2 = ctOrigemBaixo.t + raioTex*sin((deltaAz*(i+1)));
+			float s2 = ctOrigem.s + raioTex*cos((deltaAz*(i+1)));
+			float t2 = ctOrigem.t + raioTex*sin((deltaAz*(i+1)));
 			ctB = CoordsTextura{s2,t2};
 
 			pontos.push_back(A);
@@ -256,7 +256,7 @@ public:
 
 			pontos.push_back(o);
 			normais.push_back(down);
-			textCoords.push_back(ctO);
+			textCoords.push_back(ctOrigem);
 		}
 
 		// Superficie lateral
@@ -264,9 +264,10 @@ public:
 		float alfaTexInic = (float)3 * M_PI / 2.0f - alfaTex / 2.0f;
 		float deltaAlfaTex = (float)alfaTex / fatias;
 		float deltaRaioTex = (float)(1 - 0.375f) / camadas;
+
 		for (int j = 0; j < camadas; ++j) {
-			Coordenadas3D cBaixo = { o.x, o.y + deltaAlt*(j) , o.z };
-			Coordenadas3D cAlto = { o.x, o.y + deltaAlt*(j+1) , o.z };
+			Coordenadas3D cBaixo = { o.x, o.y + deltaAltura*(j) , o.z };
+			Coordenadas3D cAlto = { o.x, o.y + deltaAltura*(j+1) , o.z };
 			for (int i = 0; i < fatias; ++i) {
 				A = CoordsPolares(Coordenadas3D{ o.x , o.y + deltaAltura*j, o.z },
 					raio - (deltaRaio*j),
@@ -290,13 +291,13 @@ public:
 				Coordenadas3D nd = D - cAlto;
 				nd.y = (float) raio / altura;
 
-				CoordsTextura at = CoodsTextura{(0.625f - deltaRaioTex * j) * cos(alfaTexInic + deltaAlfaTex * i) + 0.5f,
+				CoordsTextura at = CoordsTextura{(0.625f - deltaRaioTex * j) * cos(alfaTexInic + deltaAlfaTex * i) + 0.5f,
 												(0.625f - deltaRaioTex * j) * sin(alfaTexInic + deltaAlfaTex * i) + 1.0f};
-				CoordsTextura bt = CoodsTextura{(0.625f - deltaRaioTex * j) * cos(alfaTexInic + deltaAlfaTex * (i+1)) + 0.5f,
+				CoordsTextura bt = CoordsTextura{(0.625f - deltaRaioTex * j) * cos(alfaTexInic + deltaAlfaTex * (i+1)) + 0.5f,
 												(0.625f - deltaRaioTex * j) * sin(alfaTexInic + deltaAlfaTex * (i+1)) + 1.0f};
-				CoordsTextura ct = CoodsTextura{(0.625f - deltaRaioTex * (j+1)) * cos(alfaTexInic + deltaAlfaTex * (i+1)) + 0.5f,
+				CoordsTextura ct = CoordsTextura{(0.625f - deltaRaioTex * (j+1)) * cos(alfaTexInic + deltaAlfaTex * (i+1)) + 0.5f,
 												(0.625f - deltaRaioTex * (j+1)) * sin(alfaTexInic + deltaAlfaTex * (i+1)) + 1.0f};
-				CoordsTextura dt = CoodsTextura{(0.625f - deltaRaioTex * (j+1)) * cos(alfaTexInic + deltaAlfaTex * i) + 0.5f,
+				CoordsTextura dt = CoordsTextura{(0.625f - deltaRaioTex * (j+1)) * cos(alfaTexInic + deltaAlfaTex * i) + 0.5f,
 												(0.625f - deltaRaioTex * (j+1)) * sin(alfaTexInic + deltaAlfaTex * i) + 1.0f};
 				
 				pontos.push_back(A);
@@ -401,7 +402,7 @@ public:
 		return *this;
 	}
 
-	Figura& geraPlanoX(Coordenadas3D o, float largura, float altura, int divsz, int divsy, int orientacao) {
+	Figura& geraPlanoX(Coordenadas3D o, float largura, float altura, int divsz, int divsy, ORIENTACAO_FIG orientacao) {
 		float z, y;
 		float deltaLargura = (float)largura / divsz;
 		float deltaAltura = (float)altura / divsy;
@@ -474,7 +475,7 @@ public:
 		return *this;
 	}
 
-	Figura& geraPlanoZ(Coordenadas3D o, float comp, float altura, int divsx, int divsy, int orientacao) {
+	Figura& geraPlanoZ(Coordenadas3D o, float comp, float altura, int divsx, int divsy, ORIENTACAO_FIG orientacao) {
 		float x, y;
 		float deltaComp = (float)comp / divsx;
 		float deltaAltura = (float)altura / divsy;
@@ -492,7 +493,7 @@ public:
 				Coordenadas3D c = { x + deltaComp + o.x, y + deltaAltura + o.y, 0 + o.z };
 				Coordenadas3D d = { x + o.x            , y + deltaAltura + o.y, 0 + o.z };
 
-				if (orientacao == 1) {
+				if (orientacao == CIMA || orientacao == AMBOS) {
 					pontos.push_back(a);
 					normais.push_back(normal1);
 					textCoords.push_back(CoordsTextura{i * deltaTexS, j * deltaTexT});
@@ -596,13 +597,13 @@ public:
 		Coordenadas3D up = Coordenadas3D{ 0,1,0 };
 		Coordenadas3D down = Coordenadas3D{ 0,-1,0 };
 
-		Coordenadas3D oCima = Coordenadas3D{o.x, o.y + altura, o.z}
+		Coordenadas3D oCima = Coordenadas3D{ o.x, o.y + altura, o.z };
 
-		// Círculo superior
+		// Circulo superior
 		for (int i = 0; i < fatias; ++i) {
 			A = CoordsPolares(oCima, raio, deltaAz*i).toCartesianas();
-			float s1 = ctOrigemCima.s + raioTex*cos((deltaAz*i);
-			float t1 = ctOrigemCima.t + raioTex*sin((deltaAz*i);
+			float s1 = ctOrigemCima.s + raioTex*cos((deltaAz*i));
+			float t1 = ctOrigemCima.t + raioTex*sin((deltaAz*i));
 
 			ctA = CoordsTextura{ s1,t1 };
 
@@ -622,14 +623,14 @@ public:
 
 			pontos.push_back(oCima);
 			normais.push_back(up);
-			textCoords.push_back(ctO);
+			textCoords.push_back(ctOrigemCima);
 		}
 
 		// Círculo inferior
 		for (int i = 0; i < fatias; ++i) {
 			A = CoordsPolares(o, raio, deltaAz*i).toCartesianas();
-			float s1 = ctOrigemBaixo.s + raioTex*cos((deltaAz*i);
-			float t1 = ctOrigemBaixo.t + raioTex*sin((deltaAz*i);
+			float s1 = ctOrigemBaixo.s + raioTex*cos((deltaAz*i));
+			float t1 = ctOrigemBaixo.t + raioTex*sin((deltaAz*i));
 
 			ctA = CoordsTextura{ s1,t1 };
 
@@ -649,7 +650,7 @@ public:
 
 			pontos.push_back(o);
 			normais.push_back(down);
-			textCoords.push_back(ctO);
+			textCoords.push_back(ctOrigemBaixo);
 		}
 
 		// Corpo
@@ -664,34 +665,34 @@ public:
 				CoordsPolares c = CoordsPolares(cAlto, raio, deltaAz *  (i+1));
 				CoordsPolares d = CoordsPolares(cAlto, raio, deltaAz * i);
 
-				Coordenadas3D na = a - cBaixo;
-				Coordenadas3D nb = b - cBaixo;
-				Coordenadas3D nc = c - cAlto;
-				Coordenadas3D nd = d - cAlto;
+				Coordenadas3D na = a.toCartesianas() - cBaixo;
+				Coordenadas3D nb = b.toCartesianas() - cBaixo;
+				Coordenadas3D nc = c.toCartesianas() - cAlto;
+				Coordenadas3D nd = d.toCartesianas() - cAlto;
 
 				pontos.push_back(a.toCartesianas());
 				normais.push_back(na.normalize());
-				textCoords.push_back(CoordsTextura{deltaTexS * i, deltaTexT * j + 0.375});
+				textCoords.push_back(CoordsTextura{deltaTexS * i, deltaTexT * j + 0.375f});
 
 				pontos.push_back(b.toCartesianas());
 				normais.push_back(nb.normalize());
-				textCoords.push_back(CoordsTextura{deltaTexS * (i+1), deltaTexT * j + 0.375});
+				textCoords.push_back(CoordsTextura{deltaTexS * (i+1), deltaTexT * j + 0.375f});
 
 				pontos.push_back(c.toCartesianas());
 				normais.push_back(nc.normalize());
-				textCoords.push_back(CoordsTextura{deltaTexS * (i+1), deltaTexT * (j+1) + 0.375});
+				textCoords.push_back(CoordsTextura{deltaTexS * (i+1), deltaTexT * (j+1) + 0.375f});
 				
 				pontos.push_back(a.toCartesianas());
 				normais.push_back(na.normalize());
-				textCoords.push_back(CoordsTextura{deltaTexS * i, deltaTexT * j + 0.375});
+				textCoords.push_back(CoordsTextura{deltaTexS * i, deltaTexT * j + 0.375f});
 				
 				pontos.push_back(c.toCartesianas());
 				normais.push_back(nc.normalize());
-				textCoords.push_back(CoordsTextura{deltaTexS * (i+1), deltaTexT * (j+1) + 0.375});
+				textCoords.push_back(CoordsTextura{deltaTexS * (i+1), deltaTexT * (j+1) + 0.375f});
 				
 				pontos.push_back(d.toCartesianas());
 				normais.push_back(nd.normalize());
-				textCoords.push_back(CoordsTextura{deltaTexS * i, deltaTexT * (j+1) + 0.375});
+				textCoords.push_back(CoordsTextura{deltaTexS * i, deltaTexT * (j+1) + 0.375f});
 			}
 		}
 		return *this;

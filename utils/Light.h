@@ -6,7 +6,7 @@ class Light {
 
 public:
     string type;
-    GLfloat amb[4] = {0.2, 0.2, 0.2, 1.0};
+    GLfloat amb[4] = {0.2f, 0.2f, 0.2f, 1.0f};
     GLfloat diff[4] = {1.0, 1.0, 1.0, 1.0};
     GLfloat pos[4] = {0.0, 0.0, 0.0, 1.0};
     GLfloat spotDir[3] = {0.0, 0.0, -1.0};

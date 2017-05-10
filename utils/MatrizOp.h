@@ -76,7 +76,7 @@ Coordenadas3D calculaNormal(Coordenadas3D r[4][4], float u, float v){
 	multMatrix_VP(dvu, r, ru);
 	du = multMatrix_PV(ru,vv);
 
-	multMatrix_VP(u, r, rv);
+	multMatrix_VP(vu, r, rv);
 	dv = multMatrix_PV(rv,dvv);
 
 	dr = du.crossproduct(dv);

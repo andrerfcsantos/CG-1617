@@ -84,7 +84,7 @@ int main(int argc, char** argv) {
 		int divsz = atoi(argv[5]);
 		nome_fich = argv[6];
 
-		figura.geraPlanoY(Coordenadas3D{0.0,0.0,0.0},comp, largura, divsx, divsz, 1);
+		figura.geraPlanoY(Coordenadas3D{0.0,0.0,0.0},comp, largura, divsx, divsz, CIMA);
 	}
 	if ((str_figura == "circle" || str_figura == "circulo") && argc == 5) {
 		cmd = true;
@@ -223,6 +223,7 @@ int main(int argc, char** argv) {
 	if (str_figura == "bezier" && argc == 6) {
 		SuperficieBezier superficie;
 		std::vector<Coordenadas3D> ptsSuperfcie;
+		ComponentesPonto cPts;
 		char *nome_fich_in;
 		cmd = true;
 		//     0     1      2    3       4           5
@@ -235,12 +236,17 @@ int main(int argc, char** argv) {
 		std::cout << "A ler ficheiro bezier..." << std::endl;
 		superficie = leBezier(nome_fich_in);
 		std::cout << "A gerar triangulos..." << std::endl;
-		ptsSuperfcie = superficie.getTriangulos(tessU, tessV);
+		cPts = superficie.getPontos(tessU, tessV);
 
 		std::ofstream ficheiro(modelos_path + nome_fich);
-		for (Coordenadas3D ponto : ptsSuperfcie) {
-			ficheiro << ponto.x << " " << ponto.y << " " << ponto.z << std::endl;
+
+
+		for (int i = 0; i < cPts.pontos.size(); i++) {
+			ficheiro << cPts.pontos[i].x << " " << cPts.pontos[i].y << " " << cPts.pontos[i].z << std::endl;
+			ficheiro << cPts.normais[i].x << " " << cPts.normais[i].y << " " << cPts.normais[i].z << std::endl;
+			ficheiro << cPts.coordsTextura[i].s << " " << cPts.coordsTextura[i].t << std::endl;
 		}
+
 		return 0;
 	}
 
