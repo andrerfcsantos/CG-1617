@@ -9,7 +9,7 @@ struct Desenho {
 	std::vector<Coordenadas3D> pontos;
 	std::vector<Coordenadas3D> normais;
 	std::vector<CoordsTextura> coordsText;
-	int nBuffPontos, nBuffNormal, nBuffTextCoords;
+	int nBuffPontos, nBuffNormal, nBuffTex, idTex;
 };
 
 

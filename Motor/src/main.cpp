@@ -6,6 +6,7 @@
 #else
 #include <GL/glew.h>
 #include <GL/glut.h>
+#include <IL\il.h>
 #endif
 
 #include <iostream>
@@ -34,7 +35,7 @@ vector<Coordenadas3D> pontos;
 Camara camara = Camara(Coordenadas3D{ 7.5,5,7 }, M_PI, M_PI / 2 + M_PI / 6);
 //Camara camara = Camara(Coordenadas3D{-8,0,0},M_PI/2, M_PI/2+0.01);
 //Camara camara = Camara(Coordenadas3D{0,2,4},0, M_PI/2);
-GLenum modoPoligonos = GL_LINE;
+GLenum modoPoligonos = GL_FILL;
 GLenum modoFace = GL_FRONT;
 float cameraSpeed = 10.0f;
 float bg_red =0.0, bg_green =0.0, bg_blue = 0.0;
@@ -59,16 +60,43 @@ char fps_str[25];
 int time_fps = 0, timebase = 0, frame = 0;
 int npontos;
 
-void renderCatmullRomCurve(std::vector<Coordenadas3D> p) {
-	int c_points = 100;
-	float dt = 1.0f / c_points;
-	float res[3], deriv[3];
-	glBegin(GL_LINE_LOOP);
-	for (int i = 0; i < c_points; i++) {
-		getGlobalCatmullRomPoint(p, dt*i, res, deriv);
-		glVertex3f(res[0], res[1], res[2]);
-	}
-	glEnd();
+int loadTexture(std::string s) {
+
+	unsigned int t, tw, th;
+	unsigned char *texData;
+	unsigned int texID;
+	ilInit();
+	ilEnable(IL_ORIGIN_SET);
+	ilOriginFunc(IL_ORIGIN_LOWER_LEFT);
+	ilGenImages(1, &t);
+	ilBindImage(t);
+	ILboolean load = ilLoadImage((ILstring)s.c_str());
+	tw = ilGetInteger(IL_IMAGE_WIDTH);
+	th = ilGetInteger(IL_IMAGE_HEIGHT);
+
+	if(load == IL_FALSE)
+		std::cout << "Erro no load da textura!" << std::endl;
+
+	std::cout << "Tamanho imagem" << tw << " " << th << std::endl;
+	ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
+	texData = ilGetData();
+
+	glGenTextures(1, &texID);
+
+	glBindTexture(GL_TEXTURE_2D, texID);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tw, th, 0, GL_RGBA, GL_UNSIGNED_BYTE, texData);
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	return texID;
+
 }
 
 void main_menu_func(int opt) {
@@ -275,13 +303,21 @@ void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
 			glEnd();
 		}
 		else {
+
+			glBindTexture(GL_TEXTURE_2D, it->idTex);
+
 			glBindBuffer(GL_ARRAY_BUFFER, it->nBuffPontos);
 			glVertexPointer(3, GL_FLOAT, 0, 0);
 
 			glBindBuffer(GL_ARRAY_BUFFER, it->nBuffNormal);
 			glNormalPointer(GL_FLOAT, 0, 0);
+			
+			glBindBuffer(GL_ARRAY_BUFFER, it->nBuffTex);
+			glTexCoordPointer(2, GL_FLOAT, 0, 0);
 
 			glDrawArrays(it->defsDesenho.modoDesenho, 0, it->pontos.size());
+
+			glBindTexture(GL_TEXTURE_2D, 0);
 		}
 		
 	}
@@ -629,6 +665,11 @@ Grupo XMLtoGrupo(xml_node node) {
 						fl = stof(ait->value());
 						desenho.defsDesenho.blue = fl;
 					}
+					if (name == "texture") {
+						string ficheiro = ait->value();
+						std::cout << "Ficheiro: " << ficheiro << std::endl;
+						desenho.idTex = loadTexture(ficheiro);
+					}
 				}
 
 				float x, y, z,nx,ny,nz,t1,t2;
@@ -651,8 +692,13 @@ Grupo XMLtoGrupo(xml_node node) {
 
 				glGenBuffers(1, buffer_normais);
 				glBindBuffer(GL_ARRAY_BUFFER, buffer_normais[0]);
-				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * desenho.pontos.size() * 3, &desenho.pontos[0], GL_STATIC_DRAW);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * desenho.pontos.size() * 3, &desenho.normais[0], GL_STATIC_DRAW);
 				desenho.nBuffNormal = buffer_normais[0];
+
+				glGenBuffers(1, buffer_coords_textura); 
+				glBindBuffer(GL_ARRAY_BUFFER, buffer_coords_textura[0]);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * desenho.pontos.size() * 2, &desenho.coordsText[0], GL_STATIC_DRAW);
+				desenho.nBuffTex = buffer_coords_textura[0];
 
 				res.desenhos.push_back(desenho);
 			}
@@ -777,11 +823,10 @@ int main(int argc, char **argv) {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 
-	//glEnable(GL_TEXTURE_2D);
-
+	glEnable(GL_TEXTURE_2D);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
-	//glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	leXML();
 
