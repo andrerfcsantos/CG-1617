@@ -77,7 +77,7 @@ int loadTexture(std::string s) {
 	if(load == IL_FALSE)
 		std::cout << "Erro no load da textura!" << std::endl;
 
-	std::cout << "Tamanho imagem" << tw << " " << th << std::endl;
+	std::cout << "Tamanho imagem " << tw << " " << th << std::endl;
 	ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
 	texData = ilGetData();
 

@@ -43,11 +43,11 @@ public:
 				nb = B - o;
 				nc = C - o;
 				nd = D - o;
-
-				ctA = CoordsTextura{ (deltaAz*i) / 360.0f, (deltaPolar*j) / 360.0f };
-				ctB = CoordsTextura{ (deltaAz*(i + 1)) / 360.0f, (deltaPolar*j) / 360.0f };
-				ctC = CoordsTextura{ (deltaAz*i) / 360.0f, (deltaPolar*(j + 1)) / 360.0f };
-				ctD = CoordsTextura{ (deltaAz*(i + 1)) / 360.0f, (deltaPolar*(j + 1)) / 360.0f };
+				float pi = (float) M_PI;
+				ctA = CoordsTextura{ (deltaAz*i) / (2.0f * pi), (deltaPolar*j) / pi };
+				ctB = CoordsTextura{ (deltaAz*(i + 1)) / (2.0f * pi), (deltaPolar*j) / pi };
+				ctC = CoordsTextura{ (deltaAz*i) / (2.0f * pi), (deltaPolar*(j + 1)) / pi };
+				ctD = CoordsTextura{ (deltaAz*(i + 1)) / (2.0f * pi), (deltaPolar*(j + 1)) / pi };
 
 				pontos.push_back(A);
 				normais.push_back(na.normalize());

@@ -1,0 +1,9 @@
+<scene>
+	<group name="Sun">
+		<rotate time="15" X="0" Y="1" Z="0"/>
+		<scale uniform="1.1"/>
+		<models>
+			<model mode="FILL" file="plano_2_10.3d" texture="sun.jpg"/>
+		</models>
+	</group>
+</scene>
