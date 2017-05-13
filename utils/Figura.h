@@ -101,10 +101,10 @@ public:
 			C = CoordsPolares(o, raioInterno, deltaAz*(i + 1)).toCartesianas();
 			D = CoordsPolares(o, raioExterno, deltaAz*(i + 1)).toCartesianas();
 
-			ctA = CoordsTextura{ (deltaAz*i) / 360.0f      , 1 };
-			ctB = CoordsTextura{ (deltaAz*i) / 360.0f      , 0 };
-			ctC = CoordsTextura{ (deltaAz*(i + 1)) / 360.0f, 1 };
-			ctD = CoordsTextura{ (deltaAz*(i + 1)) / 360.0f, 0 };
+			ctA = CoordsTextura{ (deltaAz*i) / (float)(2.0*M_PI)      , 1 };
+			ctB = CoordsTextura{ (deltaAz*i) / (float)(2.0 * M_PI)      , 0 };
+			ctC = CoordsTextura{ (deltaAz*(i + 1)) / (float)(2.0 * M_PI), 1 };
+			ctD = CoordsTextura{ (deltaAz*(i + 1)) / (float)(2.0 * M_PI), 0 };
 
 			if (orientacao == CIMA || orientacao == AMBOS) {
 				pontos.push_back(A);
@@ -250,13 +250,15 @@ public:
 			normais.push_back(down);
 			textCoords.push_back(ctA);
 
+			pontos.push_back(o);
+			normais.push_back(down);
+			textCoords.push_back(ctOrigem);
+
 			pontos.push_back(B);
 			normais.push_back(down);
 			textCoords.push_back(ctB);
 
-			pontos.push_back(o);
-			normais.push_back(down);
-			textCoords.push_back(ctOrigem);
+			
 		}
 
 		// Superficie lateral
@@ -644,13 +646,13 @@ public:
 			normais.push_back(down);
 			textCoords.push_back(ctA);
 
-			pontos.push_back(B);
-			normais.push_back(down);
-			textCoords.push_back(ctB);
-
 			pontos.push_back(o);
 			normais.push_back(down);
 			textCoords.push_back(ctOrigemBaixo);
+
+			pontos.push_back(B);
+			normais.push_back(down);
+			textCoords.push_back(ctB);
 		}
 
 		// Corpo

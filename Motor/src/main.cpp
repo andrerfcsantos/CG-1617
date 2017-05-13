@@ -710,7 +710,7 @@ Grupo XMLtoGrupo(xml_node node) {
 }
 
 void leXML() {
-	std::string nomeFicheiro("sistema_solar.xml");
+	std::string nomeFicheiro("teste_figuras.xml");
 
 	std::string ficheiro(modelo_prefix + nomeFicheiro);
 	pugi::xml_parse_result result = doc.load_file(ficheiro.c_str());
@@ -726,7 +726,7 @@ void leXML() {
 	}
 
 	xml_node root_lights = doc.child("scene").child("lights");
-	XMLtoLights(root_lights);
+	if (root_lights != nullptr) XMLtoLights(root_lights);
 
 	Grupo g;
 	tree<Grupo>::iterator na, na_aux;

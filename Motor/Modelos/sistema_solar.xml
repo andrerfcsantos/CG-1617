@@ -1,5 +1,7 @@
 <scene>
-	
+	<lights> 
+		<light type="POINT" posX="0" posY="0" posZ="0"/> 
+	</lights> 
 	<group name="Solar System">
 		<group name="Sun">
 			<rotate time="15" X="0" Y="1" Z="0"/>
@@ -118,7 +120,7 @@
 			</translate>
 			<scale uniform="0.1"/>
 			<models>
-				<model red="0.6784313725490196" green="0.2823529411764706" blue="0.050980392156862744" file="bezier.3d"/>
+				<model red="0.6784313725490196" green="0.2823529411764706" blue="0.050980392156862744" file="teapot.3d"/>
 			</models>
 		</group>
 		<group name="Mars System">
@@ -291,12 +293,12 @@
 				<scale uniform="0.5032"/>
 				<group name="Ring B">
 					<models>
-						<model mode="FILL" red="0.6274509803921569" green="0.5529411764705883" blue="0.2823529411764706" file="anel_b.3d" texture="texturas/2k_saturn_ring_alpha.jpg"/>
+						<model mode="FILL" red="0.6274509803921569" green="0.5529411764705883" blue="0.2823529411764706" file="anel_b.3d" texture="texturas/2k_saturn_ring_alpha.png"/>
 					</models>
 				</group>
 				<group name="Ring A">
 					<models>
-						<model mode="FILL" red="0.5294117647058824" green="0.4549019607843137" blue="0.1843137254901961" file="anel_a.3d" texture="texturas/2k_saturn_ring_alpha.jpg"/>
+						<model mode="FILL" red="0.5294117647058824" green="0.4549019607843137" blue="0.1843137254901961" file="anel_a.3d" texture="texturas/2k_saturn_ring_alpha.png"/>
 					</models>
 				</group>
 			</group>

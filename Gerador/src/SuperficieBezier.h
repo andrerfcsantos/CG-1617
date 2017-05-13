@@ -104,6 +104,38 @@ class SuperficieBezier {
 					cp.coordsTextura.push_back(CoordsTextura{u2, v2});
 					cp.normais.push_back(n4);
 
+
+					//Outro lado
+
+					/*
+					cp.pontos.push_back(b1);
+					cp.coordsTextura.push_back(CoordsTextura{ u1, v1 });
+					cp.normais.push_back(n1);
+
+					cp.pontos.push_back(b2);
+					cp.coordsTextura.push_back(CoordsTextura{ u2, v1 });
+					cp.normais.push_back(n2);
+
+					cp.pontos.push_back(b3);
+					cp.coordsTextura.push_back(CoordsTextura{ u1, v2 });
+					cp.normais.push_back(n3);
+
+					cp.pontos.push_back(b2);
+					cp.coordsTextura.push_back(CoordsTextura{ u2, v1 });
+					cp.normais.push_back(n2);
+
+					cp.pontos.push_back(b4);
+					cp.coordsTextura.push_back(CoordsTextura{ u2, v2 });
+					cp.normais.push_back(n4);
+
+					cp.pontos.push_back(b3);
+					cp.coordsTextura.push_back(CoordsTextura{ u1, v2 });
+					cp.normais.push_back(n3);
+					*/
+
+					
+
+
 				}
 			}
 
