@@ -1,13 +1,13 @@
 <scene>
 	<lights> 
-		<light type="POINT" posX="0" posY="0" posZ="0"/> 
+		<light type="POINT" posX="0" posY="5" posZ="0"/> 
 	</lights> 
 	<group name="Solar System">
 		<group name="Sun">
 			<rotate time="15" X="0" Y="1" Z="0"/>
 			<scale uniform="1.1"/>
 			<models>
-				<model mode="FILL" file="esfera_50.3d" texture="texturas/2k_sun.jpg"/>
+				<model mode="FILL" ambDiffR="0.5" ambDiffG="0.5" ambDiffB="0.5" file="esfera_50.3d" texture="texturas/2k_sun.jpg"/>
 			</models>
 		</group>
 		<group name="Mercury">

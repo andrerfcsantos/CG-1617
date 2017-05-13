@@ -304,16 +304,39 @@ void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
 		}
 		else {
 
+			if (def.has_diffuse) {
+				glMaterialfv(GL_FRONT, GL_DIFFUSE, def.diffuse);
+			}
+			if (def.has_ambient) {
+				glMaterialfv(GL_FRONT, GL_AMBIENT, def.ambient);
+			}
+			if (def.has_specular) {
+				glMaterialfv(GL_FRONT, GL_SPECULAR, def.specular);
+			}
+			if (def.has_emission) {
+				glMaterialfv(GL_FRONT, GL_EMISSION, def.emission);
+			}
+			if (def.has_ambient_and_diffuse) {
+				glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, def.ambient_and_diffuse);
+			}
+			if (def.has_shininess) {
+				glMaterialf(GL_FRONT, GL_SHININESS,def.shininess);
+			}
+
+
 			glBindTexture(GL_TEXTURE_2D, it->idTex);
 
 			glBindBuffer(GL_ARRAY_BUFFER, it->nBuffPontos);
 			glVertexPointer(3, GL_FLOAT, 0, 0);
 
+			
 			glBindBuffer(GL_ARRAY_BUFFER, it->nBuffNormal);
 			glNormalPointer(GL_FLOAT, 0, 0);
 			
+			
 			glBindBuffer(GL_ARRAY_BUFFER, it->nBuffTex);
 			glTexCoordPointer(2, GL_FLOAT, 0, 0);
+			
 
 			glDrawArrays(it->defsDesenho.modoDesenho, 0, it->pontos.size());
 
@@ -653,18 +676,82 @@ Grupo XMLtoGrupo(xml_node node) {
 						if (mode == "LINE") desenho.defsDesenho.modoPoligonos = GL_LINE;
 						if (mode == "POINT") desenho.defsDesenho.modoPoligonos = GL_POINT;
 					}
-					if (name == "red") {
-						fl = stof(ait->value());
-						desenho.defsDesenho.red = fl;
+					// Diffuse
+					if (name == "diffR") {
+						desenho.defsDesenho.diffuse[0] = stof(ait->value());
+						desenho.defsDesenho.has_diffuse = true;
 					}
-					if (name == "green") {
-						fl = stof(ait->value());
-						desenho.defsDesenho.green = fl;
+					if (name == "diffG") {
+						desenho.defsDesenho.diffuse[1] = stof(ait->value());
+						desenho.defsDesenho.has_diffuse = true;
 					}
-					if (name == "blue") {
-						fl = stof(ait->value());
-						desenho.defsDesenho.blue = fl;
+					if (name == "diffB") {
+						desenho.defsDesenho.diffuse[2] = stof(ait->value());
+						desenho.defsDesenho.has_diffuse = true;
 					}
+
+					//Ambient
+					if (name == "ambR") {
+						desenho.defsDesenho.ambient[0] = stof(ait->value());
+						desenho.defsDesenho.has_ambient = true;
+					}
+					if (name == "ambG") {
+						desenho.defsDesenho.ambient[1] = stof(ait->value());
+						desenho.defsDesenho.has_ambient = true;
+					}
+					if (name == "ambB") {
+						desenho.defsDesenho.ambient[2] = stof(ait->value());
+						desenho.defsDesenho.has_ambient = true;
+					}
+
+					//Specular
+					if (name == "specR") {
+						desenho.defsDesenho.specular[0] = stof(ait->value());
+						desenho.defsDesenho.has_specular = true;
+					}
+					if (name == "specG") {
+						desenho.defsDesenho.specular[1] = stof(ait->value());
+						desenho.defsDesenho.has_specular = true;
+					}
+					if (name == "specB") {
+						desenho.defsDesenho.specular[2] = stof(ait->value());
+						desenho.defsDesenho.has_specular = true;
+					}
+
+					//Emission
+					if (name == "emR") {
+						desenho.defsDesenho.emission[0] = stof(ait->value());
+						desenho.defsDesenho.has_emission = true;
+					}
+					if (name == "emG") {
+						desenho.defsDesenho.emission[1] = stof(ait->value());
+						desenho.defsDesenho.has_emission = true;
+					}
+					if (name == "emB") {
+						desenho.defsDesenho.emission[2] = stof(ait->value());
+						desenho.defsDesenho.has_emission = true;
+					}
+
+					//Ambient and diffuse
+					if (name == "ambDiffR") {
+						desenho.defsDesenho.ambient_and_diffuse[0] = stof(ait->value());
+						desenho.defsDesenho.has_ambient_and_diffuse = true;
+					}
+					if (name == "ambDiffG") {
+						desenho.defsDesenho.ambient_and_diffuse[1] = stof(ait->value());
+						desenho.defsDesenho.has_ambient_and_diffuse = true;
+					}
+					if (name == "ambDiffB") {
+						desenho.defsDesenho.ambient_and_diffuse[2] = stof(ait->value());
+						desenho.defsDesenho.has_ambient_and_diffuse = true;
+					}
+
+					if (name == "shininess") {
+						desenho.defsDesenho.shininess = stof(ait->value());
+						desenho.defsDesenho.has_shininess = true;
+					}
+
+
 					if (name == "texture") {
 						string ficheiro = ait->value();
 						std::cout << "Ficheiro: " << ficheiro << std::endl;
@@ -676,8 +763,8 @@ Grupo XMLtoGrupo(xml_node node) {
 				string nome_ficheiro = nfile.attribute("file").value();
 				ifstream fich_inp(modelo_prefix + nome_ficheiro);
 				res.ficheiros.push_back(nome_ficheiro);
-
 				while (fich_inp >> x >> y >> z >> nx >> ny >> nz >> t1 >> t2) {
+
 					desenho.pontos.push_back(Coordenadas3D{ x,y,z });
 					desenho.normais.push_back(Coordenadas3D{nx,ny,nz});
 					desenho.coordsText.push_back(CoordsTextura{t1,t2});
@@ -690,15 +777,18 @@ Grupo XMLtoGrupo(xml_node node) {
 				desenho.nBuffPontos = buffer_pontos[0];
 				desenho.defsDesenho.modoDesenho = GL_TRIANGLES;
 
+				
 				glGenBuffers(1, buffer_normais);
 				glBindBuffer(GL_ARRAY_BUFFER, buffer_normais[0]);
 				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * desenho.pontos.size() * 3, &desenho.normais[0], GL_STATIC_DRAW);
 				desenho.nBuffNormal = buffer_normais[0];
-
+				
+				
 				glGenBuffers(1, buffer_coords_textura); 
 				glBindBuffer(GL_ARRAY_BUFFER, buffer_coords_textura[0]);
 				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * desenho.pontos.size() * 2, &desenho.coordsText[0], GL_STATIC_DRAW);
 				desenho.nBuffTex = buffer_coords_textura[0];
+				
 
 				res.desenhos.push_back(desenho);
 			}
@@ -710,7 +800,7 @@ Grupo XMLtoGrupo(xml_node node) {
 }
 
 void leXML() {
-	std::string nomeFicheiro("teste_figuras.xml");
+	std::string nomeFicheiro("sistema_solar.xml");
 
 	std::string ficheiro(modelo_prefix + nomeFicheiro);
 	pugi::xml_parse_result result = doc.load_file(ficheiro.c_str());
@@ -726,7 +816,13 @@ void leXML() {
 	}
 
 	xml_node root_lights = doc.child("scene").child("lights");
-	if (root_lights != nullptr) XMLtoLights(root_lights);
+	if (root_lights != nullptr) {
+		std::cout << "Com luzes!" << std::endl;
+		XMLtoLights(root_lights);
+	}
+	else {
+		std::cout << "Sem luzes!" << std::endl;
+	}
 
 	Grupo g;
 	tree<Grupo>::iterator na, na_aux;

@@ -1,0 +1,10 @@
+<scene>
+	<group name="all">
+		<group name="plano">
+			<translate X="0" Y="0" Z="0"/>
+			<models>
+				<model mode="FILL" file="teapot_texturas.3d" texture="texturas/debug.png"/>
+			</models>
+		</group>
+	</group>
+</scene>
