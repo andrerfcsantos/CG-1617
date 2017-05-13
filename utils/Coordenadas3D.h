@@ -54,9 +54,14 @@ struct Coordenadas3D {
 	Coordenadas3D normalize() {
 		Coordenadas3D res;
 		float l = sqrt(x*x + y*y + z*z);
-		res.x = x / l;
-		res.y = y / l;
-		res.z = z / l;
+		if (l == 0) {
+			res = Coordenadas3D{ 0.0,0.0,0.0 };
+		}
+		else{
+			res.x = x / l;
+			res.y = y / l;
+			res.z = z / l;
+		}
 		return res;
 	}
 };

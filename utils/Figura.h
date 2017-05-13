@@ -44,10 +44,10 @@ public:
 				nc = C - o;
 				nd = D - o;
 				float pi = (float) M_PI;
-				ctA = CoordsTextura{ (deltaAz*i) / (2.0f * pi), (deltaPolar*j) / pi };
-				ctB = CoordsTextura{ (deltaAz*(i + 1)) / (2.0f * pi), (deltaPolar*j) / pi };
-				ctC = CoordsTextura{ (deltaAz*i) / (2.0f * pi), (deltaPolar*(j + 1)) / pi };
-				ctD = CoordsTextura{ (deltaAz*(i + 1)) / (2.0f * pi), (deltaPolar*(j + 1)) / pi };
+				ctA = CoordsTextura{ (deltaAz*i) / (2.0f * pi), 1.0f - (deltaPolar*j) / pi };
+				ctB = CoordsTextura{ (deltaAz*(i + 1)) / (2.0f * pi), 1.0f - (deltaPolar*j) / pi };
+				ctC = CoordsTextura{ (deltaAz*i) / (2.0f * pi), 1.0f - (deltaPolar*(j + 1)) / pi };
+				ctD = CoordsTextura{ (deltaAz*(i + 1)) / (2.0f * pi), 1.0f - (deltaPolar*(j + 1)) / pi };
 
 				pontos.push_back(A);
 				normais.push_back(na.normalize());
