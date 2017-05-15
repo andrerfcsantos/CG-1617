@@ -217,7 +217,7 @@ void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
 						if (cor_desactivada == false) glColor3f(def.red, def.green, def.blue);
 						else glColor3f(pt_red, pt_green, pt_blue);
 
-
+						glDisable(GL_LIGHTING);
 						if (modoImediato) {
 							glBegin(it->defsDesenho.modoDesenho);
 							for (auto it_pts = pts.begin(); it_pts != pts.end(); ++it_pts) {
@@ -230,6 +230,7 @@ void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
 							glVertexPointer(3, GL_FLOAT, 0, 0);
 							glDrawArrays(it->defsDesenho.modoDesenho, 0, it->pontos.size());
 						}
+						glEnable(GL_LIGHTING);
 					}
 
 					float t;
@@ -381,7 +382,12 @@ void renderScene(void) {
 	gluLookAt(camara.p.x, camara.p.y, camara.p.z,
 		      la.x,la.y,la.z,
 			  0.0f,1.0f,0.0f);
-	
+	if (luzes.size() > 0) {
+		for (int i = 0; i < luzes.size(); ++i) {
+			luzes[i].apply(i);
+		}
+	}
+
 	tree<Grupo>::iterator head = arvoreG.begin();
 	desenhaGrupo(head);
 
@@ -918,6 +924,7 @@ int main(int argc, char **argv) {
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
+	glEnable(GL_RESCALE_NORMAL);
 
 	glEnable(GL_TEXTURE_2D);
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -929,7 +936,6 @@ int main(int argc, char **argv) {
 	if (luzes.size() > 0) {
 		glEnable(GL_LIGHTING);
 		for (int i = 0; i < luzes.size(); ++i) {
-			luzes[i].apply(i);
 			glEnable(GL_LIGHT0 + i);
 		}
 	}

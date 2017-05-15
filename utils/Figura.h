@@ -552,38 +552,58 @@ public:
 
 	Figura& geraCaixa(Coordenadas3D o,
 						float comprimento, float largura, float altura,
-						int divsx, int divsz, int divsy) {
+						int divsx, int divsz, int divsy, ORIENTACAO_FIG orientacao) {
 		Coordenadas3D centroPlano;
 		float mAltura = (float)altura / 2;
 		float mComprimento = (float)comprimento / 2;
 		float mLargura = (float)largura / 2;
 
+		
 		// Plano B
 		centroPlano = { o.x + 0.0f ,o.y + 0.0f, o.z + mLargura };
+		if (orientacao==CIMA|| orientacao==AMBOS)
 		geraPlanoZ(centroPlano, comprimento, altura, divsx, divsy, CIMA);
+		if (orientacao == BAIXO || orientacao == AMBOS)
+		geraPlanoZ(centroPlano, comprimento, altura, divsx, divsy, BAIXO);
 
 		// Plano B'
 		centroPlano = { o.x + 0.0f ,o.y + 0.0f, o.z - mLargura };
+		if (orientacao == CIMA || orientacao == AMBOS)
 		geraPlanoZ(centroPlano, comprimento, altura, divsx, divsy, BAIXO);
+		if (orientacao == BAIXO || orientacao == AMBOS)
+		geraPlanoZ(centroPlano, comprimento, altura, divsx, divsy, CIMA);
 
 		// Plano C
 		centroPlano = { o.x + mComprimento, o.y + 0.0f,o.z + 0.0f };
+		if (orientacao == CIMA || orientacao == AMBOS)
 		geraPlanoX(centroPlano, largura, altura,  divsz, divsy, CIMA);
+		if (orientacao == BAIXO || orientacao == AMBOS)
+		geraPlanoX(centroPlano, largura, altura, divsz, divsy, BAIXO);
 
 		// Plano C'
 		centroPlano = { o.x - mComprimento, o.y + 0.0f,o.z + 0.0f };
+		if (orientacao == CIMA || orientacao == AMBOS)
 		geraPlanoX(centroPlano, largura, altura, divsz, divsy, BAIXO);
+		if (orientacao == BAIXO || orientacao == AMBOS)
+		geraPlanoX(centroPlano, largura, altura, divsz, divsy, CIMA);
 
 		// Plano A
 		centroPlano = { o.x + 0.0f, o.y + mAltura, o.z + 0.0f };
+		if (orientacao == CIMA || orientacao == AMBOS)
 		geraPlanoY(centroPlano, comprimento,largura, divsx, divsz, CIMA);
+		if (orientacao == BAIXO || orientacao == AMBOS)
+		geraPlanoY(centroPlano, comprimento, largura, divsx, divsz, BAIXO);
 
 		// Plano A'
 		centroPlano = { o.x + 0.0f, o.y - mAltura, o.z + 0.0f };
+		if (orientacao == CIMA || orientacao == AMBOS)
 		geraPlanoY(centroPlano, comprimento, largura, divsx, divsz, BAIXO);
+		if (orientacao == BAIXO || orientacao == AMBOS)
+		geraPlanoY(centroPlano, comprimento, largura, divsx, divsz, CIMA);
 
 		return *this;
 	}
+
 
 	Figura& geraCilindro(Coordenadas3D o, float raio, float altura, int fatias, int camadas) {
 

@@ -3,6 +3,11 @@
 		<light type="POINT" posX="0" posY="0" posZ="0"/> 
 	</lights> 
 	<group name="Solar System">
+		<group name="Stars">
+			<models>
+				<model mode="FILL" file="caixaInvertida.3d" texture="texturas/2k_stars.jpg"/>
+			</models>
+		</group>
 		<group name="Sun">
 			<rotate time="15" X="0" Y="1" Z="0"/>
 			<scale uniform="1.1"/>
@@ -289,7 +294,7 @@
 				</models>
 			</group>
 			<group name="Saturn Rings">
-				<rotate angle="30" X="0" Y="0" Z="1"/>
+				<rotate angle="-30" X="1" Y="0" Z="0"/>
 				<scale uniform="0.5032"/>
 				<models>
 					<model mode="FILL" file="anel.3d" texture="texturas/2k_saturn_ring_alpha.png"/>

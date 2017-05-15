@@ -49,24 +49,6 @@
 			<rotate ang="90" X="-3" Y="0" Z="0"/>
 			<scale uniform="0.8"/>
 			<models>
-				<model mode="FILL" file="figuras_teste/teapot_du_dv.3d" texture="texturas/debug.png"/>
-			</models>
-		</group>
-
-		<group name="teapot">
-			<translate X="-5" Y="0" Z="-3"/>
-			<rotate ang="90" X="-3" Y="0" Z="0"/>
-			<scale uniform="0.8"/>
-			<models>
-				<model mode="FILL" file="figuras_teste/teapot_dv_du.3d" texture="texturas/debug.png"/>
-			</models>
-		</group>
-
-		<group name="teapot">
-			<translate X="-8" Y="0" Z="0"/>
-			<rotate ang="90" X="-3" Y="0" Z="0"/>
-			<scale uniform="0.8"/>
-			<models>
 				<model mode="FILL" file="figuras_teste/teapot.3d" texture="texturas/debug.png"/>
 			</models>
 		</group>

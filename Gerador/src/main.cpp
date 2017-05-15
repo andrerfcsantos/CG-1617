@@ -121,7 +121,22 @@ int main(int argc, char** argv) {
 		int divsy = atoi(argv[7]);
 		nome_fich = argv[8];
 
-		figura.geraCaixa(Coordenadas3D{ 0.0,0.0,0.0 }, comp, largura, altura, divsx, divsz, divsy);
+		figura.geraCaixa(Coordenadas3D{ 0.0,0.0,0.0 }, comp, largura, altura, divsx, divsz, divsy,CIMA);
+	}
+
+	if ((str_figura == "invertedbox" || str_figura == "caixaInvertida") && argc == 9) {
+		cmd = true;
+		//     0     1         2        3      4     5      6     7
+		// gerador box comprimento largura altura divsx divsz divsy
+		float comp = atof(argv[2]);
+		float largura = atof(argv[3]);
+		float altura = atof(argv[4]);
+		int divsx = atoi(argv[5]);
+		int divsz = atoi(argv[6]);
+		int divsy = atoi(argv[7]);
+		nome_fich = argv[8];
+
+		figura.geraCaixa(Coordenadas3D{ 0.0,0.0,0.0 }, comp, largura, altura, divsx, divsz, divsy, BAIXO);
 	}
 
 	if (str_figura == "cone" && argc == 7) {
