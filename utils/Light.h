@@ -22,6 +22,7 @@ public:
         glLightfv(GL_LIGHT0 + light, GL_POSITION, pos);
         glLightfv(GL_LIGHT0 + light, GL_DIFFUSE, diff);
 		glLightfv(GL_LIGHT0 + light, GL_AMBIENT, amb);
+		glLightfv(GL_LIGHT0 + light, GL_SPECULAR, spec);
 		glLightf(GL_LIGHT0 + light, GL_CONSTANT_ATTENUATION, attenuation[0]);
 		glLightf(GL_LIGHT0 + light, GL_LINEAR_ATTENUATION, attenuation[1]);
 		glLightf(GL_LIGHT0 + light, GL_QUADRATIC_ATTENUATION, attenuation[2]);
