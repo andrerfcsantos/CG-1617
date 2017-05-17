@@ -9,14 +9,11 @@
 
 class DefsDesenho {
 public:
-	float diffuse[4] = {0.0, 0.0, 0.0, 1.0};
-	float ambient[4] = { 0.0, 0.0, 0.0, 1.0 };
-	float specular[4] = { 1.0, 1.0, 1.0, 1.0 };
-	float emission[4] = { 0.0, 0.0, 0.0, 1.0 };
-	float ambient_and_diffuse[4] = { 0.0, 0.0, 0.0, 1.0 };
-	float shininess = 0.5;
-	bool has_diffuse = false, has_ambient = false, has_specular = false, has_emission = false, has_ambient_and_diffuse = false;
-	bool has_shininess=false;
+	float diffuse[4] = { 0.8f, 0.8f, 0.8f, 1.0f };
+	float ambient[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
+	float specular[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+	float emission[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	float shininess = 0;
 	float red, green, blue;
 	GLenum modoPoligonos;
 	GLenum modoDesenho;

@@ -312,25 +312,11 @@ void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
 		}
 		else {
 
-			if (def.has_diffuse) {
-				glMaterialfv(GL_FRONT, GL_DIFFUSE, def.diffuse);
-			}
-			if (def.has_ambient) {
-				glMaterialfv(GL_FRONT, GL_AMBIENT, def.ambient);
-			}
-			if (def.has_specular) {
-				glMaterialfv(GL_FRONT, GL_SPECULAR, def.specular);
-			}
-			if (def.has_emission) {
-				glMaterialfv(GL_FRONT, GL_EMISSION, def.emission);
-			}
-			if (def.has_ambient_and_diffuse) {
-				glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, def.ambient_and_diffuse);
-			}
-			if (def.has_shininess) {
-				glMaterialf(GL_FRONT, GL_SHININESS,def.shininess);
-			}
-
+			glMaterialfv(GL_FRONT, GL_DIFFUSE, def.diffuse);
+			glMaterialfv(GL_FRONT, GL_AMBIENT, def.ambient);
+			glMaterialfv(GL_FRONT, GL_SPECULAR, def.specular);
+			glMaterialfv(GL_FRONT, GL_EMISSION, def.emission);
+			glMaterialf(GL_FRONT, GL_SHININESS,def.shininess);
 
 			glBindTexture(GL_TEXTURE_2D, it->idTex);
 
@@ -507,6 +493,7 @@ void XMLtoLights(xml_node node) {
 			if (name == "posZ") {
 				l.pos[2] = stof(ait->value());
 			}
+
 			if (name == "diffR") {
 				l.diff[0] = stof(ait->value());
 			}
@@ -516,6 +503,10 @@ void XMLtoLights(xml_node node) {
 			if (name == "diffB") {
 				l.diff[2] = stof(ait->value());
 			}
+			if (name == "diffA") {
+				l.diff[3] = stof(ait->value());
+			}
+
 			if (name == "ambR") {
 				l.amb[0] = stof(ait->value());
 			}
@@ -525,21 +516,24 @@ void XMLtoLights(xml_node node) {
 			if (name == "ambB") {
 				l.amb[2] = stof(ait->value());
 			}
-			if (name == "spotX") {
-				l.spotDir[0] = stof(ait->value());
+			if (name == "ambA") {
+				l.amb[3] = stof(ait->value());
 			}
-			if (name == "spotY") {
-				l.spotDir[1] = stof(ait->value());
+
+			if (name == "specR") {
+				l.spec[0] = stof(ait->value());
 			}
-			if (name == "spotZ") {
-				l.spotDir[2] = stof(ait->value());
+			if (name == "specG") {
+				l.spec[1] = stof(ait->value());
 			}
-			if (name == "cutoff") {
-				l.cutoff = stof(ait->value());
+			if (name == "specB") {
+				l.spec[2] = stof(ait->value());
 			}
-			if (name == "exponent") {
-				l.exponent = stof(ait->value());
+			if (name == "specA") {
+				l.spec[3] = stof(ait->value());
 			}
+
+
 			if (name == "constAtt") {
 				l.attenuation[0] = stof(ait->value());
 			}
@@ -549,6 +543,23 @@ void XMLtoLights(xml_node node) {
 			if (name == "quadAtt") {
 				l.attenuation[2] = stof(ait->value());
 			}
+
+			if (name == "spotX") {
+				l.spotDir[0] = stof(ait->value());
+			}
+			if (name == "spotY") {
+				l.spotDir[1] = stof(ait->value());
+			}
+			if (name == "spotZ") {
+				l.spotDir[2] = stof(ait->value());
+			}
+			if (name == "spotCutoff") {
+				l.spotCutoff = stof(ait->value());
+			}
+			if (name == "spotExponent") {
+				l.spotExponent = stof(ait->value());
+			}
+			
 		}
 		luzes.push_back(l);
 	}
@@ -683,76 +694,79 @@ Grupo XMLtoGrupo(xml_node node) {
 					// Diffuse
 					if (name == "diffR") {
 						desenho.defsDesenho.diffuse[0] = stof(ait->value());
-						desenho.defsDesenho.has_diffuse = true;
 					}
 					if (name == "diffG") {
 						desenho.defsDesenho.diffuse[1] = stof(ait->value());
-						desenho.defsDesenho.has_diffuse = true;
 					}
 					if (name == "diffB") {
 						desenho.defsDesenho.diffuse[2] = stof(ait->value());
-						desenho.defsDesenho.has_diffuse = true;
+					}
+					if (name == "diffA") {
+						desenho.defsDesenho.diffuse[3] = stof(ait->value());
 					}
 
 					//Ambient
 					if (name == "ambR") {
 						desenho.defsDesenho.ambient[0] = stof(ait->value());
-						desenho.defsDesenho.has_ambient = true;
 					}
 					if (name == "ambG") {
 						desenho.defsDesenho.ambient[1] = stof(ait->value());
-						desenho.defsDesenho.has_ambient = true;
 					}
 					if (name == "ambB") {
 						desenho.defsDesenho.ambient[2] = stof(ait->value());
-						desenho.defsDesenho.has_ambient = true;
+					}
+					if (name == "ambA") {
+						desenho.defsDesenho.ambient[3] = stof(ait->value());
 					}
 
 					//Specular
 					if (name == "specR") {
 						desenho.defsDesenho.specular[0] = stof(ait->value());
-						desenho.defsDesenho.has_specular = true;
 					}
 					if (name == "specG") {
 						desenho.defsDesenho.specular[1] = stof(ait->value());
-						desenho.defsDesenho.has_specular = true;
 					}
 					if (name == "specB") {
 						desenho.defsDesenho.specular[2] = stof(ait->value());
-						desenho.defsDesenho.has_specular = true;
+					}
+					if (name == "specA") {
+						desenho.defsDesenho.specular[3] = stof(ait->value());
 					}
 
 					//Emission
 					if (name == "emR") {
 						desenho.defsDesenho.emission[0] = stof(ait->value());
-						desenho.defsDesenho.has_emission = true;
 					}
 					if (name == "emG") {
 						desenho.defsDesenho.emission[1] = stof(ait->value());
-						desenho.defsDesenho.has_emission = true;
 					}
 					if (name == "emB") {
 						desenho.defsDesenho.emission[2] = stof(ait->value());
-						desenho.defsDesenho.has_emission = true;
+					}
+					if (name == "emA") {
+						desenho.defsDesenho.emission[3] = stof(ait->value());
 					}
 
 					//Ambient and diffuse
 					if (name == "ambDiffR") {
-						desenho.defsDesenho.ambient_and_diffuse[0] = stof(ait->value());
-						desenho.defsDesenho.has_ambient_and_diffuse = true;
+						desenho.defsDesenho.ambient[0] = stof(ait->value());
+						desenho.defsDesenho.diffuse[0] = stof(ait->value());
 					}
 					if (name == "ambDiffG") {
-						desenho.defsDesenho.ambient_and_diffuse[1] = stof(ait->value());
-						desenho.defsDesenho.has_ambient_and_diffuse = true;
+						desenho.defsDesenho.ambient[1] = stof(ait->value());
+						desenho.defsDesenho.diffuse[1] = stof(ait->value());
 					}
 					if (name == "ambDiffB") {
-						desenho.defsDesenho.ambient_and_diffuse[2] = stof(ait->value());
-						desenho.defsDesenho.has_ambient_and_diffuse = true;
+						desenho.defsDesenho.ambient[2] = stof(ait->value());
+						desenho.defsDesenho.diffuse[2] = stof(ait->value());
+					}
+					if (name == "ambDiffB") {
+						desenho.defsDesenho.ambient[3] = stof(ait->value());
+						desenho.defsDesenho.diffuse[3] = stof(ait->value());
 					}
 
 					if (name == "shininess") {
 						desenho.defsDesenho.shininess = stof(ait->value());
-						desenho.defsDesenho.has_shininess = true;
 					}
 
 

@@ -12,7 +12,7 @@
 			<rotate time="15" X="0" Y="1" Z="0"/>
 			<scale uniform="1.1"/>
 			<models>
-				<model mode="FILL" ambDiffR="0.5" ambDiffG="0.5" ambDiffB="0.5" file="esfera_50.3d" texture="texturas/2k_sun.jpg"/>
+				<model mode="FILL" ambDiffR="1" ambDiffG="1" ambDiffB="1" file="esfera_50.3d" texture="texturas/2k_sun.jpg"/>
 			</models>
 		</group>
 		<group name="Mercury">
