@@ -5,7 +5,7 @@
 	<group name="Solar System">
 		<group name="Stars">
 			<models>
-				<model mode="FILL" file="caixaInvertida.3d" texture="texturas/2k_stars.jpg"/>
+				<model mode="FILL" file="caixaInvertida.3d" texture="texturas/2k_stars_old.jpg"/>
 			</models>
 		</group>
 		<group name="Sun">
