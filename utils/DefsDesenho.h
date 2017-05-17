@@ -13,7 +13,7 @@ public:
 	float ambient[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
 	float specular[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	float emission[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-	float shininess = 0;
+	float shininess = 0.0f;
 	float red, green, blue;
 	GLenum modoPoligonos;
 	GLenum modoDesenho;

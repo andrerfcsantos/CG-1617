@@ -12,7 +12,7 @@
 			<rotate time="15" X="0" Y="1" Z="0"/>
 			<scale uniform="1.1"/>
 			<models>
-				<model mode="FILL" ambDiffR="1" ambDiffG="1" ambDiffB="1" file="esfera_50.3d" texture="texturas/2k_sun.jpg"/>
+				<model mode="FILL" emR="1.0" emG="1.0" emB="1.0" file="esfera_50.3d" texture="texturas/2k_sun.jpg"/>
 			</models>
 		</group>
 		<group name="Mercury">
@@ -36,7 +36,7 @@
 			<rotate time="10" X="0" Y="1" Z="0" direction="ccw"/>
 			<scale uniform="0.085"/>
 			<models>
-				<model mode="FILL" file="esfera_25.3d" texture="texturas/2k_mercury.jpg"/>
+				<model mode="FILL" diffR="0.9" diffG="0.9" diffB="0.9" ambR="0.5" ambG="0.5" ambB="0.5" file="esfera_25.3d" texture="texturas/2k_mercury.jpg"/>
 			</models>
 		</group>
 		<group name="Venus">
@@ -60,7 +60,7 @@
 			<rotate time="30" X="0" Y="1" Z="0" direction="cw"/>
 			<scale uniform="0.135"/>
 			<models>
-				<model mode="FILL" file="esfera_25.3d" texture="texturas/2k_venus_surface.jpg"/>
+				<model mode="FILL" diffR="0.9" diffG="0.9" diffB="0.9" ambR="0.5" ambG="0.5" ambB="0.5"  file="esfera_25.3d" texture="texturas/2k_venus_surface.jpg"/>
 			</models>
 		</group>
 		<group name="Earth System">
@@ -86,7 +86,7 @@
 				<rotate time="5" X="0" Y="1" Z="0" direction="ccw"/>
 				<scale uniform="0.14"/>
 				<models>
-					<model mode="FILL" file="esfera_50.3d" texture="texturas/2k_earth_daymap.jpg"/>
+					<model mode="FILL" diffR="0.9" diffG="0.9" diffB="0.9" ambR="0.5" ambG="0.5" ambB="0.5" file="esfera_50.3d" texture="texturas/2k_earth_daymap.jpg"/>
 				</models>
 			</group>
 
@@ -104,7 +104,7 @@
 				</translate>
 				<scale uniform="0.03"/>
 				<models>
-					<model mode="FILL" file="esfera_25.3d" texture="texturas/2k_moon.jpg"/>
+					<model mode="FILL" diffR="0.9" diffG="0.9" diffB="0.9" ambR="0.5" ambG="0.5" ambB="0.5"  ambB="0.6" file="esfera_25.3d" texture="texturas/2k_moon.jpg"/>
 				</models>
 			</group>
 		</group>
@@ -125,7 +125,7 @@
 			</translate>
 			<scale uniform="0.1"/>
 			<models>
-				<model mode="FILL" file="teapot.3d" texture="texturas/asteroid.jpg"/>
+				<model mode="FILL" specR="0.1" specG="0.1" specB="0.1" ambR="0.5" ambG="0.5" ambB="0.5" file="teapot.3d" texture="texturas/asteroid.jpg"/>
 			</models>
 		</group>
 		<group name="Mars System">
@@ -150,7 +150,7 @@
 				<rotate time="5" X="0" Y="1" Z="0" direction="ccw"/>
 				<scale uniform="0.11"/>
 				<models>
-					<model mode="FILL" file="esfera_25.3d" texture="texturas/2k_mars.jpg"/>
+					<model mode="FILL" diffR="0.9" diffG="0.9" diffB="0.9" ambR="0.5" ambG="0.5" ambB="0.5" file="esfera_25.3d" texture="texturas/2k_mars.jpg"/>
 				</models>
 			</group>
 			<group name="Phobos (Mars Moon)">
@@ -167,7 +167,7 @@
 				</translate>
 				<scale uniform="0.03"/>
 				<models>
-					<model mode="FILL" file="esfera_10.3d" texture="texturas/phobos.jpg"/>
+					<model mode="FILL" diffR="0.9" diffG="0.9" diffB="0.9" ambR="0.5" ambG="0.5" ambB="0.5" file="esfera_10.3d" texture="texturas/phobos.jpg"/>
 				</models>
 			</group>
 			<group name="Deimos (Mars Moon)">
@@ -184,7 +184,7 @@
 				</translate>
 				<scale uniform="0.02"/>
 				<models>
-					<model mode="FILL" file="esfera_10.3d" texture="texturas/deimos.jpg"/>
+					<model mode="FILL" diffR="0.9" diffG="0.9" diffB="0.9" ambR="0.5" ambG="0.5" ambB="0.5" file="esfera_10.3d" texture="texturas/deimos.jpg"/>
 				</models>
 			</group>
 		</group>
@@ -216,7 +216,7 @@
 				<rotate time="2" X="0" Y="1" Z="0" direction="ccw"/>
 				<scale uniform="0.6032"/>
 				<models>
-					<model mode="FILL" file="esfera_25.3d" texture="texturas/2k_jupiter.jpg"/>
+					<model mode="FILL" diffR="0.9" diffG="0.9" diffB="0.9" ambR="0.5" ambG="0.5" ambB="0.5"  file="esfera_25.3d" texture="texturas/2k_jupiter.jpg"/>
 				</models>
 			</group>
 			<group name="Ganymed (Jupiter Moon)">
@@ -237,7 +237,7 @@
 				</translate>
 				<scale uniform="0.06"/>
 				<models>
-					<model mode="FILL" file="esfera_10.3d" texture="texturas/ganymede.jpg"/>
+					<model mode="FILL" diffR="0.9" diffG="0.9" diffB="0.9" ambR="0.5" ambG="0.5" ambB="0.5"  file="esfera_10.3d" texture="texturas/ganymede.jpg"/>
 				</models>
 			</group>
 
@@ -259,7 +259,7 @@
 				</translate>
 				<scale uniform="0.04"/>
 				<models>
-					<model mode="FILL" file="esfera_10.3d" texture="texturas/callisto.jpg"/>
+					<model mode="FILL" diffR="0.9" diffG="0.9" diffB="0.9" ambR="0.5" ambG="0.5" ambB="0.5"  file="esfera_10.3d" texture="texturas/callisto.jpg"/>
 				</models>
 			</group>
 		</group>
@@ -290,7 +290,7 @@
 				<rotate time="2" X="0" Y="1" Z="0" direction="ccw"/>
 				<scale uniform="0.5032"/>
 				<models>
-					<model mode="FILL" mode="FILL" file="esfera_25.3d" texture="texturas/2k_saturn.jpg"/>
+					<model mode="FILL" diffR="0.9" diffG="0.9" diffB="0.9" ambR="0.5" ambG="0.5" ambB="0.5"  file="esfera_25.3d" texture="texturas/2k_saturn.jpg"/>
 				</models>
 			</group>
 			<group name="Saturn Rings">
@@ -328,7 +328,7 @@
 				<rotate time="3.5" X="0" Y="1" Z="0" direction="cw"/>
 				<scale uniform="0.2912"/>
 				<models>
-					<model mode="FILL" file="esfera_25.3d" texture="texturas/2k_uranus.jpg"/>
+					<model mode="FILL" diffR="0.9" diffG="0.9" diffB="0.9" ambR="0.5" ambG="0.5" ambB="0.5"  file="esfera_25.3d" texture="texturas/2k_uranus.jpg"/>
 				</models>
 			</group>
 			<group name="Titania (Uranus moon)">
@@ -352,7 +352,7 @@
 				</translate>
 				<scale uniform="0.065"/>
 				<models>
-					<model mode="FILL" file="esfera_10.3d" texture="texturas/titania.jpg"/>
+					<model mode="FILL" diffR="0.9" diffG="0.9" diffB="0.9" ambR="0.5" ambG="0.5" ambB="0.5"  file="esfera_10.3d" texture="texturas/titania.jpg"/>
 				</models>
 			</group>
 		</group>
@@ -382,7 +382,7 @@
 			<rotate time="3.5" X="0" Y="1" Z="0" direction="ccw"/>
 			<scale uniform="0.2832"/>
 			<models>
-				<model mode="FILL" file="esfera_25.3d" texture="texturas/2k_neptune.jpg"/>
+				<model mode="FILL" diffR="0.9" diffG="0.9" diffB="0.9" ambR="0.5" ambG="0.5" ambB="0.5"  file="esfera_25.3d" texture="texturas/2k_neptune.jpg"/>
 			</models>
 		</group>
 		<group name="Pluto">
@@ -410,7 +410,7 @@
 			</translate>
 			<scale uniform="0.075"/>
 			<models>
-				<model mode="FILL" file="esfera_10.3d" texture="texturas/pluto_2k.jpg"/>
+				<model mode="FILL" diffR="0.9" diffG="0.9" diffB="0.9" ambR="0.5" ambG="0.5" ambB="0.5" file="esfera_10.3d" texture="texturas/pluto_2k.jpg"/>
 			</models>
 		</group>
 	</group>
