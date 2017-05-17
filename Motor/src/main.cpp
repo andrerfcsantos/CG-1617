@@ -288,6 +288,8 @@ void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
 	for (auto it = it_grupo->desenhos.begin(); it != it_grupo->desenhos.end(); ++it) {
 		DefsDesenho &def = it->defsDesenho;
 		vector<Coordenadas3D> &pts = it->pontos;
+		vector<Coordenadas3D> &normais = it->normais;
+		vector<CoordsTextura> &text = it->coordsText;
 
 		if(polygon_desactivado == false) glPolygonMode(GL_FRONT, def.modoPoligonos);
 		else glPolygonMode(GL_FRONT, modoPoligonos);
@@ -297,11 +299,16 @@ void desenhaGrupo(tree<Grupo>::iterator it_grupo) {
 		
 
 		if (modoImediato) {
+			glBindTexture(GL_TEXTURE_2D, it->idTex);
 			glBegin(it->defsDesenho.modoDesenho);
-			for (auto it_pts = pts.begin(); it_pts != pts.end(); ++it_pts) {
-				glVertex3f(it_pts->x, it_pts->y, it_pts->z);
+			for (int i = 0; i < pts.size(); i++) {
+				glNormal3f(normais[i].x, normais[i].y, normais[i].z);
+				glTexCoord2f(text[i].s, text[i].t);
+				glVertex3f(pts[i].x, pts[i].y, pts[i].z);
 			}
+			
 			glEnd();
+			glBindTexture(GL_TEXTURE_2D, 0);
 		}
 		else {
 
