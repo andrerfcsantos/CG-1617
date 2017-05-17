@@ -11,7 +11,6 @@ public:
     GLfloat pos[4] = {0.0, 0.0, 0.0, 1.0};
     GLfloat spotDir[3] = {0.0, 0.0, -1.0};
     GLfloat spec[4] = {0.0, 0.0, 0.0, 0.0};
-    GLfloat emiss[4] = {0.0, 0.0, 0.0, 0.0};
     GLfloat cutoff = 180.0;
     GLfloat attenuation[3] = {1.0, 0.0, 0.0};
     GLfloat exponent = 0.0;

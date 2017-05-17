@@ -518,15 +518,6 @@ void XMLtoLights(xml_node node) {
 			if (name == "ambB") {
 				l.amb[2] = stof(ait->value());
 			}
-			if (name == "emisR") {
-				l.emiss[0] = stof(ait->value());
-			}
-			if (name == "emisG") {
-				l.emiss[1] = stof(ait->value());
-			}
-			if (name == "emisB") {
-				l.emiss[2] = stof(ait->value());
-			}
 			if (name == "spotX") {
 				l.spotDir[0] = stof(ait->value());
 			}
@@ -542,13 +533,13 @@ void XMLtoLights(xml_node node) {
 			if (name == "exponent") {
 				l.exponent = stof(ait->value());
 			}
-			if (name == "const_Att") {
+			if (name == "constAtt") {
 				l.attenuation[0] = stof(ait->value());
 			}
-			if (name == "linear_Att") {
+			if (name == "linearAtt") {
 				l.attenuation[1] = stof(ait->value());
 			}
-			if (name == "quad_Att") {
+			if (name == "quadAtt") {
 				l.attenuation[2] = stof(ait->value());
 			}
 		}
