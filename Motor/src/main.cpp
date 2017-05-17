@@ -760,7 +760,7 @@ Grupo XMLtoGrupo(xml_node node) {
 						desenho.defsDesenho.ambient[2] = stof(ait->value());
 						desenho.defsDesenho.diffuse[2] = stof(ait->value());
 					}
-					if (name == "ambDiffB") {
+					if (name == "ambDiffA") {
 						desenho.defsDesenho.ambient[3] = stof(ait->value());
 						desenho.defsDesenho.diffuse[3] = stof(ait->value());
 					}
