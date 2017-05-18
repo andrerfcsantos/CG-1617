@@ -5,7 +5,7 @@
 	<group name="Solar System">
 		<group name="Stars">
 			<models>
-				<model mode="FILL" file="caixaInvertida.3d" texture="texturas/2k_stars_old.jpg"/>
+				<model mode="FILL" ambR="0.5" ambG="0.5" ambB="0.5" file="caixaInvertida.3d" texture="texturas/2k_stars.jpg"/>
 			</models>
 		</group>
 		<group name="Sun">
@@ -125,7 +125,7 @@
 			</translate>
 			<scale uniform="0.1"/>
 			<models>
-				<model mode="FILL" specR="0.1" specG="0.1" specB="0.1" ambR="0.5" ambG="0.5" ambB="0.5" file="teapot.3d" texture="texturas/asteroid.jpg"/>
+				<model mode="FILL" specR="0.5" specG="0.5" specB="0.5" ambR="0.5" ambG="0.5" ambB="0.5" file="teapot.3d" texture="texturas/asteroid.jpg"/>
 			</models>
 		</group>
 		<group name="Mars System">
